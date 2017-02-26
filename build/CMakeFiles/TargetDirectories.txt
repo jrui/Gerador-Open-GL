@@ -1,0 +1,3 @@
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/build/CMakeFiles/edit_cache.dir
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/build/CMakeFiles/rebuild_cache.dir
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/build/CMakeFiles/TP1-CG.dir

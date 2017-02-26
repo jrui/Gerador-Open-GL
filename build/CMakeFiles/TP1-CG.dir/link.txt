@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/TP1-CG.dir/main.cpp.o  -o TP1-CG -rdynamic -lGLU -lGL -lglut -lXmu -lXi 
