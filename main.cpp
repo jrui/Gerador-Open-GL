@@ -6,79 +6,52 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
+#include <fcntl.h>  /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
+#include <stdlib.h>
+#include <string.h>
 
-
-
-void changeSize(int w, int h) {
-
-	// Prevent a divide by zero, when window is too short
-	// (you cant make a window with zero width).
-	if(h == 0) h = 1;
-
-	// compute window's aspect ratio
-	float ratio = w * 1.0 / h;
-
-	// Set the projection matrix as current
-	glMatrixMode(GL_PROJECTION);
-	// Load Identity Matrix
-	glLoadIdentity();
-
-	// Set the viewport to be the entire window
-    glViewport(0, 0, w, h);
-
-	// Set perspective
-	gluPerspective(45.0f ,ratio, 1.0f ,1000.0f);
-
-	// return to the model view matrix mode
-	glMatrixMode(GL_MODELVIEW);
+// opcao==0, funcao é utilizada na plane, opcao==1, funcao utilizada como auxiliar de outras, vai preencher em ficheiro os vértices do plane
+void plane(float x, float z, char* ficheiro){
+	char buff[128];
+	int r;
+	int op;
+	op = open(ficheiro, O_CREAT | O_TRUNC | O_RDWR, 0777);
+	if(op<1){
+		printf("Erro ao abrir.\n");
+		exit(-1);
+	}
+	r =snprintf(buff,127,"0 0 0\n0 0 %f\n%f 0 %f\n%f 0 %f\n%f 0 0\n0 0 0\n", z, x, z, x, z,x);
+	write(op,buff,r);
+	close(op);
 }
 
-
-
-void renderScene(void) {
-	// clear buffers
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-	// set the camera
-	glLoadIdentity();
-	gluLookAt(0.0f, 4.0f, 4.0f,
-		      0.0f, 0.0f, 0.0f,
-			  0.0f, 1.0f, 0.0f);
-
-
-// put the geometric transformations here
-
-// put drawing instructions here
-
-	// End of frame
-	glutSwapBuffers();
+void box(float x, float y, float z, char* ficheiro){
+	char buff[128];
+	int r;
+	int op = open(ficheiro, O_CREAT | O_TRUNC | O_RDWR, 0777);
+	if(op<1){
+		printf("Erro ao abrir.\n");
+		exit(-1);
+	}
+	write(op,buff,128);
 }
 
 int main(int argc, char **argv) {
-
-// init GLUT and the window
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
-	glutCreateWindow("Fase 1");
-
-	
-
-// Required callback registry
-	glutDisplayFunc(renderScene);
-	glutReshapeFunc(changeSize);
-	glutIdleFunc(renderScene);
-
-
-// put here the registration of the keyboard callbacks
-
-//  OpenGL settings
-
-// enter GLUT's main cycle
-	glutMainLoop();
-
-
+	char* string;
+	int op;
+	if(argc<2){
+		printf("Input inválido.\n");
+		exit(-1);
+	}
+	if(strcmp(argv[1],"plane")==0){
+		//perguntar ao stor, dar as dimensões como argumento ou não
+		plane(atof(argv[2]), atof(argv[3]), argv[4]);
+	}
+	else{
+		if(strcmp(argv[1],"box")==0){
+			box(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+		}
+	}
 	return 1;
 }
