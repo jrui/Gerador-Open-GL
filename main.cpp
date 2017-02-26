@@ -1,9 +1,3 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-
 #include <math.h>
 #include <stdio.h>
 #include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
