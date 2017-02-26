@@ -34,7 +34,25 @@ void box(float x, float y, float z, char* ficheiro){
 		printf("Erro ao abrir.\n");
 		exit(-1);
 	}
-	write(op,buff,128);
+	//face de baixo
+	r =snprintf(buff,127,"0 0 0\n%f 0 %f\n0 0 %f\n%f 0 %f\n0 0 0\n%f 0 0\n", x, z, z, x, z,x);
+	write(op,buff,r);
+	//face da direita
+	r =snprintf(buff,127,"%f 0 0\n%f %f 0\n%f 0 %f\n%f 0 %f\n%f %f 0\n%f %f %f\n", x, x, y, x, z,x,z,x,y,x,y,z);
+	write(op,buff,r);
+	//face de cima
+	r =snprintf(buff,127,"%f %f %f\n%f %f 0\n0 %f 0\n0 %f 0\n0 %f %f\n%f %f %f\n", x,y,z,x,y,y,y,y,z,x,y,z);
+	write(op,buff,r);
+	//face da frente
+	r =snprintf(buff,127,"%f %f %f\n0 %f %f\n0 0 %f\n0 0 %f\n%f 0 %f\n%f %f %f\n", x,y,z,y,z,z,z,x,z,x,y,z);
+	write(op,buff,r);
+	//face da esquerda
+	r =snprintf(buff,127,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
+	write(op,buff,r);
+	//face de traz
+	r =snprintf(buff,127,"0 0 0\n0 %f 0\n%f %f 0\n0 0 0\n%f %f 0\n%f 0 0\n", y,x,y,x,y,x);
+	write(op,buff,r);
+
 }
 
 int main(int argc, char **argv) {
