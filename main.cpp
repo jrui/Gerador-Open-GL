@@ -15,44 +15,29 @@
 void plane(float x, float z, char* ficheiro){
 	char buff[128];
 	int r;
-	int op;
-	op = open(ficheiro, O_CREAT | O_TRUNC | O_RDWR, 0777);
-	if(op<1){
-		printf("Erro ao abrir.\n");
-		exit(-1);
-	}
-	r =snprintf(buff,127,"0 0 0\n0 0 %f\n%f 0 %f\n%f 0 %f\n%f 0 0\n0 0 0\n", z, x, z, x, z,x);
-	write(op,buff,r);
-	close(op);
+	FILE *op;
+	op = fopen(ficheiro, "w+");
+	fprintf(op,"0 0 0\n0 0 %f\n%f 0 %f\n%f 0 %f\n%f 0 0\n0 0 0\n", z, x, z, x, z,x);
+	fclose(op);
 }
 
 void box(float x, float y, float z, char* ficheiro){
 	char buff[128];
 	int r;
-	int op = open(ficheiro, O_CREAT | O_TRUNC | O_RDWR, 0777);
-	if(op<1){
-		printf("Erro ao abrir.\n");
-		exit(-1);
-	}
+	FILE *op = fopen(ficheiro, "w+");
 	//face de baixo
-	r =snprintf(buff,127,"0 0 0\n%f 0 %f\n0 0 %f\n%f 0 %f\n0 0 0\n%f 0 0\n", x, z, z, x, z,x);
-	write(op,buff,r);
+	fprintf(op,"0 0 0\n%f 0 %f\n0 0 %f\n%f 0 %f\n0 0 0\n%f 0 0\n", x, z, z, x, z,x);
 	//face da direita
-	r =snprintf(buff,127,"%f 0 0\n%f %f 0\n%f 0 %f\n%f 0 %f\n%f %f 0\n%f %f %f\n", x, x, y, x, z,x,z,x,y,x,y,z);
-	write(op,buff,r);
+	fprintf(op,"%f 0 0\n%f %f 0\n%f 0 %f\n%f 0 %f\n%f %f 0\n%f %f %f\n", x, x, y, x, z,x,z,x,y,x,y,z);
 	//face de cima
-	r =snprintf(buff,127,"%f %f %f\n%f %f 0\n0 %f 0\n0 %f 0\n0 %f %f\n%f %f %f\n", x,y,z,x,y,y,y,y,z,x,y,z);
-	write(op,buff,r);
+	fprintf(op,"%f %f %f\n%f %f 0\n0 %f 0\n0 %f 0\n0 %f %f\n%f %f %f\n", x,y,z,x,y,y,y,y,z,x,y,z);
 	//face da frente
-	r =snprintf(buff,127,"%f %f %f\n0 %f %f\n0 0 %f\n0 0 %f\n%f 0 %f\n%f %f %f\n", x,y,z,y,z,z,z,x,z,x,y,z);
-	write(op,buff,r);
+	fprintf(op,"%f %f %f\n0 %f %f\n0 0 %f\n0 0 %f\n%f 0 %f\n%f %f %f\n", x,y,z,y,z,z,z,x,z,x,y,z);
 	//face da esquerda
-	r =snprintf(buff,127,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
-	write(op,buff,r);
+	fprintf(op,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
 	//face de traz
-	r =snprintf(buff,127,"0 0 0\n0 %f 0\n%f %f 0\n0 0 0\n%f %f 0\n%f 0 0\n", y,x,y,x,y,x);
-	write(op,buff,r);
-
+	fprintf(op,"0 0 0\n0 %f 0\n%f %f 0\n0 0 0\n%f %f 0\n%f 0 0\n", y,x,y,x,y,x);
+	fclose(op);
 }
 
 int main(int argc, char **argv) {
