@@ -14,8 +14,11 @@ void plane(float x, float z, char* ficheiro){
 	fclose(op);
 }
 
-void box(float x, float y, float z, char* ficheiro){
-	int r;
+void box(float x, float y, float z, int stacks, char* ficheiro){
+	int r,st;
+	float yaux0,yaux1;
+	//altura das stacks
+	float yaux=y/stacks;
 	FILE *op = fopen(ficheiro, "w+");
 	//face de baixo
 	fprintf(op,"0 0 0\n%f 0 %f\n0 0 %f\n%f 0 %f\n0 0 0\n%f 0 0\n", x, z, z, x, z,x);
@@ -23,12 +26,16 @@ void box(float x, float y, float z, char* ficheiro){
 	fprintf(op,"%f 0 0\n%f %f 0\n%f 0 %f\n%f 0 %f\n%f %f 0\n%f %f %f\n", x, x, y, x, z,x,z,x,y,x,y,z);
 	//face de cima
 	fprintf(op,"%f %f %f\n%f %f 0\n0 %f 0\n0 %f 0\n0 %f %f\n%f %f %f\n", x,y,z,x,y,y,y,y,z,x,y,z);
-	//face da frente
-	fprintf(op,"%f %f %f\n0 %f %f\n0 0 %f\n0 0 %f\n%f 0 %f\n%f %f %f\n", x,y,z,y,z,z,z,x,z,x,y,z);
 	//face da esquerda
 	fprintf(op,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
-	//face de traz
-	fprintf(op,"0 0 0\n0 %f 0\n%f %f 0\n0 0 0\n%f %f 0\n%f 0 0\n", y,x,y,x,y,x);
+	for(st=1;st<=stacks;st++){
+		yaux0=y-st*(yaux-1);
+		yaux1=y-st*yaux;
+		//face da frente
+		fprintf(op,"%f %f %f\n0 %f %f\n0 %f %f\n0 %f %f\n%f %f %f\n%f %f %f\n", x,yaux1,z,yaux1,z,yaux0,z,yaux0,z,x,yaux0,z,x,yaux1,z);
+		//face de traz
+		fprintf(op,"0 %f 0\n0 %f 0\n%f %f 0\n0 %f 0\n%f %f 0\n%f %f 0\n", yaux1,yaux0,x,yaux0,yaux1,x,yaux0,x,yaux0);
+	}
 	fclose(op);
 }
 void cone (float r,float h,float sl,char *ficheiro) {
@@ -58,7 +65,7 @@ int main(int argc, char **argv) {
 	}
 	else{
 		if(strcmp(argv[1],"box")==0){
-			box(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+			box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]), argv[6]);
 		}
 		else {
 			if(strcmp(argv[1],"cone")==0){
