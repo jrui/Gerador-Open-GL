@@ -4,9 +4,17 @@
 #include <GL/glut.h>
 #endif
 
-#include <math.h>
-#include <stdio.h>
 
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
+typedef struct triang {
+	float p1_x, p1_y, p1_z;
+	float p2_x, p2_y, p2_z;
+	float p3_x, p3_y, p3_z;
+	struct triang *next;
+} *Triangulo;
 
 
 float vert_rot, hori_rot, vert_trans, hori_trans;
@@ -14,6 +22,7 @@ float val_rot = 2.0f, val_trans = 0.2f;
 char view_mode;
 int x_pos, y_pos;
 bool click = false;
+Triangulo t;
 
 
 
@@ -50,7 +59,7 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(0.0f, 10.0f, 10.0f,
+	gluLookAt(0.0f, 15.0f, 15.0f,
 		      0.0f, 0.0f, 0.0f,
 			  0.0f, 1.0f, 0.0f);
 
@@ -73,47 +82,15 @@ void renderScene(void) {
 						 view_mode == 'l' ? GL_LINE : GL_POINT);
 
 
+	Triangulo temp = t;
 	glBegin(GL_TRIANGLES);
-		//Face base1
-		glColor3f(0.5f, 1.0f, 0.5f);
-		glVertex3f(-0.5f, 0.0f, 0.5f);
-		glVertex3f(-0.5f, 0.0f, -0.5f);
-		glVertex3f(0.5f, 0.0f, 0.5f);
-
-		//Face base2
-		glColor3f(0.5f, 1.0f, 0.5f);
-		glVertex3f(-0.5f, 0.0f, -0.5f);
-		glVertex3f(0.5f, 0.0f, -0.5f);
-		glVertex3f(0.5f, 0.0f, 0.5f);
-
-		//Face lateral frente
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.5f, 0.0f, 0.5f);
-		glVertex3f(0.0f, 2.0f, 0.0f);
-		glVertex3f(-0.5f, 0.0f, 0.5f);
-
-
-		//Face lateral esquerda
-		glColor3f(1.0f, 1.0f, 0.0f);
-		glVertex3f(0.0f, 2.0f, 0.0f);
-		glVertex3f(-0.5f, 0.0f, -0.5f);
-		glVertex3f(-0.5f, 0.0f, 0.5f);
-
-
-		//Face lateral direita
-		glColor3f(1.0f, 1.0f, 0.0f);
-		glVertex3f(0.0f, 2.0f, 0.0f);
-		glVertex3f(0.5f, 0.0f, 0.5f);
-		glVertex3f(0.5f, 0.0f, -0.5f);
-
-
-		//Face lateral tras
-		glColor3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(0.0f, 2.0f, 0.0f);
-		glVertex3f(0.5f, 0.0f, -0.5f);
-		glVertex3f(-0.5f, 0.0f, -0.5f);
-
-
+		while(temp != NULL) {
+			glColor3ub(rand() % 256, rand() % 256, rand() % 256);
+			glVertex3f(temp->p1_x, temp->p1_y, temp->p1_z);
+			glVertex3f(temp->p2_x, temp->p2_y, temp->p2_z);
+			glVertex3f(temp->p3_x, temp->p3_y, temp->p3_z);
+			temp = temp->next;
+		}
 	glEnd();
 
 	// End of frame
@@ -206,35 +183,110 @@ int main(int argc, char **argv) {
 	vert_rot = hori_rot = vert_trans = hori_trans = 0.0f;
 	view_mode = 'l';
 	x_pos = y_pos = 400;
+	srand(time(NULL));
 
-// init GLUT and the window
+	if(argc < 2) {
+		printf("Invalid Input!\n");
+		return -1;
+	}
+
+	t = (Triangulo) malloc(sizeof(struct triang));
+	FILE *fp;
+	int i;
+	char *line;
+	char equal[3] = "=\"";
+	line = (char*) malloc(sizeof(char) * 1024);
+	Triangulo t_temp = t;
+	Triangulo t_prev;
+
+
+	fp = fopen(argv[1], "r+");
+	fscanf(fp, "%s\n", line);
+	if(strcmp(line, "<scene>") != 0) {
+		printf("Invalid XML Format!\n");
+		return -1;
+	}
+
+
+	while(fscanf(fp, "%s", line) != EOF) {
+		if(strcmp(line, "</scene>") == 0 ||
+			 strcmp(line, "<model") == 0 ||
+			 strcmp(line, "/>") == 0) continue;
+		else {
+			char *tok;
+			tok = strtok(line, equal);
+			tok = strtok(NULL, equal);
+			//printf("%s\n", tok);
+
+			FILE *f_3d;
+			printf("Abriu %s\n", tok);
+			f_3d = fopen(tok, "r+");
+
+			char *v1, *v2, *v3;
+			v1 = (char*) malloc(sizeof(char) * 64);
+			v2 = (char*) malloc(sizeof(char) * 64);
+			v3 = (char*) malloc(sizeof(char) * 64);
+
+			int op = 1;
+			while(fscanf(f_3d, "%s %s %s", v1, v2, v3) != EOF) {
+				if(op == 1) {
+					t_temp->p1_x = atof(v1);
+					t_temp->p1_y = atof(v2);
+					t_temp->p1_z = atof(v3);
+					op = 2;
+					//printf("%f %f %f\n", t_temp->p1_x, t_temp->p1_y, t_temp->p1_z);
+				}
+				else {
+					if(op == 2) {
+						t_temp->p2_x = atof(v1);
+						t_temp->p2_y = atof(v2);
+						t_temp->p2_z = atof(v3);
+						op = 3;
+						//printf("%f %f %f\n", t_temp->p2_x, t_temp->p2_y, t_temp->p2_z);
+					}
+					else {
+						t_temp->p3_x = atof(v1);
+						t_temp->p3_y = atof(v2);
+						t_temp->p3_z = atof(v3);
+						op = 1;
+						t_temp->next = (Triangulo) malloc(sizeof(struct triang));
+						t_prev = t_temp;
+						t_temp = t_temp->next;
+						//printf("%f %f %f\n", t_temp->p3_x, t_temp->p3_y, t_temp->p3_z);
+					}
+				}
+			}
+			fclose(f_3d);
+		}
+	}
+	t_prev->next = NULL;
+	fclose(fp);
+
+
+	// init GLUT and the window
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(800,800);
 	glutCreateWindow("Engine");
 
-
-// Required callback registry
+	// Required callback registry
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
-	glutIdleFunc(renderScene);
 
-
-// put here the registration of the keyboard callbacks
+	// put here the registration of the keyboard callbacks
 	glutSpecialFunc(special_key_handler);
 	glutKeyboardFunc(normal_key_handler);
 	glutMouseFunc(mouse_handler);
 	glutMotionFunc(movement_handler);
 
-//  OpenGL settings
+	//  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
-
-// enter GLUT's main cycle
+	// enter GLUT's main cycle
 	glutMainLoop();
 
-
+	//free(t) ????????
 	return 1;
 }

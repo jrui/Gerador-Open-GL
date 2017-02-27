@@ -7,7 +7,8 @@
 
 // opcao==0, funcao é utilizada na plane, opcao==1, funcao utilizada como auxiliar de outras, vai preencher em ficheiro os vértices do plane
 void plane(float x, float z, char* ficheiro){
-	char buff[128];
+	char *buff;
+	buff = (char*) malloc(sizeof(char) * 128);
 	int r;
 	FILE *op;
 	op = fopen(ficheiro, "w+");
