@@ -7,8 +7,6 @@
 
 // opcao==0, funcao é utilizada na plane, opcao==1, funcao utilizada como auxiliar de outras, vai preencher em ficheiro os vértices do plane
 void plane(float x, float z, char* ficheiro){
-	char *buff;
-	buff = (char*) malloc(sizeof(char) * 128);
 	int r;
 	FILE *op;
 	op = fopen(ficheiro, "w+");
@@ -17,7 +15,6 @@ void plane(float x, float z, char* ficheiro){
 }
 
 void box(float x, float y, float z, char* ficheiro){
-	char buff[128];
 	int r;
 	FILE *op = fopen(ficheiro, "w+");
 	//face de baixo
@@ -39,12 +36,11 @@ void cone (float r,float h,float sl,char *ficheiro) {
 	FILE *op = fopen(ficheiro, "w+");
 	// base
 	int i;
-	for(i=1;i<sl;i++){ 
-		fprintf(op,"%f %f 0\n%f %f 0\n0 0 0\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl));
-	}
-	//faces
-	for(i=1;i<sl;i++){ 
-		fprintf(op,"%f %f 0\n%f %f 0\n0 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl),h);
+	for(i=1;i<=sl;i++){
+		//base
+		fprintf(op,"0 0 0\n%f 0 %f\n%f 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl), r*cos((i-1)*2*M_PI/sl), r*sin((i-1)*2*M_PI/sl));
+		//faces
+		fprintf(op,"%f 0 %f\n0 %f 0\n%f 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),h,r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl));
 	}
 	fclose(op);
 }
