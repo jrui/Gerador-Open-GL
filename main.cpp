@@ -1,292 +1,78 @@
-#ifdef __APPLE__
-#include <GLUT/glut.h>
-#else
-#include <GL/glut.h>
-#endif
-
-
+#include <math.h>
 #include <stdio.h>
+#include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
+#include <fcntl.h>  /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
+#include <stdlib.h>
 #include <string.h>
-#include <time.h>
 
-typedef struct triang {
-	float p1_x, p1_y, p1_z;
-	float p2_x, p2_y, p2_z;
-	float p3_x, p3_y, p3_z;
-	struct triang *next;
-} *Triangulo;
-
-
-float vert_rot, hori_rot, vert_trans, hori_trans;
-float val_rot = 2.0f, val_trans = 0.2f;
-char view_mode;
-int x_pos, y_pos;
-bool click = false;
-Triangulo t;
-
-
-
-void changeSize(int w, int h) {
-
-	// Prevent a divide by zero, when window is too short
-	// (you cant make a window with zero width).
-	if(h == 0) h = 1;
-
-	// compute window's aspect ratio
-	float ratio = w * 1.0 / h;
-
-	// Set the projection matrix as current
-	glMatrixMode(GL_PROJECTION);
-	// Load Identity Matrix
-	glLoadIdentity();
-
-	// Set the viewport to be the entire window
-    glViewport(0, 0, w, h);
-
-	// Set perspective
-	gluPerspective(45.0f ,ratio, 1.0f ,1000.0f);
-
-	// return to the model view matrix mode
-	glMatrixMode(GL_MODELVIEW);
+// opcao==0, funcao é utilizada na plane, opcao==1, funcao utilizada como auxiliar de outras, vai preencher em ficheiro os vértices do plane
+void plane(float x, float z, char* ficheiro){
+	int r;
+	FILE *op;
+	op = fopen(ficheiro, "w+");
+	fprintf(op,"0 0 0\n0 0 %f\n%f 0 %f\n%f 0 %f\n%f 0 0\n0 0 0\n", z, x, z, x, z,x);
+	fclose(op);
 }
 
-
-
-void renderScene(void) {
-	// clear buffers
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
-	// set the camera
-	glLoadIdentity();
-	gluLookAt(0.0f, 15.0f, 15.0f,
-		      0.0f, 0.0f, 0.0f,
-			  0.0f, 1.0f, 0.0f);
-
-
-// put the geometric transformations here
-	glTranslatef(hori_trans, 0, 0);
-	glTranslatef(0, 0, vert_trans);
-	glRotatef(vert_rot, 1, 0, 0);
-	glRotatef(hori_rot, 0, 1, 0);
-
-
-// put drawing instructions here
-	//Eliminar as faces cujo lado da frente nao est� para a camara
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	//Metodo de render das faces (Clock-Wise ou Counter Clock-Wise)
-	glFrontFace(GL_CCW);
-
-	glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
-						 view_mode == 'l' ? GL_LINE : GL_POINT);
-
-
-	Triangulo temp = t;
-	glBegin(GL_TRIANGLES);
-		while(temp != NULL) {
-			glColor3ub(rand() % 256, rand() % 256, rand() % 256);
-			glVertex3f(temp->p1_x, temp->p1_y, temp->p1_z);
-			glVertex3f(temp->p2_x, temp->p2_y, temp->p2_z);
-			glVertex3f(temp->p3_x, temp->p3_y, temp->p3_z);
-			temp = temp->next;
-		}
-	glEnd();
-
-	// End of frame
-	glutSwapBuffers();
-}
-
-
-void movement_handler(int x, int y) {
-	if (click) {
-		hori_rot -= (x_pos - x) / 2;
-		vert_rot -= (y_pos - y) / 2;
-		x_pos = x;
-		y_pos = y;
-
-		//Re-render
-		glutPostRedisplay();
+void box(float x, float y, float z, int stacks, char* ficheiro){
+	int r,st;
+	float yaux0,yaux1;
+	//altura das stacks
+	float yaux=y/stacks;
+	FILE *op = fopen(ficheiro, "w+");
+	//face de baixo
+	fprintf(op,"0 0 0\n%f 0 %f\n0 0 %f\n%f 0 %f\n0 0 0\n%f 0 0\n", x, z, z, x, z,x);
+	//face da direita
+	fprintf(op,"%f 0 0\n%f %f 0\n%f 0 %f\n%f 0 %f\n%f %f 0\n%f %f %f\n", x, x, y, x, z,x,z,x,y,x,y,z);
+	//face de cima
+	fprintf(op,"%f %f %f\n%f %f 0\n0 %f 0\n0 %f 0\n0 %f %f\n%f %f %f\n", x,y,z,x,y,y,y,y,z,x,y,z);
+	//face da esquerda
+	fprintf(op,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
+	for(st=1;st<=stacks;st++){
+		yaux0=y-st*(yaux-1);
+		yaux1=y-st*yaux;
+		//face da frente
+		fprintf(op,"%f %f %f\n0 %f %f\n0 %f %f\n0 %f %f\n%f %f %f\n%f %f %f\n", x,yaux1,z,yaux1,z,yaux0,z,yaux0,z,x,yaux0,z,x,yaux1,z);
+		//face de traz
+		fprintf(op,"0 %f 0\n0 %f 0\n%f %f 0\n0 %f 0\n%f %f 0\n%f %f 0\n", yaux1,yaux0,x,yaux0,yaux1,x,yaux0,x,yaux0);
 	}
+	fclose(op);
 }
+void cone (float r,float h,float sl,char *ficheiro) {
 
-
-
-void mouse_handler(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			click = true;
-			x_pos = x;
-			y_pos = y;
-		}
-		if (state == GLUT_UP) click = false;
+	FILE *op = fopen(ficheiro, "w+");
+	// base
+	int i;
+	for(i=1;i<=sl;i++){
+		//base
+		fprintf(op,"0 0 0\n%f 0 %f\n%f 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl), r*cos((i-1)*2*M_PI/sl), r*sin((i-1)*2*M_PI/sl));
+		//faces
+		fprintf(op,"%f 0 %f\n0 %f 0\n%f 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),h,r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl));
 	}
+	fclose(op);
 }
-
-
-
-// write function to process keyboard events
-void special_key_handler(int key, int x, int y) {
-	//vert_rot -> ++Baixo   | --Cima
-	//hori_rot -> ++Direita | --Esquerda
-	key == GLUT_KEY_UP ? vert_rot -= val_rot :
-		key == GLUT_KEY_DOWN ? vert_rot += val_rot :
-			key == GLUT_KEY_RIGHT ? hori_rot += val_rot :
-				key == GLUT_KEY_LEFT ? hori_rot -= val_rot : ' ';
-
-	//Re-render
-	glutPostRedisplay();
-}
-
-
-
-void normal_key_handler(unsigned char c, int x, int y) {
-	switch (c) {
-		case 'w':
-		case 'W':
-			vert_trans -= val_trans;
-			break;
-		case 's':
-		case 'S':
-			vert_trans += val_trans;
-			break;
-		case 'd':
-		case 'D':
-			hori_trans += val_trans;
-			break;
-		case 'a':
-		case 'A':
-			hori_trans -= val_trans;
-			break;
-		case 'f':
-		case 'F':
-			view_mode = 'f';
-			break;
-		case 'l':
-		case 'L':
-			view_mode = 'l';
-			break;
-		case 'p':
-		case 'P':
-			view_mode = 'p';
-			break;
-		default: break;
-	}
-
-	//Re-render
-	glutPostRedisplay();
-}
-
-
 
 int main(int argc, char **argv) {
-	vert_rot = hori_rot = vert_trans = hori_trans = 0.0f;
-	view_mode = 'l';
-	x_pos = y_pos = 400;
-	srand(time(NULL));
-
-	if(argc < 2) {
-		printf("Invalid Input!\n");
-		return -1;
+	char* string;
+	int op;
+	if(argc<2){
+		printf("Input inválido.\n");
+		exit(-1);
 	}
-
-	t = (Triangulo) malloc(sizeof(struct triang));
-	FILE *fp;
-	int i;
-	char *line;
-	char equal[3] = "=\"";
-	line = (char*) malloc(sizeof(char) * 1024);
-	Triangulo t_temp = t;
-	Triangulo t_prev;
-
-
-	fp = fopen(argv[1], "r+");
-	fscanf(fp, "%s\n", line);
-	if(strcmp(line, "<scene>") != 0) {
-		printf("Invalid XML Format!\n");
-		return -1;
+	if(strcmp(argv[1],"plane")==0){
+		//perguntar ao stor, dar as dimensões como argumento ou não
+		plane(atof(argv[2]), atof(argv[3]), argv[4]);
 	}
-
-
-	while(fscanf(fp, "%s", line) != EOF) {
-		if(strcmp(line, "</scene>") == 0 ||
-			 strcmp(line, "<model") == 0 ||
-			 strcmp(line, "/>") == 0) continue;
-		else {
-			char *tok;
-			tok = strtok(line, equal);
-			tok = strtok(NULL, equal);
-			//printf("%s\n", tok);
-
-			FILE *f_3d;
-			printf("Abriu %s\n", tok);
-			f_3d = fopen(tok, "r+");
-
-			char *v1, *v2, *v3;
-			v1 = (char*) malloc(sizeof(char) * 64);
-			v2 = (char*) malloc(sizeof(char) * 64);
-			v3 = (char*) malloc(sizeof(char) * 64);
-
-			int op = 1;
-			while(fscanf(f_3d, "%s %s %s", v1, v2, v3) != EOF) {
-				if(op == 1) {
-					t_temp->p1_x = atof(v1);
-					t_temp->p1_y = atof(v2);
-					t_temp->p1_z = atof(v3);
-					op = 2;
-					//printf("%f %f %f\n", t_temp->p1_x, t_temp->p1_y, t_temp->p1_z);
-				}
-				else {
-					if(op == 2) {
-						t_temp->p2_x = atof(v1);
-						t_temp->p2_y = atof(v2);
-						t_temp->p2_z = atof(v3);
-						op = 3;
-						//printf("%f %f %f\n", t_temp->p2_x, t_temp->p2_y, t_temp->p2_z);
-					}
-					else {
-						t_temp->p3_x = atof(v1);
-						t_temp->p3_y = atof(v2);
-						t_temp->p3_z = atof(v3);
-						op = 1;
-						t_temp->next = (Triangulo) malloc(sizeof(struct triang));
-						t_prev = t_temp;
-						t_temp = t_temp->next;
-						//printf("%f %f %f\n", t_temp->p3_x, t_temp->p3_y, t_temp->p3_z);
-					}
-				}
-			}
-			fclose(f_3d);
+	else{
+		if(strcmp(argv[1],"box")==0){
+			box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]), argv[6]);
 		}
+		else {
+			if(strcmp(argv[1],"cone")==0){
+				cone(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+			}
+		}
+
 	}
-	t_prev->next = NULL;
-	fclose(fp);
-
-
-	// init GLUT and the window
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
-	glutCreateWindow("Engine");
-
-	// Required callback registry
-	glutDisplayFunc(renderScene);
-	glutReshapeFunc(changeSize);
-
-	// put here the registration of the keyboard callbacks
-	glutSpecialFunc(special_key_handler);
-	glutKeyboardFunc(normal_key_handler);
-	glutMouseFunc(mouse_handler);
-	glutMotionFunc(movement_handler);
-
-	//  OpenGL settings
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	// enter GLUT's main cycle
-	glutMainLoop();
-
-	//free(t) ????????
 	return 1;
 }
