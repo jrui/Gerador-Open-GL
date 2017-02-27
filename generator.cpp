@@ -29,12 +29,12 @@ void box(float x, float y, float z, int stacks, char* ficheiro){
 	//face da esquerda
 	fprintf(op,"0 %f 0\n0 0 0\n0 %f %f\n0 0 0\n0 0 %f\n0 %f %f\n", y,y,z,z,y,z);
 	for(st=1;st<=stacks;st++){
-		yaux0=y-st*(yaux-1);
+		yaux0=y-(st-1)*yaux;
 		yaux1=y-st*yaux;
 		//face da frente
-		fprintf(op,"%f %f %f\n0 %f %f\n0 %f %f\n0 %f %f\n%f %f %f\n%f %f %f\n", x,yaux1,z,yaux1,z,yaux0,z,yaux0,z,x,yaux0,z,x,yaux1,z);
+		fprintf(op,"%f %f %f\n0 %f %f\n0 %f %f\n0 %f %f\n%f %f %f\n%f %f %f\n", x,yaux0,z,yaux0,z,yaux1,z,yaux1,z,x,yaux1,z,x,yaux0,z);
 		//face de traz
-		fprintf(op,"0 %f 0\n0 %f 0\n%f %f 0\n0 %f 0\n%f %f 0\n%f %f 0\n", yaux1,yaux0,x,yaux0,yaux1,x,yaux0,x,yaux0);
+		fprintf(op,"0 %f 0\n0 %f 0\n%f %f 0\n0 %f 0\n%f %f 0\n%f %f 0\n", yaux1,yaux0,x,yaux0,yaux1,x,yaux0,x,yaux1);
 	}
 	fclose(op);
 }
