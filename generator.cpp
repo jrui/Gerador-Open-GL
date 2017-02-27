@@ -34,6 +34,20 @@ void box(float x, float y, float z, char* ficheiro){
 	fprintf(op,"0 0 0\n0 %f 0\n%f %f 0\n0 0 0\n%f %f 0\n%f 0 0\n", y,x,y,x,y,x);
 	fclose(op);
 }
+void cone (float r,float h,float sl,char *ficheiro) {
+
+	FILE *op = fopen(ficheiro, "w+");
+	// base
+	int i;
+	for(i=1;i<sl;i++){ 
+		fprintf(op,"%f %f 0\n%f %f 0\n0 0 0\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl));
+	}
+	//faces
+	for(i=1;i<sl;i++){ 
+		fprintf(op,"%f %f 0\n%f %f 0\n0 0 %f\n",r*cos(i*2*M_PI/sl),r*sin(i*2*M_PI/sl),r*cos((i-1)*2*M_PI/sl),r*sin((i-1)*2*M_PI/sl),h);
+	}
+	fclose(op);
+}
 
 int main(int argc, char **argv) {
 	char* string;
@@ -50,6 +64,12 @@ int main(int argc, char **argv) {
 		if(strcmp(argv[1],"box")==0){
 			box(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
 		}
+		else {
+			if(strcmp(argv[1],"cone")==0){
+				cone(atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+			}
+		}
+
 	}
 	return 1;
 }
