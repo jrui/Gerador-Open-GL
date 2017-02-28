@@ -119,6 +119,8 @@ void cone (float r, float h, int slices, int stacks, char *ficheiro) {
 	float raux0=r;
 	//raio da stack mais alta em y
 	float raux1=r;
+	//coordenada negativa de y
+	float yaux = h/2-h;
 	//angulo das slices
 	float ang = 2*PI/slices;
 	//altura das stacks
@@ -133,14 +135,14 @@ void cone (float r, float h, int slices, int stacks, char *ficheiro) {
 	}
 	//base
 	for(sl=0;sl<slices;sl++){
-		fprintf(op, "%f 0 %f\n",r*cos(sl*ang), r*sin(sl*ang));
-		fprintf(op, "%f 0 %f\n",r*cos((sl+1)*ang), r*sin((sl+1)*ang));
-		fprintf(op, "0 0 0\n");
+		fprintf(op, "%f %f %f\n",r*cos(sl*ang), yaux, r*sin(sl*ang));
+		fprintf(op, "%f %f %f\n",r*cos((sl+1)*ang), yaux, r*sin((sl+1)*ang));
+		fprintf(op, "0 %f 0\n", yaux);
 	}
 	for(st=1;st<=stacks;st++){
 		raux0=raux1;
 		raux1=raux1-xaux;
-		y=(st-1)*haux;
+		y=yaux+(st-1)*haux;
 		for(sl=0;sl<slices;sl++){
 			fprintf(op,"%f %f %f\n",raux0*cos(sl*ang),y,raux0*sin(sl*ang));
 			fprintf(op,"%f %f %f\n",raux1*cos(sl*ang),y+haux,raux1*sin(sl*ang));
