@@ -60,8 +60,8 @@ void renderScene(void) {
 	// set the camera
 	glLoadIdentity();
 	gluLookAt(0.0f, 15.0f, 15.0f,
-		      0.0f, 0.0f, 0.0f,
-			  0.0f, 1.0f, 0.0f);
+		      	0.0f, 0.0f, 0.0f,
+			  		0.0f, 1.0f, 0.0f);
 
 
 // put the geometric transformations here
@@ -91,6 +91,19 @@ void renderScene(void) {
 			glVertex3f(temp->p3_x, temp->p3_y, temp->p3_z);
 			temp = temp->next;
 		}
+	glEnd();
+
+	glLineWidth(2.5f);
+	glBegin(GL_LINES);
+		glColor3f(0.0, 0.0, 1.0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(2, 0, 0);
+		glColor3f(0.0, 1.0, 0.0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 2, 0);
+		glColor3f(1.0, 0.0, 0.0);
+		glVertex3f(0, 0, 0);
+		glVertex3f(0, 0, 2);
 	glEnd();
 
 	// End of frame
@@ -201,6 +214,11 @@ int main(int argc, char **argv) {
 
 
 	fp = fopen(argv[1], "r+");
+	if (fp < 0) {
+		printf("Unable to open %s.", argv[1]);
+		return -1;
+	}
+
 	fscanf(fp, "%s\n", line);
 	if(strcmp(line, "<scene>") != 0) {
 		printf("Invalid XML Format!\n");
@@ -221,6 +239,10 @@ int main(int argc, char **argv) {
 			FILE *f_3d;
 			//printf("Abriu %s\n", tok);
 			f_3d = fopen(tok, "r+");
+			if (f_3d < 0) {
+				printf("Unable to open %s.", tok);
+				return -1;
+			}
 
 			char *v1, *v2, *v3;
 			v1 = (char*) malloc(sizeof(char) * 64);
