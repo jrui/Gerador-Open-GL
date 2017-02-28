@@ -5,32 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PI 3.1415926535897932384626433832795
 
 void plane(float x, float z, char* ficheiro);
 void box(float x, float y, float z, int stacks, int slices, char* ficheiro);
 void cone (float r, float h, float sl, float st, char *ficheiro);
-
-
-
-int main(int argc, char **argv) {
-	int err = 0;
-	if(argc < 2){
-		printf("Input inválido.\n");
-		exit(-1);
-	}
-
-	if(strcmp(argv[1], "plane") == 0)
-			plane(atof(argv[2]), atof(argv[3]), argv[4]);
-	else if(strcmp(argv[1], "box") == 0)
-			box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]), atoi(argv[6]), argv[7]);
-	else if(strcmp(argv[1], "cone") == 0)
-			cone(atof(argv[2]), atof(argv[3]), atof(argv[4]), atof(argv[5]), argv[6]);
-	else printf("Not suported yet!");
-
-	return 1;
-}
-
-
 
 void plane(float x, float z, char* ficheiro){
 	int r;
@@ -134,35 +113,64 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 
 
 
-void cone (float r, float h, float sl, float st, char *ficheiro) {
-	int i, j;
+void cone (float r, float h, int slices, int stacks, char *ficheiro) {
+	int sl, st,x;
+	//raio da stack mais baixa em y
+	float raux0=r;
+	//raio da stack mais alta em y
+	float raux1=r;
+	//angulo das slices
+	float ang = 2*PI/slices;
+	//altura das stacks
+	float haux = h/stacks;
+	//tamanho que decresce o raio em cada stack
+	float xaux=r/stacks;
 	float y;
 	FILE *op = fopen(ficheiro, "w+");
 	if (op < 0) {
 		printf("Unable to open %s.", ficheiro);
 		return;
 	}
-
-	for(i = 1; i <= sl; i++) {
-		//faces
-		fprintf(op,"%f 0 %f\n", r*cos(i*2*M_PI/sl), r*sin(i*2*M_PI/sl));
-		fprintf(op,"%f 0 %f\n", r*cos((i-1)*2*M_PI/sl), r*sin((i-1)*2*M_PI/sl));
-		fprintf(op,"0 %f 0\n", h);
+	//base
+	for(sl=0;sl<slices;sl++){
+		fprintf(op, "%f 0 %f\n",r*cos(sl*ang), r*sin(sl*ang));
+		fprintf(op, "%f 0 %f\n",r*cos((sl+1)*ang), r*sin((sl+1)*ang));
+		fprintf(op, "0 0 0\n");
 	}
-	for (j = 0; j < st; j++) {
-		y = ((h - ((h / st) * j)) * r) / h;
-		for(i = 1; i <= sl; i++) {
-			//bases
-			fprintf(op,"0 %f 0\n", (h/st)*j);
-			fprintf(op,"%f %f %f\n", y*cos((i-1)*2*M_PI/sl), (h/st)*j, y*sin((i-1)*2*M_PI/sl));
-			fprintf(op,"%f %f %f\n", y*cos(i*2*M_PI/sl), (h/st)*j , y*sin(i*2*M_PI/sl));
+	for(st=1;st<=stacks;st++){
+		raux0=raux1;
+		raux1=raux1-xaux;
+		y=(st-1)*haux;
+		for(sl=0;sl<slices;sl++){
+			fprintf(op,"%f %f %f\n",raux0*cos(sl*ang),y,raux0*sin(sl*ang));
+			fprintf(op,"%f %f %f\n",raux1*cos(sl*ang),y+haux,raux1*sin(sl*ang));
+			fprintf(op,"%f %f %f\n",raux0*cos((sl+1)*ang),y,raux0*sin((sl+1)*ang));
+			fprintf(op,"%f %f %f\n",raux1*cos(sl*ang),y+haux,raux1*sin(sl*ang));
+			fprintf(op,"%f %f %f\n",raux1*cos((sl+1)*ang),y+haux,raux1*sin((sl+1)*ang));
+			fprintf(op,"%f %f %f\n",raux0*cos((sl+1)*ang),y,raux0*sin((sl+1)*ang));
 		}
 	}
 	fclose(op);
 }
 
 
+int main(int argc, char **argv) {
+	int err = 0;
+	if(argc < 2){
+		printf("Input inválido.\n");
+		exit(-1);
+	}
 
+	if(strcmp(argv[1], "plane") == 0)
+			plane(atof(argv[2]), atof(argv[3]), argv[4]);
+	else if(strcmp(argv[1], "box") == 0)
+			box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]), atoi(argv[6]), argv[7]);
+	else if(strcmp(argv[1], "cone") == 0)
+			cone(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
+	else printf("Not suported yet!");
+
+	return 1;
+}
 /*
 void cone (float r, float h, float sl, char *ficheiro) {
 	FILE *op = fopen(ficheiro, "w+");
