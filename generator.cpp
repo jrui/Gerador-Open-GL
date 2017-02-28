@@ -59,35 +59,55 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 	float yaux = y / stacks;
 	//largura das slices
 	float zaux = z / slices;
+	//coordenadas negativas do z
+	float zn = z/2 - z;
+	//coordenadas negativas do y
+	float yn = y/2 - y;
+	//coordenadas negativas do x
+	float xn = x/2 - x;
+	x=x/2;
+	y=y/2;
+	z=z/2;
 	FILE *op = fopen(ficheiro, "w+");
-	if (op < 0) {
-		printf("Unable to open %s.", ficheiro);
-		return;
-	}
 
 	for(sl = 1; sl <= slices; sl++) {
 		zaux0 = z - (sl-1) * zaux;
 		zaux1 = z - sl * zaux;
+
 		//face de baixo
-		fprintf(op, "0 0 %f\n", zaux0);
-		fprintf(op, "0 0 %f\n", zaux1);
-		fprintf(op, "%f 0 %f\n", x, zaux1);
-		fprintf(op, "%f 0 %f\n", x, zaux1);
-		fprintf(op, "%f 0 %f\n", x, zaux0);
-		fprintf(op, "0 0 %f\n", zaux0);
+		fprintf(op, "%f %f %f\n",xn, yn, zaux0);
+		fprintf(op, "%f %f %f\n",xn, yn, zaux1);
+		fprintf(op, "%f %f %f\n", x, yn, zaux1);
+		fprintf(op, "%f %f %f\n", x, yn, zaux1);
+		fprintf(op, "%f %f %f\n", x, yn, zaux0);
+		fprintf(op, "%f %f %f\n",xn, yn, zaux0);
 
 		//face de cima
 		fprintf(op, "%f %f %f\n", x, y, zaux0);
 		fprintf(op, "%f %f %f\n", x, y, zaux1);
-		fprintf(op, "0 %f %f\n", y, zaux1);
-		fprintf(op, "0 %f %f\n", y, zaux1);
-		fprintf(op, "0 %f %f\n", y, zaux0);
+		fprintf(op, "%f %f %f\n",xn, y, zaux1);
+		fprintf(op, "%f %f %f\n",xn, y, zaux1);
+		fprintf(op, "%f %f %f\n",xn, y, zaux0);
 		fprintf(op, "%f %f %f\n", x, y, zaux0);
 	}
 
 	for(st = 1; st <= stacks; st++) {
 		yaux0 = y - (st-1) * yaux;
 		yaux1 = y - st * yaux;
+		//face da frente
+		fprintf(op, "%f %f %f\n", x, yaux0, z);
+		fprintf(op, "%f %f %f\n",xn, yaux0, z);
+		fprintf(op, "%f %f %f\n",xn, yaux1, z);
+		fprintf(op, "%f %f %f\n",xn, yaux1, z);
+		fprintf(op, "%f %f %f\n", x, yaux1, z);
+		fprintf(op, "%f %f %f\n", x, yaux0, z);
+		//face de traz
+		fprintf(op, "%f %f %f\n",xn, yaux1, zn);
+		fprintf(op, "%f %f %f\n",xn, yaux0, zn);
+		fprintf(op, "%f %f %f\n", x, yaux0, zn);
+		fprintf(op, "%f %f %f\n",xn, yaux1, zn);
+		fprintf(op, "%f %f %f\n", x, yaux0, zn);
+		fprintf(op, "%f %f %f\n", x, yaux1, zn);
 
 		for(sl = 1; sl <= slices; sl++) {
 			zaux0 = z - (sl-1) * zaux;
@@ -101,36 +121,14 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 			fprintf(op, "%f %f %f\n", x, yaux0, zaux0);
 
 			//face da esquerda
-			fprintf(op, "0 %f %f\n", yaux0, zaux1);
-			fprintf(op, "0 %f %f\n", yaux1, zaux1);
-			fprintf(op, "0 %f %f\n", yaux1, zaux0);
-			fprintf(op, "0 %f %f\n", yaux1, zaux0);
-			fprintf(op, "0 %f %f\n", yaux0, zaux0);
-			fprintf(op, "0 %f %f\n", yaux0, zaux1);
+			fprintf(op, "%f %f %f\n",xn, yaux0, zaux1);
+			fprintf(op, "%f %f %f\n",xn, yaux1, zaux1);
+			fprintf(op, "%f %f %f\n",xn, yaux1, zaux0);
+			fprintf(op, "%f %f %f\n",xn, yaux1, zaux0);
+			fprintf(op, "%f %f %f\n",xn, yaux0, zaux0);
+			fprintf(op, "%f %f %f\n",xn, yaux0, zaux1);
 		}
 	}
-
-	for(st = 1; st <= stacks; st++){
-		yaux0 = y - (st-1) * yaux;
-		yaux1 = y - st * yaux;
-
-		//face da frente
-		fprintf(op, "%f %f %f\n", x, yaux0, z);
-		fprintf(op, "0 %f %f\n", yaux0, z);
-		fprintf(op, "0 %f %f\n", yaux1, z);
-		fprintf(op, "0 %f %f\n", yaux1, z);
-		fprintf(op, "%f %f %f\n", x, yaux1, z);
-		fprintf(op, "%f %f %f\n", x, yaux0, z);
-
-		//face de traz
-		fprintf(op, "0 %f 0\n", yaux1);
-		fprintf(op, "0 %f 0\n", yaux0);
-		fprintf(op, "%f %f 0\n", x, yaux0);
-		fprintf(op, "0 %f 0\n", yaux1);
-		fprintf(op, "%f %f 0\n", x, yaux0);
-		fprintf(op, "%f %f 0\n", x, yaux1);
-	}
-
 	fclose(op);
 }
 
