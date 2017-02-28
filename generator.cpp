@@ -36,12 +36,12 @@ void plane(float x, float z, char* ficheiro){
 	int r;
 	FILE *op;
 	op = fopen(ficheiro, "w+");
-		fprintf(op,"0 0 0\n");
-		fprintf(op, "0 0 %f\n", z);
-		fprintf(op, "%f 0 %f\n", x, z);
-		fprintf(op, "%f 0 %f\n", x, z);
-		fprintf(op, "%f 0 0\n", x);
-		fprintf(op, "0 0 0\n");
+	fprintf(op, "%f 0 %f\n", x/2, z/2);
+	fprintf(op, "%f 0 %f\n", x/2, -z/2);
+	fprintf(op, "%f 0 %f\n", -x/2, -z/2);
+	fprintf(op, "%f 0 %f\n", -x/2, -z/2);
+	fprintf(op, "%f 0 %f\n", -x/2, z/2);
+	fprintf(op, "%f 0 %f\n", x/2, z/2);
 	fclose(op);
 }
 
@@ -60,20 +60,20 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 		zaux0 = z - (sl-1) * zaux;
 		zaux1 = z - sl * zaux;
 		//face de baixo
-		fprintf(op,"0 0 %f\n", zaux0);
-		fprintf(op,"0 0 %f\n", zaux1);
-		fprintf(op,"%f 0 %f\n", x, zaux1);
-		fprintf(op,"%f 0 %f\n", x, zaux1);
-		fprintf(op,"%f 0 %f\n", x, zaux0);
-		fprintf(op,"0 0 %f\n", zaux0);
+		fprintf(op, "0 0 %f\n", zaux0);
+		fprintf(op, "0 0 %f\n", zaux1);
+		fprintf(op, "%f 0 %f\n", x, zaux1);
+		fprintf(op, "%f 0 %f\n", x, zaux1);
+		fprintf(op, "%f 0 %f\n", x, zaux0);
+		fprintf(op, "0 0 %f\n", zaux0);
 
 		//face de cima
-		fprintf(op,"%f %f %f\n", x, y, zaux0);
-		fprintf(op,"%f %f %f\n", x, y, zaux1);
-		fprintf(op,"0 %f %f\n", y, zaux1);
-		fprintf(op,"0 %f %f\n", y, zaux1);
-		fprintf(op,"0 %f %f\n", y, zaux0);
-		fprintf(op,"%f %f %f\n", x, y, zaux0);
+		fprintf(op, "%f %f %f\n", x, y, zaux0);
+		fprintf(op, "%f %f %f\n", x, y, zaux1);
+		fprintf(op, "0 %f %f\n", y, zaux1);
+		fprintf(op, "0 %f %f\n", y, zaux1);
+		fprintf(op, "0 %f %f\n", y, zaux0);
+		fprintf(op, "%f %f %f\n", x, y, zaux0);
 	}
 
 	for(st = 1; st <= stacks; st++) {
@@ -84,20 +84,20 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 			zaux0 = z - (sl-1) * zaux;
 			zaux1 = z - sl * zaux;
 			//face da direita
-			fprintf(op,"%f %f %f\n", x, yaux1, zaux1);
-			fprintf(op,"%f %f %f\n", x, yaux0, zaux1);
-			fprintf(op,"%f %f %f\n", x, yaux1, zaux0);
-			fprintf(op,"%f %f %f\n", x, yaux1, zaux0);
-			fprintf(op,"%f %f %f\n", x, yaux0, zaux1);
-			fprintf(op,"%f %f %f\n", x, yaux0, zaux0);
+			fprintf(op, "%f %f %f\n", x, yaux1, zaux1);
+			fprintf(op, "%f %f %f\n", x, yaux0, zaux1);
+			fprintf(op, "%f %f %f\n", x, yaux1, zaux0);
+			fprintf(op, "%f %f %f\n", x, yaux1, zaux0);
+			fprintf(op, "%f %f %f\n", x, yaux0, zaux1);
+			fprintf(op, "%f %f %f\n", x, yaux0, zaux0);
 
 			//face da esquerda
-			fprintf(op,"0 %f %f\n", yaux0, zaux1);
-			fprintf(op,"0 %f %f\n", yaux1, zaux1);
-			fprintf(op,"0 %f %f\n", yaux1, zaux0);
-			fprintf(op,"0 %f %f\n", yaux1, zaux0);
-			fprintf(op,"0 %f %f\n", yaux0, zaux0);
-			fprintf(op,"0 %f %f\n", yaux0, zaux1);
+			fprintf(op, "0 %f %f\n", yaux0, zaux1);
+			fprintf(op, "0 %f %f\n", yaux1, zaux1);
+			fprintf(op, "0 %f %f\n", yaux1, zaux0);
+			fprintf(op, "0 %f %f\n", yaux1, zaux0);
+			fprintf(op, "0 %f %f\n", yaux0, zaux0);
+			fprintf(op, "0 %f %f\n", yaux0, zaux1);
 		}
 	}
 
@@ -106,20 +106,20 @@ void box(float x, float y, float z, int stacks, int slices, char* ficheiro){
 		yaux1 = y - st * yaux;
 
 		//face da frente
-		fprintf(op,"%f %f %f\n", x, yaux0, z);
-		fprintf(op,"0 %f %f\n", yaux0, z);
-		fprintf(op,"0 %f %f\n", yaux1, z);
-		fprintf(op,"0 %f %f\n", yaux1, z);
-		fprintf(op,"%f %f %f\n", x, yaux1, z);
-		fprintf(op,"%f %f %f\n", x, yaux0, z);
+		fprintf(op, "%f %f %f\n", x, yaux0, z);
+		fprintf(op, "0 %f %f\n", yaux0, z);
+		fprintf(op, "0 %f %f\n", yaux1, z);
+		fprintf(op, "0 %f %f\n", yaux1, z);
+		fprintf(op, "%f %f %f\n", x, yaux1, z);
+		fprintf(op, "%f %f %f\n", x, yaux0, z);
 
 		//face de traz
-		fprintf(op,"0 %f 0\n", yaux1);
-		fprintf(op,"0 %f 0\n", yaux0);
-		fprintf(op,"%f %f 0\n", x, yaux0);
-		fprintf(op,"0 %f 0\n", yaux1);
-		fprintf(op,"%f %f 0\n", x, yaux0);
-		fprintf(op,"%f %f 0\n", x, yaux1);
+		fprintf(op, "0 %f 0\n", yaux1);
+		fprintf(op, "0 %f 0\n", yaux0);
+		fprintf(op, "%f %f 0\n", x, yaux0);
+		fprintf(op, "0 %f 0\n", yaux1);
+		fprintf(op, "%f %f 0\n", x, yaux0);
+		fprintf(op, "%f %f 0\n", x, yaux1);
 	}
 
 	fclose(op);
