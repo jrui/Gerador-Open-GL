@@ -12,6 +12,6 @@ rm -rf build
 clear
 echo "How to use:"
 echo "./GENERATOR plane x_dim z_dim filename"
-echo "./GENERATOR box x_dim y_dim z_dim stacks slices filename"
+echo "./GENERATOR box x_dim y_dim z_dim slices filename"
 echo "./GENERATOR cone radius height slices stacks filename"
 echo ""
