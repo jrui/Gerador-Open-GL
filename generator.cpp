@@ -5,12 +5,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define PI 3.1415926535897932384626433832795
 
-void plane(float x, float z, char* ficheiro);
-void box(float x, float y, float z, int slices, char* ficheiro);
+
+void plane(float x, float z, char *ficheiro);
+void box(float x, float y, float z, int slices, char *ficheiro);
 void cone (float r, float h, int sl, int st, char *ficheiro);
 void sphere (float r,float sl,float st , char *ficheiro);
+void cylinder(float radius, float height, int slices, char *ficheiro);
 
 
 
@@ -28,8 +29,10 @@ int main(int argc, char **argv) {
 			box(atof(argv[2]), atof(argv[3]), atof(argv[4]), atoi(argv[5]), argv[6]);
 	else if(strcmp(argv[1], "cone") == 0)
 			cone(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
-	else if(strcmp(argv[1],"sphere") ==0)
+	else if(strcmp(argv[1],"sphere") == 0)
 			sphere(atof(argv[2]), atoi(argv[3]), atoi(argv[4]), argv[5]);
+	else if(strcmp(argv[1], "cylinder") == 0)
+		 	cylinder(atof(argv[2]), atof(argv[3]), atoi(argv[4]), argv[5]);
 	else printf("Not suported yet!");
 
 	return 1;
@@ -162,7 +165,7 @@ void cone(float r, float h, int slices, int stacks, char *ficheiro) {
 	//coordenada negativa de y
 	float yaux = h/2-h;
 	//angulo das slices
-	float ang = 2*PI/slices;
+	float ang = 2*M_PI/slices;
 	//altura das stacks
 	float haux = h/stacks;
 	//tamanho que decresce o raio em cada stack
@@ -214,4 +217,37 @@ void sphere (float r,float sl,float st , char *ficheiro){
 	}
 	fclose(op);
 
+}
+
+
+
+void cylinder(float radius, float height, int slices, char *ficheiro) {
+	float x, y, z;
+	float alpha = 2*M_PI / slices;
+	FILE *op;
+	op = fopen(ficheiro, "w+");
+	if (op < 0) {
+		printf("Unable to open %s.", ficheiro);
+		return;
+	}
+
+	for(int i = 0; i < slices; i++) {
+		//faces superiores
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*i), height/2, radius*cos(alpha*i));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*(i+1)), height/2, radius*cos(alpha*(i+1)));
+		fprintf(op,"0 %f 0\n", height/2);
+
+		//faces inferiores
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*i), -height/2, radius*cos(alpha*i));
+		fprintf(op,"0 %f 0\n", -height/2);
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*(i+1)), -height/2, radius*cos(alpha*(i+1)));
+
+		//faces laterais
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*(i+1)), height/2, radius*cos(alpha*(i+1)));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*i), height/2, radius*cos(alpha*i));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*i), -height/2, radius*cos(alpha*i));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*i), -height/2, radius*cos(alpha*i));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*(i+1)), -height/2, radius*cos(alpha*(i+1)));
+		fprintf(op,"%f %f %f\n", radius*sin(alpha*(i+1)), height/2, radius*cos(alpha*(i+1)));
+	}
 }
