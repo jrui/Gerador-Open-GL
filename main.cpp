@@ -11,6 +11,15 @@
 #include "tinyxml2.h"
 using namespace tinyxml2;
 
+
+
+/**
+*		This is the structure that we used to store every point in a triangles
+*	we have variables to represent the 3 cartesian coordinates for all the
+* three points that make a triangle.
+*		This structure also has a pointer to the next triangle that it has to
+*	render.
+*/
 typedef struct triang {
 	float p1_x, p1_y, p1_z;
 	float p2_x, p2_y, p2_z;
@@ -20,6 +29,12 @@ typedef struct triang {
 
 
 
+/**
+*		Global variables used to store program data, rotations, translations, view
+*	mode, mouse coords, and finnaly the triangles used to render every object.
+*		We will get into more details when we get to the functions that alter this
+* values.
+*/
 float vert_rot, hori_rot, vert_trans, hori_trans;
 float val_trans = 0.2f;
 char view_mode;
@@ -30,6 +45,12 @@ Triangulo t, t_prev, t_temp;
 
 
 
+/**
+* 	Function's declatarion allowing them to be put after main, or without
+*	any specific order.
+*		The specification for each of the functions will be written just before
+*	their full implementation.
+*/
 int processXML(char* file);
 int open3dModel(const char* tok);
 void renderScene(void);
@@ -43,6 +64,23 @@ void normal_key_handler(unsigned char c, int x, int y);
 
 
 
+/**
+* 	This function is the main function of the program, every other function is
+*	fully deppendent of this onde, both directly or indirectly. This is
+*	responsible for initializing variables and setting up OpenGL. It also
+* serves as a first step to user input validation.
+*		The main function of the program is responsible for setting up not only
+* the OpenGL elements but making sure that every variable is correctly set
+* up for the rest of the program to continue, it's code is in an unchangeble
+* order, and by altering it we might not obtain the desired results.
+*
+*	@param argc - Integer representing the number of arguments on which
+*								the program was invoked
+* @param argv - Array of Strings with every word which the program was
+*								invoked
+* @return int - Integer that serves as last resource to indicate if an error
+*								as occured
+*/
 int main(int argc, char **argv) {
 	vert_rot = hori_rot = vert_trans = hori_trans = 0.0f;
 	view_mode = 'l';
@@ -81,6 +119,18 @@ int main(int argc, char **argv) {
 
 
 
+/**
+* 	This function implements the tinyxml2 API, and it's used at program
+*	startup when we are begining to process the XML file. This function is
+* responsible for invoking the open3dModel function, since this will extract
+*	the filenames where to find the 3d files.
+*		It checks for the rootElement, in our case the scene, then it iterates
+*	for every model element, then it retrieves the filename under the attribute
+* indicated by "file", checking for error codes while doing so.
+*
+*	@param file - Character array with the path to the XML file
+* @return int - Integer associated to an errorCode
+*/
 int processXML(char* file) {
 	XMLDocument xmlDoc;
 	if(xmlDoc.LoadFile(file) != XML_SUCCESS) {
@@ -127,6 +177,17 @@ int processXML(char* file) {
 
 
 
+/**
+* 	This function is used everytime we want to open a 3d model file and save
+* it to a global variable (t).
+*		It will read a triplet of floats for each line of document that it reads.
+*	We defined that as the composition of our .3d model files, so this function
+* reads them procedurally and saves it to the global triangle variable.
+*		We can assume that the .3d file as an ammount of lines %3 equal to 0.
+*
+*	@param tok - Character representing the name of the file to open.
+* @return int - Integer containing exitStatus (0 = Sucess | <0 = Error Occured)
+*/
 int open3dModel(const char* tok) {
   FILE *f_3d;
 	f_3d = fopen(tok, "r+");
@@ -169,6 +230,19 @@ int open3dModel(const char* tok) {
 
 
 
+/**
+* 	This function is only invoked either by the glutMainLoop or by a user
+*	key press / mouse interaction. What this function does is render the scene
+*	specified in the program input XML file.
+*		This function sets up the camera position, view point. It also renders
+* rotations and translations that the user might have done to the scenery.
+*	It then checks how the user wants to render the images, either by filling
+* them, seeing only the lines or the points. Finally it calls the renderFigures
+* function.
+*
+*	@param void
+* @return void
+*/
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -197,6 +271,14 @@ void renderScene(void) {
 
 
 
+/**
+* 	This function is only invoked by render scene, and it's used every frame
+*	this is responsible for rendering the three axis (XYZ).
+*		It is the only function in this project that as interely hard-coded values.
+*
+*	@param void
+* @return void
+*/
 void renderAxis(void) {
 	glLineWidth(2.5f);
 	glBegin(GL_LINES);
@@ -214,6 +296,19 @@ void renderAxis(void) {
 
 
 
+/**
+* 	This function is only invoked by render scene, and it's sole purpose
+*	is to render every triangle that has been previously saved to memory.
+*	It's important to denote that this render is made using tri-vertex
+* aggregation to triangles.
+*		This uses a color swap method, wich means that every odd iteration the
+* color remains the same, but changing from one to another iteration. It
+* acesses the global pointer to the structure that we defined to store every
+* triangle, making sure to draw the correct coordinates.
+*
+*	@param void
+* @return void
+*/
 void renderFigures(void) {
 	Triangulo temp = t;
 	glBegin(GL_TRIANGLES);
@@ -231,6 +326,16 @@ void renderFigures(void) {
 
 
 
+/**
+* 	This function is invoked everytime the viewing window is reshaped.
+*		It checks if the window is too short, preventing the user to make
+*	a small window. It then sets the correct parameters for the renderization
+* to take place.
+*
+* @param w - Integer representing the new window width
+* @param h - Integer representing the new window height
+* @return void
+*/
 void changeSize(int w, int h) {
 	// Prevent a divide by zero, when window is too short
 	// (you cant make a window with zero width).
@@ -251,6 +356,18 @@ void changeSize(int w, int h) {
 
 
 
+/**
+* 	This function is invoked only when mouse moves on screen. It receives
+*	two valus representing the current mouse position.
+*		The movement_handler function makes sure that we apply the correct
+*	rotation to the scene when we drag the mouse arrow, it updates the final
+* mouse position once it's done ajusting the rotation for the next render
+* invocation.
+*
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
 void movement_handler(int x, int y) {
 	if (click) {
 		hori_rot -= (x_pos - x) / 2;
@@ -265,6 +382,20 @@ void movement_handler(int x, int y) {
 
 
 
+/**
+* 	This function is invoked only when mouse buttons are pressed. It receives
+*	an indicator of which key, and the state of it (Down meaning it's being pressed
+*	and Down meaning it's not).
+*		This function arranges with three variables, it sets the (click) variable
+*	either to true or false meaning that the mouse is or is not pressed. It also
+*	updates the coordenates of the mouse, so that we can track it's movement.
+*
+*	@param button - Integer representing the mouse button that is being pressed
+* @param state - Integer representation of Press value (GLUT_UP | GLUT_DOWN)
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
 void mouse_handler(int button, int state, int x, int y) {
 	if (button == GLUT_LEFT_BUTTON) {
 		if (state == GLUT_DOWN) {
@@ -278,6 +409,20 @@ void mouse_handler(int button, int state, int x, int y) {
 
 
 
+/**
+* 	This function is invoked only when special key are pressed, changing
+*	the right variables to obtain the desired results.
+* 	This function manipulates two variables, and uses a third one. It
+*	updates the value of the rotation of the scene, allowing it to rotate
+* either over the X axis (UP and DOWN arrows) or the Y axis (LEFT and RIGHT
+* arrows). The third variable (val_trans) indicates the value of the increment
+* or decrement, so we can consider it a sort of rotational speed variable.
+*
+*	@param key - Integer representing the key pressed (special keys only)
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
 void special_key_handler(int key, int x, int y) {
 	key == GLUT_KEY_UP ? vert_trans -= val_trans :
 		key == GLUT_KEY_DOWN ? vert_trans += val_trans :
@@ -290,6 +435,20 @@ void special_key_handler(int key, int x, int y) {
 
 
 
+/**
+* 	This function handles a normal key press, changing the right variables
+*	to obtain the desired results.
+*		We use a global variable (view_mode) to indicate the key that the user
+*	pressed, and then we can render the desired scenes accordingly. This
+* variable stores an 'f' if the user wants to see the object filled, an 'l'
+* if we want to see only lines and finnaly a 'p' if we only want to render
+* points.
+*
+*	@param c - Character representing the key pressed (non special keys)
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
 void normal_key_handler(unsigned char c, int x, int y) {
 	switch (c) {
 		case 'f':
