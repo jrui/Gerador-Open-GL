@@ -21,6 +21,7 @@ float vert_rot, hori_rot, vert_trans, hori_trans;
 float val_rot = 2.0f, val_trans = 0.2f;
 char view_mode;
 int x_pos, y_pos;
+int color;
 bool click = false;
 Triangulo t;
 
@@ -85,7 +86,8 @@ void renderScene(void) {
 	Triangulo temp = t;
 	glBegin(GL_TRIANGLES);
 		while(temp != NULL) {
-			glColor3ub(rand() % 256, rand() % 256, rand() % 256);
+			color=255-color;
+			glColor3ub(0, 255-color, color);
 			glVertex3f(temp->p1_x, temp->p1_y, temp->p1_z);
 			glVertex3f(temp->p2_x, temp->p2_y, temp->p2_z);
 			glVertex3f(temp->p3_x, temp->p3_y, temp->p3_z);
@@ -195,6 +197,7 @@ void normal_key_handler(unsigned char c, int x, int y) {
 int main(int argc, char **argv) {
 	vert_rot = hori_rot = vert_trans = hori_trans = 0.0f;
 	view_mode = 'l';
+	color=0;
 	x_pos = y_pos = 400;
 	srand(time(NULL));
 
