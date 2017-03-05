@@ -56,7 +56,7 @@ void plane(float x, float z, char* ficheiro){
 
 
 void box(float x, float y, float z, int slices, char* ficheiro){
-	int r,st,sl;
+	int st,sl;
 	float yaux0,yaux1,zaux0,zaux1,xaux0,xaux1;
 	//altura das slices
 	float yaux = y / slices;
@@ -227,10 +227,10 @@ void sphere (float r,float slices,float stacks , char *ficheiro){
 
 
 void cylinder(float radius, float height, int slices, int stacks, char *ficheiro) {
-	float x, y, z;
 	int st;
 	//ângulo das slices
 	float alpha = 2*M_PI / slices;
+
 	//altura das stacks
 	float h = height/stacks;
 	//colocar a altura em metade para centrar em 0,0
