@@ -311,8 +311,8 @@ void renderAxis(void) {
 */
 void renderFigures(void) {
 	Triangulo temp = t;
-	glBegin(GL_TRIANGLES);
 	glLineWidth(1.0f);
+	glBegin(GL_TRIANGLES);
 		while(temp != NULL) {
 			color = 100 - color;
 			glColor3ub(0, 150 - color, 150 + color);
