@@ -1,0 +1,61 @@
+<scene>
+	<group><!--Terra-->
+		<color R="0" G="0" B="255"/>
+		<translate Z="30"/>
+		<model file="sphere.3d"/>
+		<group><!--Lua-->
+			<color R="192" G="192" B="192"/>
+			<translate X="3"/>
+			<scale X="0.2724" Y="0.2724" Z="0.2724"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Sol-->
+			<color R="255" G="255" B=""/>
+			<translate Z="-150"/>
+			<scale X="110" Y="110" Z="110"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Mercúrio-->
+			<color R="255" G="0" B="0"/>
+			<translate Z="-20"/>
+			<scale X="0.382" Y="0.382" Z="0.382"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Vénus-->
+			<color R="255" G="100" B="0"/>
+			<translate Z="-10"/>
+			<scale X="0.949" Y="0.949" Z="0.949"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Marte-->
+			<translate Z="10"/>
+			<color R="255" G="0" B="100"/>
+			<scale X="0.532" Y="0.532" Z="0.532"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Júpiter-->
+			<color R="255" G="128" B="0"/>
+			<scale X="11.209" Y="11.209" Z="11.209"/>
+			<translate Z="40"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Saturno-->
+			<color R="0" G="255" B="0"/>
+			<translate Z="80"/>
+			<scale X="9.449" Y="9.449" Z="9.449"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Úrano-->
+			<color R="0" G="255" B="255"/>
+			<translate Z="120"/>
+			<scale X="4.007" Y="4.007" Z="4.007"/>
+			<model file="sphere.3d"/>
+		</group>
+		<group><!--Neptuno-->
+			<color R="255" G="255" B="100"/>
+			<translate Z="160"/>
+			<scale X="3.883" Y="3.883" Z="3.883"/>
+			<model file="sphere.3d"/>
+		</group>
+	</group>
+</scene>
