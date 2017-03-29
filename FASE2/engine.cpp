@@ -38,10 +38,8 @@ bool click = false;
 */
 class Triangulo {
 	public:
-		float p1_x, p1_y, p1_z;
-		float p2_x, p2_y, p2_z;
-		float p3_x, p3_y, p3_z;
-		int grupo;
+		std::vector<float> coord;
+		char* nome;
 };
 std::vector<Triangulo> triangulos;
 int group_figure = 0;
@@ -123,9 +121,6 @@ int main(int argc, char **argv) {
 		return -1;
 	}
 
-	int exitCode = processXML(argv[1]);
-	if(exitCode < 0) return -1;
-
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(100,100);
@@ -145,6 +140,8 @@ int main(int argc, char **argv) {
 
 	spherical2Cartesian();
 
+	int exitCode = processXML(argv[1]);
+	if(exitCode < 0) return -1;
 	glutMainLoop();
 
 	return 1;
@@ -158,8 +155,7 @@ Transformacao initXML() {
 	t.x = 0;
 	t.y = 0;
 	t.z = 0;
-	t.model = (char*) malloc(sizeof(char)*64);
-	t.model = NULL;
+	t.model;
 	t.modo = -1;
 	t.colorB = 0;
 	t.colorG = 0;
@@ -215,17 +211,47 @@ void scale(XMLElement* element2) {
 
 
 
+bool existeModelo(char* nome){
+	Triangulo t;
+	for(int i=0; i < triangulos.size(); i++){
+		t=triangulos[i];
+		if( strcmp(t.nome,nome) == 0 ){
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+Triangulo getModelo(char* nome){
+	Triangulo t;
+	for(int i=0; i < triangulos.size(); i++){
+		t=triangulos[i];
+		if( strcmp(t.nome,nome) == 0 ){
+			return t;
+		}
+	}
+	return t;
+}
+
+
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
 	while(tftemp != NULL) {
 		Transformacao tf = initXML();
 		tf.modo = 7;
-		tf.model = (char*) tftemp->Attribute("file");
-		int errorCode = open3dModel(tf.model);
-		if(errorCode < 0) {
-			printf("Error opening %s!\n", "sphere.3d");
+		tf.model = strdup((char*) tftemp->Attribute("file"));
+		if( !existeModelo(tf.model) ){
+
+			int errorCode = open3dModel(tf.model);
+			if(errorCode < 0) {
+				printf("Error opening %s!\n", tf.model);
+			}
+			
+			printf("Opened %s successfully.\n", tf.model);
 		}
-		printf("Opened %s successfully.\n", "sphere.3d");
 		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
 	}
@@ -307,7 +333,7 @@ int processXML(char* file) {
 
 	root = xmlDoc.FirstChildElement("scene");
 	pListElement = root -> FirstChildElement("group");
-		parserXML(pListElement);
+	parserXML(pListElement);
 	return XML_SUCCESS;
 }
 
@@ -325,7 +351,7 @@ int processXML(char* file) {
 * @return int - Integer containing exitStatus (0 = Sucess | <0 = Error Occured)
 */
 int open3dModel(const char* tok) {
-  FILE *f_3d;
+  	FILE *f_3d;
 	f_3d = fopen(tok, "r+");
 	if (f_3d < 0) return -1;
 
@@ -336,30 +362,12 @@ int open3dModel(const char* tok) {
 	int op = 1;
 	Triangulo t;
 	while(fscanf(f_3d, "%s %s %s", v1, v2, v3) != EOF) {
-		if(op == 1) {
-			t.p1_x = atof(v1);
-			t.p1_y = atof(v2);
-			t.p1_z = atof(v3);
-			op = 2;
-		}
-		else {
-			if(op == 2) {
-				t.p2_x = atof(v1);
-				t.p2_y = atof(v2);
-				t.p2_z = atof(v3);
-				op = 3;
-			}
-			else {
-				t.p3_x = atof(v1);
-				t.p3_y = atof(v2);
-				t.p3_z = atof(v3);
-				op = 1;
-				t.grupo = group_figure;
-				triangulos.push_back(t);
-			}
-		}
+		t.coord.push_back( atof(v1) );
+		t.coord.push_back( atof(v2) );
+		t.coord.push_back( atof(v3) );
 	}
-	group_figure++;
+	t.nome = strdup(tok);
+	triangulos.push_back(t);
 	fclose(f_3d);
 	return 0;
 }
@@ -431,6 +439,8 @@ void renderAxis(void) {
 */
 void renderFigures(void) {
 	int color;
+	Triangulo t;
+	std::vector<float> vc;
 	Transformacao tftemp;
 	glLineWidth(1.0f);
 	for(int i=0;i<transformacoes.size();i++){
@@ -457,15 +467,12 @@ void renderFigures(void) {
 				glRotatef(tftemp.angle,tftemp.x, tftemp.y, tftemp.z);
 				break;
 			case 7:
-				Triangulo t;
-				int i;
+				t = getModelo(tftemp.model);
+				vc = t.coord;
 				glBegin(GL_TRIANGLES);
-				for(i = 0; i < triangulos.size(); i++) {
-					t = triangulos.at(i);
+				for(int i = 0; i < vc.size(); i+=3) {
 					glColor3ub(r, g, b);
-					glVertex3f(t.p1_x, t.p1_y, t.p1_z);
-					glVertex3f(t.p2_x, t.p2_y, t.p2_z);
-					glVertex3f(t.p3_x, t.p3_y, t.p3_z);
+					glVertex3f(vc[i],vc[i+1],vc[i+2]);
 				}
 				glEnd();
 				break;
