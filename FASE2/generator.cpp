@@ -345,17 +345,17 @@ void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro) {
 		seed++;
 
 		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 4;
+		random /= 2;
 		if(random != 0) drawAsteroid(random * innerRadius*sin(alpha*(i)), random, random * innerRadius*cos(alpha*(i)), op);
 		else num++;
 
 		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 4;
+		random /= 2;
 		if(random != 0) drawAsteroid(random * outerRadius*sin(alpha*(i)), random, random * outerRadius*cos(alpha*(i)), op);
 		else num++;
 
 		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 4;
+		random /= 2;
 		if(random != 0) drawAsteroid(random * innerRadius*sin(alpha*(i+1)), random, random * innerRadius*cos(alpha*(i+1)), op);
 		else num++;
 	}
