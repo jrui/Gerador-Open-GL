@@ -1,30 +1,5 @@
 <scene>
 	<group>
-		<color R="255" G="255" B="0"/>
-		<scale X="70" Y="70" Z="70"/>
-		<model file="sphere.3d"/>
-	</group>
-	<group>
-		<color R="0" G="0" B="255"/>
-		<translate Z="100"/>
-		<scale X="0.6" Y="0.6" Z="0.6"/>
-		<model file="sphere.3d"/>
-		<group>
-			<translate Z="200"/>
-			<scale X="7" Y="7" Z="7"/>
-			<model file="sphere.3d"/>
-		</group>
-		<group>
-			<color R="255" G="0" B="0"/>
-			<scale X="100" Y="100" Z="100"/>
-			<translate Z="400"/>
-			<model file="sphere.3d"/>
-		</group>
-	</group>
-	<group>
-		<color R="0" G="255" B="0"/>
-		<translate Z="255"/>
-		<scale X="25" Y="25" Z="25"/>
-		<model file="sphere.3d"/>
+		<model file="objects/sphere.3d"/>
 	</group>
 </scene>

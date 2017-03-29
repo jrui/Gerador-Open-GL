@@ -26,8 +26,6 @@ float vert_rot, hori_rot;
 char view_mode;
 int x_pos, y_pos;
 bool click = false;
-int r,g,b;
-float temp;
 
 
 
@@ -52,7 +50,7 @@ int group_figure = 0;
 
 /**
 *		This is the structure that we used to store every information
-*	about the XML, whether is angle and coordenates if it is rotates, colors 
+*	about the XML, whether is angle and coordenates if it is rotates, colors
 * if it is a Color or the name of the models.
 *		This structure also has a pointer to the next transformation that it has to
 *	render.
@@ -64,6 +62,8 @@ class Transformacao {
 		int colorR, colorB, colorG, modo;
 };
 std::vector<Transformacao> transformacoes;
+int r,g,b;
+float temp;
 
 
 
@@ -384,7 +384,7 @@ void renderScene(void) {
 						              	view_mode == 'l' ? GL_LINE :
 															GL_POINT);
 	renderFigures();
-	renderAxis();
+	//renderAxis();
 
 	glutSwapBuffers();
 }
@@ -500,11 +500,10 @@ void changeSize(int w, int h) {
 	// Set the viewport to be the entire window
     glViewport(0, 0, w, h);
 	// Set perspective
-	gluPerspective(45.0f ,ratio, 1.0f ,1000.0f);
+	gluPerspective(45.0f ,ratio, 1.0f ,10000.0f);
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
 }
-
 
 
 
