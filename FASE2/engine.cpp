@@ -22,15 +22,11 @@ using namespace tinyxml2;
 *		We will get into more details when we get to the functions that alter this
 * values.
 */
-float alfa = 0.0f, beta = 0.5f, radius = 500.0f;
-float camX, camY, camZ;
-float rotation = 0.0f;
-float vert_rot, hori_rot;
+float angX, angY;
+float axisX = 0, axisY = 0, axisZ = 0;
 char view_mode;
-int x_pos, y_pos;
-bool click = false;
-float x,y,z;
-int r,g,b;
+float x, y, z;
+int r, g, b;
 
 
 
@@ -43,7 +39,6 @@ int r,g,b;
 * has to render.
 */
 std::vector<Transformacao*> transformacoes;
-float temp;
 
 
 
@@ -66,13 +61,9 @@ int processXML(char* file);
 std::vector<float> open3dModel(const char* tok);
 void renderScene(void);
 void renderFigures(void);
-void renderAxis(void);
 void changeSize(int w, int h);
-void movement_handler(int x, int y);
-void mouse_handler(int button, int state, int x, int y);
 void special_key_handler(int key, int x, int y);
 void normal_key_handler(unsigned char c, int x, int y);
-void spherical2Cartesian();
 
 
 
@@ -95,9 +86,7 @@ void spherical2Cartesian();
 *								as occured
 */
 int main(int argc, char **argv) {
-	vert_rot = hori_rot = 0.0f;
 	view_mode = 'l';
-	x_pos = y_pos = 400;
 
 	if(argc < 2) {
 		printf("Invalid Input!\n");
@@ -108,20 +97,16 @@ int main(int argc, char **argv) {
 	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
 	glutInitWindowPosition(100,100);
 	glutInitWindowSize(800,800);
-	glutCreateWindow("Rendering scene");
+	glutCreateWindow("Solar Sistem");
 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
 
 	glutSpecialFunc(special_key_handler);
 	glutKeyboardFunc(normal_key_handler);
-	glutMouseFunc(mouse_handler);
-	glutMotionFunc(movement_handler);
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-
-	spherical2Cartesian();
 
 	int exitCode = processXML(argv[1]);
 	if(exitCode < 0) return -1;
@@ -237,6 +222,9 @@ void pushMatrix() {
 
 
 
+/**
+*
+*/
 int parserXML(XMLElement* pListElement) {
 	XMLElement* element2;
 	XMLElement* tempEl;
@@ -287,7 +275,6 @@ int processXML(char* file) {
 		printf("Error loading %s.\n", file);
 		return -1;
 	}
-
 	root = xmlDoc.FirstChildElement("scene");
 	pListElement = root -> FirstChildElement("group");
 	parserXML(pListElement);
@@ -347,12 +334,10 @@ void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
-	gluLookAt(camX, camY, camZ,
-		      	0.0f, 0.0f, 0.0f,
-			  		0.0f, 1.0f, 0.0f);
 
-	glRotatef(vert_rot, 1, 0, 0);
-	glRotatef(hori_rot, 0, 1, 0);
+	gluLookAt(axisX, axisY, axisZ,
+		        sin(angX)*5+axisX,axisY+angY,5*cos(angX)+axisZ,
+			      0.0f,1.0f,0.0f);
 
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -416,80 +401,9 @@ void changeSize(int w, int h) {
 	// Set the viewport to be the entire window
   glViewport(0, 0, w, h);
 	// Set perspective
-	gluPerspective(45.0f ,ratio, 1.0f ,10000.0f);
+	gluPerspective(45.0f ,ratio, 1.0f ,50000.0f);
 	// return to the model view matrix mode
 	glMatrixMode(GL_MODELVIEW);
-}
-
-
-
-
-/**
-* 	This function is invoked only when we need to convert the camera
-* coordinates to a cartesian format. It does so by setting new values
-* to the global variables representing the camera position.
-*
-* @return void
-*/
-void spherical2Cartesian() {
-	camX = radius * cos(beta) * sin(alfa);
-	camY = radius * sin(beta);
-	camZ = radius * cos(beta) * cos(alfa);
-}
-
-
-
-
-/**
-* 	This function is invoked only when mouse moves on screen. It receives
-*	two valus representing the current mouse position.
-*		The movement_handler function makes sure that we apply the correct
-*	rotation to the scene when we drag the mouse arrow, it updates the final
-* mouse position once it's done ajusting the rotation for the next render
-* invocation.
-*
-* @param x - Integer representing the mouse x position
-* @param y - Integer representing the mouse y position
-* @return void
-*/
-void movement_handler(int x, int y) {
-	if (click) {
-		hori_rot -= (x_pos - x) / 2;
-		vert_rot -= (y_pos - y) / 2;
-		x_pos = x;
-		y_pos = y;
-
-		//Re-render
-		glutPostRedisplay();
-	}
-}
-
-
-
-
-/**
-* 	This function is invoked only when mouse buttons are pressed. It receives
-*	an indicator of which key, and the state of it (Down meaning it's being pressed
-*	and Down meaning it's not).
-*		This function arranges with three variables, it sets the (click) variable
-*	either to true or false meaning that the mouse is or is not pressed. It also
-*	updates the coordenates of the mouse, so that we can track it's movement.
-*
-*	@param button - Integer representing the mouse button that is being pressed
-* @param state - Integer representation of Press value (GLUT_UP | GLUT_DOWN)
-* @param x - Integer representing the mouse x position
-* @param y - Integer representing the mouse y position
-* @return void
-*/
-void mouse_handler(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			click = true;
-			x_pos = x;
-			y_pos = y;
-		}
-		if (state == GLUT_UP) click = false;
-	}
 }
 
 
@@ -508,16 +422,26 @@ void mouse_handler(int button, int state, int x, int y) {
 * @return void
 */
 void special_key_handler(int key, int x, int y) {
-	switch(key) {
-		case GLUT_KEY_PAGE_DOWN:
-			radius -= 20.0f;
-			if (radius < 250.0f) radius = 250.0f;
+	switch(key){
+		case GLUT_KEY_UP:
+			axisZ += 10 * cos(angX) * cos(angY);
+			axisX += 10 * sin(angX) * cos(angY);
+			axisY += 10 * sin(angY);
 			break;
-		case GLUT_KEY_PAGE_UP:
-			radius += 20.0f;
+		case GLUT_KEY_DOWN:
+			axisZ -= 10 * cos(angX) * sin(angY);
+			axisX -= 10 * sin(angX) * cos(angY);
+			axisY -= 10 * sin(angY);
+			break;
+		case GLUT_KEY_LEFT:
+			axisX += 5 * cos(angX) * cos(angY);
+			axisZ -= 5 * sin(angX) * cos(angY);
+			break;
+		case GLUT_KEY_RIGHT:
+			axisX -= 5 * cos(angX) * cos(angY);
+			axisZ += 5 * sin(angX) * cos(angY);
 			break;
 	}
-	spherical2Cartesian();
 	glutPostRedisplay();
 }
 
@@ -539,7 +463,7 @@ void special_key_handler(int key, int x, int y) {
 * @return void
 */
 void normal_key_handler(unsigned char c, int x, int y) {
-	switch (c) {
+	switch(c) {
 		case 'f':
 		case 'F':
 			view_mode = 'f';
@@ -552,7 +476,22 @@ void normal_key_handler(unsigned char c, int x, int y) {
 		case 'P':
 			view_mode = 'p';
 			break;
-		default: break;
+		case 'A':
+		case 'a':
+			angX += 0.1;
+			break;
+		case 'D':
+		case 'd':
+			angX -= 0.1;
+			break;
+		case 'W':
+		case 'w':
+			angY += 0.1;
+			break;
+		case 'S':
+		case 's':
+			angY -= 0.1;
+			break;
 	}
 
 	//Re-render
