@@ -6,7 +6,7 @@ class Transformacao {
 	public:
 		float x,y,z;
 		Transformacao(){}
-		Transformacao(float xx,float yy,float zz){ x=xx; y=yy; z=zz;}		
+		Transformacao(float xx,float yy,float zz){ x=xx; y=yy; z=zz;}
 		virtual void transformar() = 0;
 };
 

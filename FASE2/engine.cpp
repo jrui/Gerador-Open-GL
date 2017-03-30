@@ -3,21 +3,22 @@
 #else
 #include <GL/glut.h>
 #endif
-
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <vector>
 #include <map>
-#include "tinyxml2.h"
-using namespace tinyxml2
 #include "transformacao.h"
+#include "tinyxml2.h"
+using namespace tinyxml2;
+
 
 
 
 /**
 *		Global variables used to store program data, rotations, translations, view
-*	mode, mouse coords, colors, some variables used throughout the code, and finnaly the triangles used to render every object.
+*	mode, mouse coords, colors, some variables used throughout the code, and
+* finnaly the triangles used to render every object.
 *		We will get into more details when we get to the functions that alter this
 * values.
 */
@@ -33,24 +34,17 @@ int r,g,b;
 
 
 
-/**
-*		This is the structure that we used to store every point in a triangles
-*	we have variables to represent the 3 cartesian coordinates for all the
-* three points that make a triangle.
-*		This structure also has a pointer to the next triangle that it has to
-*	render.
-*/
-
 
 /**
-*		This is the structure that we used to store every information
-*	about the XML, whether is angle and coordenates if it is rotates, colors
-* if it is a Color or the name of the models.
-*		This structure also has a pointer to the next transformation that it has to
-*	render.
+*		This time we decided to use a vector to store every information
+*	about the XML transformations, whether is angle and coordinates,
+* rotations, colors and names of the models.
+*		This structure also has a pointer to the next transformation that it
+* has to render.
 */
 std::vector<Transformacao*> transformacoes;
 float temp;
+
 
 
 
@@ -79,6 +73,7 @@ void mouse_handler(int button, int state, int x, int y);
 void special_key_handler(int key, int x, int y);
 void normal_key_handler(unsigned char c, int x, int y);
 void spherical2Cartesian();
+
 
 
 
@@ -138,6 +133,9 @@ int main(int argc, char **argv) {
 
 
 
+/**
+*
+*/
 void color(XMLElement* element2) {
 	if(!(r = element2->IntAttribute("R"))) r = r%256;
 	if(!(g = element2->IntAttribute("G"))) g = g%256;
@@ -148,6 +146,10 @@ void color(XMLElement* element2) {
 
 
 
+
+/**
+*
+*/
 void translate(XMLElement* element2) {
 	if(!(x = element2->FloatAttribute("X"))) x=0;
 	if(!(y = element2->FloatAttribute("Y"))) y=0;
@@ -158,6 +160,10 @@ void translate(XMLElement* element2) {
 
 
 
+
+/**
+*
+*/
 void rotate(XMLElement* element2) {
 	float ang;
 	if(!(x = element2->FloatAttribute("X"))) x=0;
@@ -170,6 +176,10 @@ void rotate(XMLElement* element2) {
 
 
 
+
+/**
+*
+*/
 void scale(XMLElement* element2) {
 	if(!(x = element2->FloatAttribute("X"))) x=0;
 	if(!(y = element2->FloatAttribute("Y"))) y=0;
@@ -180,6 +190,10 @@ void scale(XMLElement* element2) {
 
 
 
+
+/**
+*
+*/
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
 	char* nome;
@@ -200,6 +214,10 @@ void model(XMLElement* element2) {
 
 
 
+
+/**
+*
+*/
 void popMatrix() {
 	Transformacao* tf = new PopMatrix();
 	transformacoes.push_back(tf);
@@ -207,10 +225,15 @@ void popMatrix() {
 
 
 
+
+/**
+*
+*/
 void pushMatrix() {
 	Transformacao* tf = new PushMatrix();
 	transformacoes.push_back(tf);
 }
+
 
 
 
@@ -220,22 +243,16 @@ int parserXML(XMLElement* pListElement) {
 
 	if(pListElement != NULL) {
 		pushMatrix();
-
 		element2 = pListElement->FirstChildElement("color");
 		if(element2!=NULL) color(element2);
-
 		element2 = pListElement->FirstChildElement("translate");
 		if(element2!=NULL) translate(element2);
-
 		element2 = pListElement->FirstChildElement("rotate");
 		if(element2!=NULL) rotate(element2);
-
 		element2 = pListElement->FirstChildElement("scale");
 		if(element2!=NULL) scale(element2);
-
 		element2 = pListElement->FirstChildElement("model");
 		if(element2!=NULL) model(element2);
-
 		tempEl = pListElement->FirstChildElement("group");
 		if(tempEl != NULL) parserXML(tempEl);
 
@@ -246,6 +263,7 @@ int parserXML(XMLElement* pListElement) {
 	}
 	return 1;
 }
+
 
 
 
@@ -278,31 +296,32 @@ int processXML(char* file) {
 
 
 
+
 /**
 * 	This function is used everytime we want to open a 3d model file and save
 * it to a global variable (t).
 *		It will read a triplet of floats for each line of document that it reads.
 *	We defined that as the composition of our .3d model files, so this function
-* reads them procedurally and saves it to the global triangle variable.
+* reads them procedurally and saves it to a vector.
 *		We can assume that the .3d file as an ammount of lines %3 equal to 0.
 *
 *	@param tok - Character representing the name of the file to open.
-* @return int - Integer containing exitStatus (0 = Sucess | <0 = Error Occured)
+* @return vector - Vector containing the coordinates os every object.
 */
 std::vector<float> open3dModel(const char* tok) {
-  	FILE *f_3d;
-  	std::vector<float> vc;
+	FILE *f_3d;
+	std::vector<float> vc;
 	f_3d = fopen(tok, "r+");
 	if (f_3d < 0) return vc;
 
-	char *v1, *v2, *v3;
-	v1 = (char*) malloc(sizeof(char) * 64);
-	v2 = (char*) malloc(sizeof(char) * 64);
-	v3 = (char*) malloc(sizeof(char) * 64);
-	while(fscanf(f_3d, "%s %s %s", v1, v2, v3) != EOF) {
-		vc.push_back( atof(v1) );
-		vc.push_back( atof(v2) );
-		vc.push_back( atof(v3) );
+	char *s1, *s2, *s3;
+	s1 = (char*) malloc(sizeof(char) * 64);
+	s2 = (char*) malloc(sizeof(char) * 64);
+	s3 = (char*) malloc(sizeof(char) * 64);
+	while(fscanf(f_3d, "%s %s %s", s1, s2, s3) != EOF) {
+		vc.push_back(atof(s1));
+		vc.push_back(atof(s2));
+		vc.push_back(atof(s3));
 	}
 	fclose(f_3d);
 	return vc;
@@ -310,6 +329,20 @@ std::vector<float> open3dModel(const char* tok) {
 
 
 
+
+/**
+* 	This function is only invoked either by the glutMainLoop or by a user
+*	key press / mouse interaction. What this function does is render the scene
+*	specified in the program input XML file.
+*		This function sets up the camera position, view point. It also renders
+* rotations and translations that the user might have done to the scenery.
+*	It then checks how the user wants to render the images, either by filling
+* them, seeing only the lines or the points. Finally it calls the renderFigures
+* function.
+*
+*	@param void
+* @return void
+*/
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -325,38 +358,13 @@ void renderScene(void) {
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CCW);
 	glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
-						              	view_mode == 'l' ? GL_LINE :
+					              		view_mode == 'l' ? GL_LINE :
 															GL_POINT);
 	renderFigures();
-	//renderAxis();
 
 	glutSwapBuffers();
 }
 
-
-
-/**
-* 	This function is only invoked by render scene, and it's used every frame
-*	this is responsible for rendering the three axis (XYZ).
-*		It is the only function in this project that as interely hard-coded values.
-*
-*	@param void
-* @return void
-*/
-void renderAxis(void) {
-	glLineWidth(2.5f);
-	glBegin(GL_LINES);
-		glColor3f(0.0, 0.0, 1.0);
-		glVertex3f(0, 0, 0);
-		glVertex3f(2, 0, 0);
-		glColor3f(0.0, 1.0, 0.0);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 2, 0);
-		glColor3f(1.0, 0.0, 0.0);
-		glVertex3f(0, 0, 0);
-		glVertex3f(0, 0, 2);
-	glEnd();
-}
 
 
 
@@ -365,24 +373,23 @@ void renderAxis(void) {
 *	is to render every triangle that has been previously saved to memory.
 *	It's important to denote that this render is made using tri-vertex
 * aggregation to triangles.
-*		This uses a color swap method, wich means that every odd iteration the
-* color remains the same, but changing from one to another iteration. It
-* acesses the global pointer to the structure that we defined to store every
-* triangle, making sure to draw the correct coordinates.
+*		It acesses the global vectors that we defined to store every triangle
+* and transformation, making sure to draw the correct coordinates.
+*		It doesn't draw directly on screen but calls a function that does so.
 *
-*	@param void
 * @return void
 */
-void renderFigures(void) {
+void renderFigures() {
 	int color;
 	std::vector<float> vc;
 	Transformacao* tftemp;
 	glLineWidth(1.0f);
-	for(int i=0;i<transformacoes.size();i++){
+	for(int i = 0; i < transformacoes.size(); i++) {
 		tftemp = transformacoes.at(i);
-		tftemp -> transformar();
+		tftemp->transformar();
 	}
 }
+
 
 
 
@@ -407,7 +414,7 @@ void changeSize(int w, int h) {
 	// Load Identity Matrix
 	glLoadIdentity();
 	// Set the viewport to be the entire window
-    glViewport(0, 0, w, h);
+  glViewport(0, 0, w, h);
 	// Set perspective
 	gluPerspective(45.0f ,ratio, 1.0f ,10000.0f);
 	// return to the model view matrix mode
@@ -416,11 +423,20 @@ void changeSize(int w, int h) {
 
 
 
+
+/**
+* 	This function is invoked only when we need to convert the camera
+* coordinates to a cartesian format. It does so by setting new values
+* to the global variables representing the camera position.
+*
+* @return void
+*/
 void spherical2Cartesian() {
 	camX = radius * cos(beta) * sin(alfa);
 	camY = radius * sin(beta);
 	camZ = radius * cos(beta) * cos(alfa);
 }
+
 
 
 
@@ -447,6 +463,7 @@ void movement_handler(int x, int y) {
 		glutPostRedisplay();
 	}
 }
+
 
 
 
@@ -478,6 +495,18 @@ void mouse_handler(int button, int state, int x, int y) {
 
 
 
+/**
+* 	This function handles a special key press, changing the right variables
+*	to obtain the desired results.
+*		We use a global variable (radius) to assure thar the user can zoom in
+* or zoom out as they wish to. We impose a limit of 250, so that it won't be
+* possible to get closer to the earth than this.
+*
+*	@param key - Character representing the special key pressed
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
 void special_key_handler(int key, int x, int y) {
 	switch(key) {
 		case GLUT_KEY_PAGE_DOWN:
