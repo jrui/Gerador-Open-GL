@@ -8,8 +8,10 @@
 #include <string.h>
 #include <math.h>
 #include <vector>
+#include <map>
 #include "tinyxml2.h"
-using namespace tinyxml2;
+using namespace tinyxml2
+#include "transformacao.h"
 
 
 
@@ -26,6 +28,8 @@ float vert_rot, hori_rot;
 char view_mode;
 int x_pos, y_pos;
 bool click = false;
+float x,y,z;
+int r,g,b;
 
 
 
@@ -36,14 +40,6 @@ bool click = false;
 *		This structure also has a pointer to the next triangle that it has to
 *	render.
 */
-class Triangulo {
-	public:
-		std::vector<float> coord;
-		char* nome;
-};
-std::vector<Triangulo> triangulos;
-int group_figure = 0;
-
 
 
 /**
@@ -53,14 +49,7 @@ int group_figure = 0;
 *		This structure also has a pointer to the next transformation that it has to
 *	render.
 */
-class Transformacao {
-	public:
-		float angle, x, y, z;
-		char* model;
-		int colorR, colorB, colorG, modo;
-};
-std::vector<Transformacao> transformacoes;
-int r,g,b;
+std::vector<Transformacao*> transformacoes;
 float temp;
 
 
@@ -71,7 +60,6 @@ float temp;
 *		The specification for each of the functions will be written just before
 *	their full implementation.
 */
-void initXML(Transformacao t);
 void color(XMLElement* element2);
 void translate(XMLElement* element2);
 void rotate(XMLElement* element2);
@@ -81,7 +69,7 @@ void popMatrix();
 void pushMatrix();
 int parserXML(XMLElement* pListElement);
 int processXML(char* file);
-int open3dModel(const char* tok);
+std::vector<float> open3dModel(const char* tok);
 void renderScene(void);
 void renderFigures(void);
 void renderAxis(void);
@@ -149,109 +137,62 @@ int main(int argc, char **argv) {
 
 
 
-Transformacao initXML() {
-	Transformacao t;
-	t.angle = -1;
-	t.x = 0;
-	t.y = 0;
-	t.z = 0;
-	t.model;
-	t.modo = -1;
-	t.colorB = 0;
-	t.colorG = 0;
-	t.colorR = 0;
-	return t;
-}
-
-
 
 void color(XMLElement* element2) {
-	int temp2;
-	Transformacao tf = initXML();
-	tf.modo = 3;
-	if((temp2 = element2->IntAttribute("R"))) tf.colorR = temp2%256;
-	if((temp2 = element2->IntAttribute("G"))) tf.colorG = temp2%256;
-	if((temp2 = element2->IntAttribute("B"))) tf.colorB = temp2%256;
+	if(!(r = element2->IntAttribute("R"))) r = r%256;
+	if(!(g = element2->IntAttribute("G"))) g = g%256;
+	if(!(b = element2->IntAttribute("B"))) b = b%256;
+	Transformacao* tf = new Color(r,g,b);
 	transformacoes.push_back(tf);
 }
 
 
 
 void translate(XMLElement* element2) {
-	Transformacao tf = initXML();
-	tf.modo = 4;
-	if((temp = element2->FloatAttribute("X"))) tf.x = temp;
-	if((temp = element2->FloatAttribute("Y"))) tf.y = temp;
-	if((temp = element2->FloatAttribute("Z"))) tf.z = temp;
+	if(!(x = element2->FloatAttribute("X"))) x=0;
+	if(!(y = element2->FloatAttribute("Y"))) y=0;
+	if(!(z = element2->FloatAttribute("Z"))) z=0;
+	Transformacao* tf = new Translate(x,y,z);
 	transformacoes.push_back(tf);
 }
 
 
 
 void rotate(XMLElement* element2) {
-	Transformacao tf = initXML();
-	tf.modo = 6;
-	if((temp = element2->FloatAttribute("X"))) tf.x = temp;
-	if((temp = element2->FloatAttribute("Y"))) tf.y = temp;
-	if((temp = element2->FloatAttribute("Z"))) tf.z = temp;
-	if((temp = element2->FloatAttribute("angle"))) tf.angle = temp;
+	float ang;
+	if(!(x = element2->FloatAttribute("X"))) x=0;
+	if(!(y = element2->FloatAttribute("Y"))) y=0;
+	if(!(z = element2->FloatAttribute("Z"))) z=0;
+	if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
+	Transformacao* tf = new Rotate(ang,x,y,z);
 	transformacoes.push_back(tf);
 }
 
 
 
 void scale(XMLElement* element2) {
-	Transformacao tf = initXML();
-	tf.modo = 5;
-	if((temp = element2->FloatAttribute("X"))) tf.x = temp;
-	if((temp = element2->FloatAttribute("Y"))) tf.y = temp;
-	if((temp = element2->FloatAttribute("Z"))) tf.z = temp;
+	if(!(x = element2->FloatAttribute("X"))) x=0;
+	if(!(y = element2->FloatAttribute("Y"))) y=0;
+	if(!(z = element2->FloatAttribute("Z"))) z=0;
+	Transformacao* tf = new Scale(x,y,z);
 	transformacoes.push_back(tf);
 }
 
 
 
-bool existeModelo(char* nome){
-	Triangulo t;
-	for(int i=0; i < triangulos.size(); i++){
-		t=triangulos[i];
-		if( strcmp(t.nome,nome) == 0 ){
-			return true;
-		}
-	}
-	return false;
-}
-
-
-
-
-Triangulo getModelo(char* nome){
-	Triangulo t;
-	for(int i=0; i < triangulos.size(); i++){
-		t=triangulos[i];
-		if( strcmp(t.nome,nome) == 0 ){
-			return t;
-		}
-	}
-	return t;
-}
-
-
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
+	char* nome;
+	std::vector<float> vc;
 	while(tftemp != NULL) {
-		Transformacao tf = initXML();
-		tf.modo = 7;
-		tf.model = strdup((char*) tftemp->Attribute("file"));
-		if( !existeModelo(tf.model) ){
-
-			int errorCode = open3dModel(tf.model);
-			if(errorCode < 0) {
-				printf("Error opening %s!\n", tf.model);
-			}
-			
-			printf("Opened %s successfully.\n", tf.model);
+		nome = strdup((char*) tftemp->Attribute("file"));
+		vc = open3dModel(nome);
+		if(vc.size() == 0) {
+			printf("Error opening %s!\n", nome);
+			return;
 		}
+		printf("Opened %s successfully.\n", nome);
+		Transformacao* tf = new Model(vc);
 		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
 	}
@@ -260,16 +201,14 @@ void model(XMLElement* element2) {
 
 
 void popMatrix() {
-	Transformacao tf = initXML();
-	tf.modo = 2;
+	Transformacao* tf = new PopMatrix();
 	transformacoes.push_back(tf);
 }
 
 
 
 void pushMatrix() {
-	Transformacao tf = initXML();
-	tf.modo = 1;
+	Transformacao* tf = new PushMatrix();
 	transformacoes.push_back(tf);
 }
 
@@ -350,26 +289,23 @@ int processXML(char* file) {
 *	@param tok - Character representing the name of the file to open.
 * @return int - Integer containing exitStatus (0 = Sucess | <0 = Error Occured)
 */
-int open3dModel(const char* tok) {
+std::vector<float> open3dModel(const char* tok) {
   	FILE *f_3d;
+  	std::vector<float> vc;
 	f_3d = fopen(tok, "r+");
-	if (f_3d < 0) return -1;
+	if (f_3d < 0) return vc;
 
 	char *v1, *v2, *v3;
 	v1 = (char*) malloc(sizeof(char) * 64);
 	v2 = (char*) malloc(sizeof(char) * 64);
 	v3 = (char*) malloc(sizeof(char) * 64);
-	int op = 1;
-	Triangulo t;
 	while(fscanf(f_3d, "%s %s %s", v1, v2, v3) != EOF) {
-		t.coord.push_back( atof(v1) );
-		t.coord.push_back( atof(v2) );
-		t.coord.push_back( atof(v3) );
+		vc.push_back( atof(v1) );
+		vc.push_back( atof(v2) );
+		vc.push_back( atof(v3) );
 	}
-	t.nome = strdup(tok);
-	triangulos.push_back(t);
 	fclose(f_3d);
-	return 0;
+	return vc;
 }
 
 
@@ -439,46 +375,12 @@ void renderAxis(void) {
 */
 void renderFigures(void) {
 	int color;
-	Triangulo t;
 	std::vector<float> vc;
-	Transformacao tftemp;
+	Transformacao* tftemp;
 	glLineWidth(1.0f);
 	for(int i=0;i<transformacoes.size();i++){
 		tftemp = transformacoes.at(i);
-		switch(tftemp.modo){
-			case 1:
-				glPushMatrix();
-				break;
-			case 2:
-				glPopMatrix();
-				break;
-			case 3:
-				r = tftemp.colorR;
-				g = tftemp.colorG;
-				b = tftemp.colorB;
-				break;
-			case 4:
-				glTranslatef(tftemp.x, tftemp.y, tftemp.z);
-				break;
-			case 5:
-				glScalef(tftemp.x, tftemp.y, tftemp.z);
-				break;
-			case 6:
-				glRotatef(tftemp.angle,tftemp.x, tftemp.y, tftemp.z);
-				break;
-			case 7:
-				t = getModelo(tftemp.model);
-				vc = t.coord;
-				glBegin(GL_TRIANGLES);
-				for(int i = 0; i < vc.size(); i+=3) {
-					glColor3ub(r, g, b);
-					glVertex3f(vc[i],vc[i+1],vc[i+2]);
-				}
-				glEnd();
-				break;
-			default:
-				break;
-		}
+		tftemp -> transformar();
 	}
 }
 
@@ -579,11 +481,11 @@ void mouse_handler(int button, int state, int x, int y) {
 void special_key_handler(int key, int x, int y) {
 	switch(key) {
 		case GLUT_KEY_PAGE_DOWN:
-			radius -= 10.0f;
+			radius -= 20.0f;
 			if (radius < 250.0f) radius = 250.0f;
 			break;
 		case GLUT_KEY_PAGE_UP:
-			radius += 10.0f;
+			radius += 20.0f;
 			break;
 	}
 	spherical2Cartesian();
