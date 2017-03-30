@@ -1,2 +1,2 @@
 # Gerador-Open-GL
-Primeiro trabalho pratico de CG em Visual Studio (Open GL)
+Primeiro trabalho pratico de Computação Gráfica em c++ (Open GL)
