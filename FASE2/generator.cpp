@@ -15,6 +15,8 @@ void cylinder(float radius, float height, int slices, int stacks, char *ficheiro
 void ring(float innerRadius, float outerRadius, int sl, char *ficheiro);
 void drawAsteroid(float x, float y, float z, FILE *op);
 void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro);
+void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro);
+void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
 
 
 
@@ -39,6 +41,8 @@ int main(int argc, char **argv) {
 		 	ring(atof(argv[2]), atof(argv[3]), atoi(argv[4]),argv[5]);
 	else if(strcmp(argv[1],  "asteroid") == 0)
 			asteroid(atof(argv[2]), atof(argv[3]), atoi(argv[4]), argv[5]);
+	else if(strcmp(argv[1],  "satelites")==0)
+			satelites(atof(argv[2]),atof(argv[3]),atoi(argv[4]),atof(argv[5]),atof(argv[6]),argv[7]);
 	else printf("Not suported yet!");
 
 	return 1;
@@ -335,46 +339,90 @@ void ring (float innerRadius, float outerRadius, int sl, char *ficheiro){
 }
 
 void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro) {
-	int seed = 1;
+	int seed = 123456789;
 	srand(seed);
 	FILE *op = fopen(ficheiro, "w+");
-	float alpha = 2*M_PI/num;
-	int random;
-
+	float alpha,beta;
+	float random;
 	for(int i = 0; i < num; i++){
-		seed++;
-
-		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 2;
-		if(random != 0) drawAsteroid(random * innerRadius*sin(alpha*(i)), random, random * innerRadius*cos(alpha*(i)), op);
-		else num++;
-
-		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 2;
-		if(random != 0) drawAsteroid(random * outerRadius*sin(alpha*(i)), random, random * outerRadius*cos(alpha*(i)), op);
-		else num++;
-
-		random = rand() % ((int) outerRadius - (int) innerRadius);
-		random /= 2;
-		if(random != 0) drawAsteroid(random * innerRadius*sin(alpha*(i+1)), random, random * innerRadius*cos(alpha*(i+1)), op);
-		else num++;
+		random = (float)rand()/(float)RAND_MAX*(outerRadius-innerRadius)+innerRadius;
+		float alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
+		if(random != 0)
+			drawAsteroid(random*cos(alpha),0,random*sin(alpha),op);
 	}
 	fclose(op);
 }
 
 void drawAsteroid(float x, float y, float z, FILE *op) {
-	int sl = 4 + rand() % 20;
-	int st = 4 + rand() % 20;
+	int sl = 10;
+	int st = 10;
 	int stacks = st;
 	int slices = sl;
-	int r = rand() % 5 + 1;
+	float r;
 	//ângulo das stacks
 	float angst=M_PI/st;
 	//ângulo das slices
+	r = (float)rand()/(float)RAND_MAX *(0.02-0.01) + 0.01;
 	float angsl=2*M_PI/sl;
 	for (st=0;st<stacks/2;st++){
 		for(sl = 0; sl<slices; sl++){
 			//face superior
+			
+
+			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
+
+			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin((sl+1)*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos((sl+1)*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
+
+			//face inferior
+			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
+
+			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin((sl+1)*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos((sl+1)*angsl));
+		}
+	}
+}
+
+void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro) {
+	int seed = 123456789;
+	srand(seed);
+	FILE *op = fopen(ficheiro, "w+");
+	float alpha,beta;
+	int random;
+	for(int i = 0; i < num; i++){
+		random = rand() % ((int) outerRadius - (int) innerRadius)+innerRadius;
+		float alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
+		float beta = (float) rand() / (float)RAND_MAX * 2*M_PI;
+
+
+		if(random != 0)
+			drawSatelite(random*cos(alpha)*sin(beta),random*sin(alpha),random*cos(alpha)*cos(beta),max,min,op);
+	}
+	fclose(op);
+}
+
+void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
+	int sl = 6;
+	int st = 6;
+	int stacks = st;
+	int slices = sl;
+	float r;
+	//ângulo das stacks
+	float angst=M_PI/st;
+	//ângulo das slices
+	r = (float)rand()/(float)RAND_MAX *(max-min) + min;
+	float angsl=2*M_PI/sl;
+	for (st=0;st<stacks/2;st++){
+		for(sl = 0; sl<slices; sl++){
+			//face superior
+			
+
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
