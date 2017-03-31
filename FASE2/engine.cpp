@@ -13,10 +13,6 @@
 using namespace tinyxml2;
 
 
-void spherical2Cartesian();
-void movement_handler(int x, int y);
-void mouse_handler(int button, int state, int x, int y);
-
 /**
 *		Global variables used to store program data, rotations, translations, view
 *	mode, mouse coords, colors, some variables used throughout the code, and
@@ -71,6 +67,9 @@ void renderFigures(void);
 void changeSize(int w, int h);
 void special_key_handler(int key, int x, int y);
 void normal_key_handler(unsigned char c, int x, int y);
+void movement_handler(int x, int y);
+void mouse_handler(int button, int state, int x, int y);
+void spherical2Cartesian();
 
 
 

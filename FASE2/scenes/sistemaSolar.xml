@@ -24,12 +24,12 @@
 			<color R="150" G="150" B="150"/>
 			<scale X="2" Y="2" Z="1"/>
 			<model file="objects/orbital.3d"/>
-			<group><!--Vénus-->
-				<scale X="0.836" Y="0.836" Z="0.836"/>
-				<model file="objects/orbital.3d"/>
-			</group>
 			<group><!--Mercurio-->
 				<scale X="0.66" Y="0.66" Z="0.66"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Vénus-->
+				<scale X="0.836" Y="0.836" Z="0.836"/>
 				<model file="objects/orbital.3d"/>
 			</group>
 			<group><!--Marte-->
