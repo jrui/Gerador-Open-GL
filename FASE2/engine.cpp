@@ -525,12 +525,12 @@ void special_key_handler(int key, int x, int y) {
 		case GLUT_KEY_UP:
 			axisZ += 10 * cos(angX) * cos(angY);
 			axisX += 10 * sin(angX) * cos(angY);
-			axisY += 10 * sin(angY);
+			axisY += 10 * sin(angY) * cos(angY);
 			break;
 		case GLUT_KEY_DOWN:
-			axisZ -= 10 * cos(angX) * sin(angY);
+			axisZ -= 10 * cos(angX) * cos(angY);
 			axisX -= 10 * sin(angX) * cos(angY);
-			axisY -= 10 * sin(angY);
+			axisY -= 10 * sin(angY) * cos(angY);
 			break;
 		case GLUT_KEY_LEFT:
 			axisX += 5 * cos(angX) * cos(angY);
