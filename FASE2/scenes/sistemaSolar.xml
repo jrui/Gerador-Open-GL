@@ -84,7 +84,7 @@
 		<group>
 			<color R="192" G="192" B="192"/>
 			<model file="objects/luasJ.3d"/>
-		</group>	
+		</group>
 	</group>
 	<group><!--Saturno-->
 		<color R="125" G="133" B="68"/>

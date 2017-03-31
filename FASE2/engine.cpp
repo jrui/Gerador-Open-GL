@@ -29,7 +29,6 @@ char view_mode;
 int x_pos = 0, y_pos = 0;
 bool click = false;
 float x,y,z;
-int r,g,b;
 
 
 
@@ -92,39 +91,39 @@ void spherical2Cartesian();
 *								as occured
 */
 int main(int argc, char **argv) {
-	vert_rot = hori_rot = 0.0f;
-	view_mode = 'l';
-	x_pos = y_pos = 400;
+ vert_rot = hori_rot = 0.0f;
+ view_mode = 'l';
+ x_pos = y_pos = 400;
 
-	if(argc < 2) {
-		printf("Invalid Input!\n");
-		return -1;
-	}
+ if(argc < 2) {
+	 printf("Invalid Input!\n");
+	 return -1;
+ }
 
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
-	glutCreateWindow("Rendering scene");
+ glutInit(&argc, argv);
+ glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
+ glutInitWindowPosition(100,100);
+ glutInitWindowSize(800,800);
+ glutCreateWindow("Rendering scene");
 
-	glutDisplayFunc(renderScene);
-	glutReshapeFunc(changeSize);
+ glutDisplayFunc(renderScene);
+ glutReshapeFunc(changeSize);
 
-	glutSpecialFunc(special_key_handler);
-	glutKeyboardFunc(normal_key_handler);
-	glutMouseFunc(mouse_handler);
-	glutMotionFunc(movement_handler);
+ glutSpecialFunc(special_key_handler);
+ glutKeyboardFunc(normal_key_handler);
+ glutMouseFunc(mouse_handler);
+ glutMotionFunc(movement_handler);
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+ glEnable(GL_DEPTH_TEST);
+ glEnable(GL_CULL_FACE);
 
-	spherical2Cartesian();
+ spherical2Cartesian();
 
-	int exitCode = processXML(argv[1]);
-	if(exitCode < 0) return -1;
-	glutMainLoop();
+ int exitCode = processXML(argv[1]);
+ if(exitCode < 0) return -1;
+ glutMainLoop();
 
-	return 1;
+ return 1;
 }
 
 
@@ -134,11 +133,12 @@ int main(int argc, char **argv) {
 *
 */
 void color(XMLElement* element2) {
-	if(!(r = element2->IntAttribute("R"))) r = r%256;
-	if(!(g = element2->IntAttribute("G"))) g = g%256;
-	if(!(b = element2->IntAttribute("B"))) b = b%256;
-	Transformacao* tf = new Color(r,g,b);
-	transformacoes.push_back(tf);
+ int r=0, g=0, b=0;
+ if(!(r = element2->IntAttribute("R"))) r = r%256;
+ if(!(g = element2->IntAttribute("G"))) g = g%256;
+ if(!(b = element2->IntAttribute("B"))) b = b%256;
+ Transformacao* tf = new Color(r,g,b);
+ transformacoes.push_back(tf);
 }
 
 
@@ -148,11 +148,11 @@ void color(XMLElement* element2) {
 *
 */
 void translate(XMLElement* element2) {
-	if(!(x = element2->FloatAttribute("X"))) x=0;
-	if(!(y = element2->FloatAttribute("Y"))) y=0;
-	if(!(z = element2->FloatAttribute("Z"))) z=0;
-	Transformacao* tf = new Translate(x,y,z);
-	transformacoes.push_back(tf);
+ if(!(x = element2->FloatAttribute("X"))) x=0;
+ if(!(y = element2->FloatAttribute("Y"))) y=0;
+ if(!(z = element2->FloatAttribute("Z"))) z=0;
+ Transformacao* tf = new Translate(x,y,z);
+ transformacoes.push_back(tf);
 }
 
 
@@ -162,13 +162,13 @@ void translate(XMLElement* element2) {
 *
 */
 void rotate(XMLElement* element2) {
-	float ang;
-	if(!(x = element2->FloatAttribute("X"))) x=0;
-	if(!(y = element2->FloatAttribute("Y"))) y=0;
-	if(!(z = element2->FloatAttribute("Z"))) z=0;
-	if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
-	Transformacao* tf = new Rotate(ang,x,y,z);
-	transformacoes.push_back(tf);
+ float ang;
+ if(!(x = element2->FloatAttribute("X"))) x=0;
+ if(!(y = element2->FloatAttribute("Y"))) y=0;
+ if(!(z = element2->FloatAttribute("Z"))) z=0;
+ if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
+ Transformacao* tf = new Rotate(ang,x,y,z);
+ transformacoes.push_back(tf);
 }
 
 
@@ -178,11 +178,11 @@ void rotate(XMLElement* element2) {
 *
 */
 void scale(XMLElement* element2) {
-	if(!(x = element2->FloatAttribute("X"))) x=0;
-	if(!(y = element2->FloatAttribute("Y"))) y=0;
-	if(!(z = element2->FloatAttribute("Z"))) z=0;
-	Transformacao* tf = new Scale(x,y,z);
-	transformacoes.push_back(tf);
+ if(!(x = element2->FloatAttribute("X"))) x=1;
+ if(!(y = element2->FloatAttribute("Y"))) y=1;
+ if(!(z = element2->FloatAttribute("Z"))) z=1;
+ Transformacao* tf = new Scale(x,y,z);
+ transformacoes.push_back(tf);
 }
 
 
@@ -192,21 +192,21 @@ void scale(XMLElement* element2) {
 *
 */
 void model(XMLElement* element2) {
-	XMLElement* tftemp = element2;
-	char* nome;
-	std::vector<float> vc;
-	while(tftemp != NULL) {
-		nome = strdup((char*) tftemp->Attribute("file"));
-		vc = open3dModel(nome);
-		if(vc.size() == 0) {
-			printf("Error opening %s!\n", nome);
-			return;
-		}
-		printf("Opened %s successfully.\n", nome);
-		Transformacao* tf = new Model(vc);
-		transformacoes.push_back(tf);
-		tftemp = tftemp->NextSiblingElement("model");
-	}
+ XMLElement* tftemp = element2;
+ char* nome;
+ std::vector<float> vc;
+ while(tftemp != NULL) {
+	 nome = strdup((char*) tftemp->Attribute("file"));
+	 vc = open3dModel(nome);
+	 if(vc.size() == 0) {
+		 printf("Error opening %s!\n", nome);
+		 return;
+	 }
+	 printf("Opened %s successfully.\n", nome);
+	 Transformacao* tf = new Model(vc);
+	 transformacoes.push_back(tf);
+	 tftemp = tftemp->NextSiblingElement("model");
+ }
 }
 
 
@@ -216,8 +216,8 @@ void model(XMLElement* element2) {
 *
 */
 void popMatrix() {
-	Transformacao* tf = new PopMatrix();
-	transformacoes.push_back(tf);
+ Transformacao* tf = new PopMatrix();
+ transformacoes.push_back(tf);
 }
 
 
@@ -227,8 +227,8 @@ void popMatrix() {
 *
 */
 void pushMatrix() {
-	Transformacao* tf = new PushMatrix();
-	transformacoes.push_back(tf);
+ Transformacao* tf = new PushMatrix();
+ transformacoes.push_back(tf);
 }
 
 
@@ -238,30 +238,30 @@ void pushMatrix() {
 *
 */
 int parserXML(XMLElement* pListElement) {
-	XMLElement* element2;
-	XMLElement* tempEl;
+ XMLElement* element2;
+ XMLElement* tempEl;
 
-	if(pListElement != NULL) {
-		pushMatrix();
-		element2 = pListElement->FirstChildElement("color");
-		if(element2!=NULL) color(element2);
-		element2 = pListElement->FirstChildElement("translate");
-		if(element2!=NULL) translate(element2);
-		element2 = pListElement->FirstChildElement("rotate");
-		if(element2!=NULL) rotate(element2);
-		element2 = pListElement->FirstChildElement("scale");
-		if(element2!=NULL) scale(element2);
-		element2 = pListElement->FirstChildElement("model");
-		if(element2!=NULL) model(element2);
-		tempEl = pListElement->FirstChildElement("group");
-		if(tempEl != NULL) parserXML(tempEl);
+ if(pListElement != NULL) {
+	 pushMatrix();
+	 element2 = pListElement->FirstChildElement("color");
+	 if(element2!=NULL) color(element2);
+	 element2 = pListElement->FirstChildElement("translate");
+	 if(element2!=NULL) translate(element2);
+	 element2 = pListElement->FirstChildElement("rotate");
+	 if(element2!=NULL) rotate(element2);
+	 element2 = pListElement->FirstChildElement("scale");
+	 if(element2!=NULL) scale(element2);
+	 element2 = pListElement->FirstChildElement("model");
+	 if(element2!=NULL) model(element2);
+	 tempEl = pListElement->FirstChildElement("group");
+	 if(tempEl != NULL) parserXML(tempEl);
 
-		popMatrix();
+	 popMatrix();
 
-		tempEl = pListElement->NextSiblingElement("group");
-		if(tempEl != NULL) parserXML(tempEl);
-	}
-	return 1;
+	 tempEl = pListElement->NextSiblingElement("group");
+	 if(tempEl != NULL) parserXML(tempEl);
+ }
+ return 1;
 }
 
 
@@ -280,17 +280,17 @@ int parserXML(XMLElement* pListElement) {
 * @return int - Integer associated to an errorCode
 */
 int processXML(char* file) {
-	XMLDocument xmlDoc;
-	XMLNode *root;
-	XMLElement *pListElement;
-	if(xmlDoc.LoadFile(file) != XML_SUCCESS) {
-		printf("Error loading %s.\n", file);
-		return -1;
-	}
-	root = xmlDoc.FirstChildElement("scene");
-	pListElement = root -> FirstChildElement("group");
-	parserXML(pListElement);
-	return XML_SUCCESS;
+ XMLDocument xmlDoc;
+ XMLNode *root;
+ XMLElement *pListElement;
+ if(xmlDoc.LoadFile(file) != XML_SUCCESS) {
+	 printf("Error loading %s.\n", file);
+	 return -1;
+ }
+ root = xmlDoc.FirstChildElement("scene");
+ pListElement = root -> FirstChildElement("group");
+ parserXML(pListElement);
+ return XML_SUCCESS;
 }
 
 
@@ -308,22 +308,22 @@ int processXML(char* file) {
 * @return vector - Vector containing the coordinates os every object.
 */
 std::vector<float> open3dModel(const char* tok) {
-	FILE *f_3d;
-	std::vector<float> vc;
-	f_3d = fopen(tok, "r+");
-	if (f_3d < 0) return vc;
+ FILE *f_3d;
+ std::vector<float> vc;
+ f_3d = fopen(tok, "r+");
+ if (f_3d < 0) return vc;
 
-	char *s1, *s2, *s3;
-	s1 = (char*) malloc(sizeof(char) * 64);
-	s2 = (char*) malloc(sizeof(char) * 64);
-	s3 = (char*) malloc(sizeof(char) * 64);
-	while(fscanf(f_3d, "%s %s %s", s1, s2, s3) != EOF) {
-		vc.push_back(atof(s1));
-		vc.push_back(atof(s2));
-		vc.push_back(atof(s3));
-	}
-	fclose(f_3d);
-	return vc;
+ char *s1, *s2, *s3;
+ s1 = (char*) malloc(sizeof(char) * 64);
+ s2 = (char*) malloc(sizeof(char) * 64);
+ s3 = (char*) malloc(sizeof(char) * 64);
+ while(fscanf(f_3d, "%s %s %s", s1, s2, s3) != EOF) {
+	 vc.push_back(atof(s1));
+	 vc.push_back(atof(s2));
+	 vc.push_back(atof(s3));
+ }
+ fclose(f_3d);
+ return vc;
 }
 
 
@@ -343,26 +343,26 @@ std::vector<float> open3dModel(const char* tok) {
 * @return void
 */
 void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glLoadIdentity();
-	gluLookAt(camX, camY, camZ,
-		      	0.0f, 0.0f, 0.0f,
-			  		0.0f, 1.0f, 0.0f);
+ glLoadIdentity();
+ gluLookAt(camX, camY, camZ,
+					 0.0f, 0.0f, 0.0f,
+					 0.0f, 1.0f, 0.0f);
 
-	glTranslatef(vert_trans, 0, hori_trans);
-	glRotatef(vert_rot, 1, 0, 0);
-	glRotatef(hori_rot, 0, 1, 0);
+ glTranslatef(vert_trans, 0, hori_trans);
+ glRotatef(vert_rot, 1, 0, 0);
+ glRotatef(hori_rot, 0, 1, 0);
 
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
-					              		view_mode == 'l' ? GL_LINE :
-															GL_POINT);
-	renderFigures();
+ glEnable(GL_CULL_FACE);
+ glCullFace(GL_BACK);
+ glFrontFace(GL_CCW);
+ glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
+													 view_mode == 'l' ? GL_LINE :
+														 GL_POINT);
+ renderFigures();
 
-	glutSwapBuffers();
+ glutSwapBuffers();
 }
 
 
@@ -380,14 +380,14 @@ void renderScene(void) {
 * @return void
 */
 void renderFigures() {
-	int color;
-	std::vector<float> vc;
-	Transformacao* tftemp;
-	glLineWidth(1.0f);
-	for(int i = 0; i < transformacoes.size(); i++) {
-		tftemp = transformacoes.at(i);
-		tftemp->transformar();
-	}
+ int color;
+ std::vector<float> vc;
+ Transformacao* tftemp;
+ glLineWidth(1.0f);
+ for(int i = 0; i < transformacoes.size(); i++) {
+	 tftemp = transformacoes.at(i);
+	 tftemp->transformar();
+ }
 }
 
 
@@ -404,21 +404,21 @@ void renderFigures() {
 * @return void
 */
 void changeSize(int w, int h) {
-	// Prevent a divide by zero, when window is too short
-	// (you cant make a window with zero width).
-	if(h == 0) h = 1;
-	// compute window's aspect ratio
-	float ratio = w * 1.0 / h;
-	// Set the projection matrix as current
-	glMatrixMode(GL_PROJECTION);
-	// Load Identity Matrix
-	glLoadIdentity();
-	// Set the viewport to be the entire window
-  glViewport(0, 0, w, h);
-	// Set perspective
-	gluPerspective(45.0f ,ratio, 1.0f ,50000.0f);
-	// return to the model view matrix mode
-	glMatrixMode(GL_MODELVIEW);
+ // Prevent a divide by zero, when window is too short
+ // (you cant make a window with zero width).
+ if(h == 0) h = 1;
+ // compute window's aspect ratio
+ float ratio = w * 1.0 / h;
+ // Set the projection matrix as current
+ glMatrixMode(GL_PROJECTION);
+ // Load Identity Matrix
+ glLoadIdentity();
+ // Set the viewport to be the entire window
+ glViewport(0, 0, w, h);
+ // Set perspective
+ gluPerspective(45.0f ,ratio, 1.0f ,50000.0f);
+ // return to the model view matrix mode
+ glMatrixMode(GL_MODELVIEW);
 }
 
 
@@ -432,9 +432,9 @@ void changeSize(int w, int h) {
 * @return void
 */
 void spherical2Cartesian() {
-	camX = radius * cos(beta) * sin(alfa);
-	camY = radius * sin(beta);
-	camZ = radius * cos(beta) * cos(alfa);
+ camX = radius * cos(beta) * sin(alfa);
+ camY = radius * sin(beta);
+ camZ = radius * cos(beta) * cos(alfa);
 }
 
 
@@ -453,15 +453,15 @@ void spherical2Cartesian() {
 * @return void
 */
 void movement_handler(int x, int y) {
-	if (click) {
-		hori_rot -= (x_pos - x) / 2;
-		vert_rot -= (y_pos - y) / 2;
-		x_pos = x;
-		y_pos = y;
+ if (click) {
+	 hori_rot -= (x_pos - x) / 2;
+	 vert_rot -= (y_pos - y) / 2;
+	 x_pos = x;
+	 y_pos = y;
 
-		//Re-render
-		glutPostRedisplay();
-	}
+	 //Re-render
+	 glutPostRedisplay();
+ }
 }
 
 
@@ -482,14 +482,14 @@ void movement_handler(int x, int y) {
 * @return void
 */
 void mouse_handler(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			click = true;
-			x_pos = x;
-			y_pos = y;
-		}
-		if (state == GLUT_UP) click = false;
-	}
+ if (button == GLUT_LEFT_BUTTON) {
+	 if (state == GLUT_DOWN) {
+		 click = true;
+		 x_pos = x;
+		 y_pos = y;
+	 }
+	 if (state == GLUT_UP) click = false;
+ }
 }
 
 
@@ -508,28 +508,29 @@ void mouse_handler(int button, int state, int x, int y) {
 * @return void
 */
 void special_key_handler(int key, int x, int y) {
-	switch(key) {
-		case GLUT_KEY_PAGE_DOWN:
-			radius -= 20.0f;
-			break;
-		case GLUT_KEY_PAGE_UP:
-			radius += 20.0f;
-			break;
-		case GLUT_KEY_UP:
-			hori_trans += 20.0f;
-			break;
-		case GLUT_KEY_DOWN:
-			hori_trans -= 20.0f;
-			break;
-		case GLUT_KEY_RIGHT:
-			vert_trans -= 20.0f;
-			break;
-		case GLUT_KEY_LEFT:
-			vert_trans += 20.0f;
-			break;
-	}
-	spherical2Cartesian();
-	glutPostRedisplay();
+ switch(key) {
+	 case GLUT_KEY_PAGE_DOWN:
+		 radius -= 20.0f;
+		 if (radius < 250.0f) radius = 250.0f;
+		 break;
+	 case GLUT_KEY_PAGE_UP:
+		 radius += 20.0f;
+		 break;
+	 case GLUT_KEY_UP:
+		 hori_trans += 20.0f;
+		 break;
+	 case GLUT_KEY_DOWN:
+		 hori_trans -= 20.0f;
+		 break;
+	 case GLUT_KEY_RIGHT:
+		 vert_trans -= 20.0f;
+		 break;
+	 case GLUT_KEY_LEFT:
+		 vert_trans += 20.0f;
+		 break;
+ }
+ spherical2Cartesian();
+ glutPostRedisplay();
 }
 
 
@@ -550,22 +551,22 @@ void special_key_handler(int key, int x, int y) {
 * @return void
 */
 void normal_key_handler(unsigned char c, int x, int y) {
-	switch (c) {
-		case 'f':
-		case 'F':
-			view_mode = 'f';
-			break;
-		case 'l':
-		case 'L':
-			view_mode = 'l';
-			break;
-		case 'p':
-		case 'P':
-			view_mode = 'p';
-			break;
-		default: break;
-	}
+ switch (c) {
+	 case 'f':
+	 case 'F':
+		 view_mode = 'f';
+		 break;
+	 case 'l':
+	 case 'L':
+		 view_mode = 'l';
+		 break;
+	 case 'p':
+	 case 'P':
+		 view_mode = 'p';
+		 break;
+	 default: break;
+ }
 
-	//Re-render
-	glutPostRedisplay();
+ //Re-render
+ glutPostRedisplay();
 }
