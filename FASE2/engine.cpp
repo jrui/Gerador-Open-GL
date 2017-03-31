@@ -13,7 +13,9 @@
 using namespace tinyxml2;
 
 
-
+void spherical2Cartesian();
+void movement_handler(int x, int y);
+void mouse_handler(int button, int state, int x, int y);
 
 /**
 *		Global variables used to store program data, rotations, translations, view
@@ -22,11 +24,22 @@ using namespace tinyxml2;
 *		We will get into more details when we get to the functions that alter this
 * values.
 */
+/*
 float angX, angY;
 float axisX = 0, axisY = 0, axisZ = 0;
 char view_mode;
 float x, y, z;
-int r, g, b;
+int r, g, b;*/
+float alfa = 0.0f, beta = 0.5f, radius = 5000.0f;
+float camX, camY, camZ;
+float rotation = 0.0f;
+float vert_rot, hori_rot;
+float vert_trans = 0.0f, hori_trans = 0.0f;
+char view_mode;
+int x_pos = 0, y_pos = 0;
+bool click = false;
+float x,y,z;
+int r,g,b;
 
 
 
@@ -85,6 +98,7 @@ void normal_key_handler(unsigned char c, int x, int y);
 * @return int - Integer that serves as last resource to indicate if an error
 *								as occured
 */
+/*
 int main(int argc, char **argv) {
 	view_mode = 'l';
 
@@ -107,6 +121,41 @@ int main(int argc, char **argv) {
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+
+	int exitCode = processXML(argv[1]);
+	if(exitCode < 0) return -1;
+	glutMainLoop();
+
+	return 1;
+}*/
+int main(int argc, char **argv) {
+	vert_rot = hori_rot = 0.0f;
+	view_mode = 'l';
+	x_pos = y_pos = 400;
+
+	if(argc < 2) {
+		printf("Invalid Input!\n");
+		return -1;
+	}
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
+	glutInitWindowPosition(100,100);
+	glutInitWindowSize(800,800);
+	glutCreateWindow("Rendering scene");
+
+	glutDisplayFunc(renderScene);
+	glutReshapeFunc(changeSize);
+
+	glutSpecialFunc(special_key_handler);
+	glutKeyboardFunc(normal_key_handler);
+	glutMouseFunc(mouse_handler);
+	glutMotionFunc(movement_handler);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+	spherical2Cartesian();
 
 	int exitCode = processXML(argv[1]);
 	if(exitCode < 0) return -1;
@@ -330,6 +379,7 @@ std::vector<float> open3dModel(const char* tok) {
 *	@param void
 * @return void
 */
+/*
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -348,6 +398,54 @@ void renderScene(void) {
 	renderFigures();
 
 	glutSwapBuffers();
+}*/
+void renderScene(void) {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glLoadIdentity();
+	gluLookAt(camX, camY, camZ,
+		      	0.0f, 0.0f, 0.0f,
+			  		0.0f, 1.0f, 0.0f);
+
+	glTranslatef(vert_trans, 0, hori_trans);
+	glRotatef(vert_rot, 1, 0, 0);
+	glRotatef(hori_rot, 0, 1, 0);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+	glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
+					              		view_mode == 'l' ? GL_LINE :
+															GL_POINT);
+	renderFigures();
+
+	glutSwapBuffers();
+}
+void spherical2Cartesian() {
+	camX = radius * cos(beta) * sin(alfa);
+	camY = radius * sin(beta);
+	camZ = radius * cos(beta) * cos(alfa);
+}
+void movement_handler(int x, int y) {
+	if (click) {
+		hori_rot -= (x_pos - x) / 2;
+		vert_rot -= (y_pos - y) / 2;
+		x_pos = x;
+		y_pos = y;
+
+		//Re-render
+		glutPostRedisplay();
+	}
+}
+void mouse_handler(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON) {
+		if (state == GLUT_DOWN) {
+			click = true;
+			x_pos = x;
+			y_pos = y;
+		}
+		if (state == GLUT_UP) click = false;
+	}
 }
 
 
@@ -421,6 +519,7 @@ void changeSize(int w, int h) {
 * @param y - Integer representing the mouse y position
 * @return void
 */
+/*
 void special_key_handler(int key, int x, int y) {
 	switch(key){
 		case GLUT_KEY_UP:
@@ -443,6 +542,31 @@ void special_key_handler(int key, int x, int y) {
 			break;
 	}
 	glutPostRedisplay();
+}*/
+void special_key_handler(int key, int x, int y) {
+	switch(key) {
+		case GLUT_KEY_PAGE_DOWN:
+			radius -= 20.0f;
+			if (radius < 250.0f) radius = 250.0f;
+			break;
+		case GLUT_KEY_PAGE_UP:
+			radius += 20.0f;
+			break;
+		case GLUT_KEY_UP:
+			hori_trans += 20.0f;
+			break;
+		case GLUT_KEY_DOWN:
+			hori_trans -= 20.0f;
+			break;
+		case GLUT_KEY_RIGHT:
+			vert_trans -= 20.0f;
+			break;
+		case GLUT_KEY_LEFT:
+			vert_trans += 20.0f;
+			break;
+	}
+	spherical2Cartesian();
+	glutPostRedisplay();
 }
 
 
@@ -462,7 +586,7 @@ void special_key_handler(int key, int x, int y) {
 * @param y - Integer representing the mouse y position
 * @return void
 */
-void normal_key_handler(unsigned char c, int x, int y) {
+/*void normal_key_handler(unsigned char c, int x, int y) {
 	switch(c) {
 		case 'f':
 		case 'F':
@@ -492,6 +616,26 @@ void normal_key_handler(unsigned char c, int x, int y) {
 		case 's':
 			angY -= 0.1;
 			break;
+	}
+
+	//Re-render
+	glutPostRedisplay();
+}*/
+void normal_key_handler(unsigned char c, int x, int y) {
+	switch (c) {
+		case 'f':
+		case 'F':
+			view_mode = 'f';
+			break;
+		case 'l':
+		case 'L':
+			view_mode = 'l';
+			break;
+		case 'p':
+		case 'P':
+			view_mode = 'p';
+			break;
+		default: break;
 	}
 
 	//Re-render

@@ -1,7 +1,8 @@
 <scene>
 	<group><!--Terra-->
+		<scale X="4" Y="4" Z="4"/>
 		<color R="0" G="0" B="255"/>
-		<translate Z="30"/>
+		<translate Z="1530"/>
 		<model file="objects/sphere.3d"/>
 		<group><!--Lua-->
 			<color R="192" G="192" B="192"/>
@@ -9,65 +10,112 @@
 			<scale X="0.2724" Y="0.2724" Z="0.2724"/>
 			<model file="objects/sphere.3d"/>
 		</group>
-		<group><!--Sol-->
-			<color R="255" G="255" B="0"/>
-			<translate Z="-1500"/>
-			<scale X="110" Y="110" Z="110"/>
-			<model file="objects/sol.3d"/>
-			<group>
-				<scale X="2" Y="2" Z="1"/>
-				<model file="objects/asteroid.3d"/>
+	</group>
+	<group><!--Sol-->
+		<color R="255" G="255" B="0"/>
+		<scale X="110" Y="110" Z="110"/>
+		<model file="objects/sol.3d"/>
+		<group>
+			<scale X="2" Y="2" Z="1"/>
+			<color R="139" G="69" B="19"/>
+			<model file="objects/asteroid.3d"/>
+		</group>
+		<group><!--Terra-->
+			<color R="150" G="150" B="150"/>
+			<scale X="2" Y="2" Z="1"/>
+			<model file="objects/orbital.3d"/>
+			<group><!--Vénus-->
+				<scale X="0.836" Y="0.836" Z="0.836"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Mercurio-->
+				<scale X="0.66" Y="0.66" Z="0.66"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Marte-->
+				<scale X="1.255" Y="1.255" Z="1.255"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Jupiter-->
+				<scale X="1.7" Y="1.7" Z="1.7"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Saturno-->
+				<scale X="2.3" Y="2.3" Z="2.3"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Urano-->
+				<scale X="2.95" Y="2.95" Z="2.95"/>
+				<model file="objects/orbital.3d"/>
+			</group>
+			<group><!--Neptuno-->
+				<scale X="3.6" Y="3.6" Z="3.6"/>
+				<model file="objects/orbital.3d"/>
 			</group>
 		</group>
-		<group><!--Mercúrio-->
-			<color R="255" G="0" B="0"/>
-			<translate Z="-490"/>
-			<scale X="0.382" Y="0.382" Z="0.382"/>
-			<model file="objects/sphere.3d"/>
-		</group>
-		<group><!--Vénus-->
-			<color R="255" G="100" B="0"/>
-			<translate Z="-221"/>
-			<scale X="0.949" Y="0.949" Z="0.949"/>
-			<model file="objects/sphere.3d"/>
-		</group>
-		<group><!--Marte-->
-			<translate Z="418"/>
-			<color R="255" G="0" B="100"/>
-			<scale X="0.532" Y="0.532" Z="0.532"/>
-			<model file="objects/gasosos.3d"/>
+	</group>
+	<group><!--Mercúrio-->
+		<color R="125" G="103" B="68"/>
+		<translate Z="1010"/>
+		<scale X="1.528" Y="1.528" Z="1.528"/>
+		<model file="objects/sphere.3d"/>
+	</group>
+	<group><!--Vénus-->
+		<color R="255" G="100" B="0"/>
+		<translate Z="1279"/>
+		<scale X="3.796" Y="3.796" Z="3.796"/>
+		<model file="objects/sphere.3d"/>
+	</group>
+	<group><!--Marte-->
+		<translate Z="1918"/>
+		<color R="255" G="50" B="50"/>
+		<scale X="2.128" Y="2.128" Z="2.128"/>
+		<model file="objects/gasosos.3d"/>
+		<group>
+			<color R="192" G="120" B="100"/>
 			<model file="objects/luasM.3d"/>
 		</group>
-		<group><!--Júpiter-->
-			<color R="255" G="128" B="0"/>
-			<scale X="11.209" Y="11.209" Z="11.209"/>
-			<translate Z="1119"/>
-			<model file="objects/gasosos.3d"/>
+	</group>
+	<group><!--Júpiter-->
+		<color R="255" G="80" B="30"/>
+		<scale X="11.209" Y="11.209" Z="11.209"/>
+		<translate Z="2619"/>
+		<model file="objects/gasosos.3d"/>
+		<group>
+			<color R="192" G="192" B="192"/>
 			<model file="objects/luasJ.3d"/>
+		</group>	</group>
+	<group><!--Saturno-->
+		<color R="125" G="133" B="68"/>
+		<translate Z="3515"/>
+		<scale X="9.449" Y="9.449" Z="9.449"/>
+		<model file="objects/gasosos.3d"/>
+		<group>
+			<scale X="1" Y="1" Z="3"/>
+			<color R="200" G="200" B="100"/>
+			<model file="objects/ring.3d" />
 		</group>
-		<group><!--Saturno-->
-			<color R="125" G="133" B="68"/>
-			<translate Z="2015"/>
-			<scale X="9.449" Y="9.449" Z="9.449"/>
-			<model file="objects/gasosos.3d"/>
-			<group>
-				<scale X="1" Y="1" Z="3"/>
-				<model file="objects/ring.3d" />
-			</group>
+		<group>
+			<color R="192" G="192" B="192"/>
 			<model file="objects/luasS.3d"/>
-		</group>
-		<group><!--Úrano-->
-			<color R="0" G="255" B="255"/>
-			<translate Z="3000"/>
-			<scale X="4.007" Y="4.007" Z="4.007"/>
-			<model file="objects/gasosos.3d"/>
+		</group>	</group>
+	<group><!--Úrano-->
+		<color R="0" G="255" B="255"/>
+		<translate Z="4500"/>
+		<scale X="8.007" Y="8.007" Z="8.007"/>
+		<model file="objects/gasosos.3d"/>
+		<group>
+			<color R="192" G="192" B="192"/>
 			<model file="objects/luasU.3d"/>
 		</group>
-		<group><!--Neptuno-->
-			<color R="255" G="255" B="100"/>
-			<translate Z="4000"/>
-			<scale X="3.883" Y="3.883" Z="3.883"/>
-			<model file="objects/gasosos.3d"/>
+	</group>
+	<group><!--Neptuno-->
+		<color R="55" G="55" B="200"/>
+		<translate Z="5500"/>
+		<scale X="6.883" Y="6.883" Z="6.883"/>
+		<model file="objects/gasosos.3d"/>
+		<group>
+			<color R="192" G="192" B="192"/>
 			<model file="objects/luasN.3d"/>
 		</group>
 	</group>
