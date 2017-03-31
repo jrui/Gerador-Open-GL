@@ -354,15 +354,15 @@ void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro) {
 }
 
 void drawAsteroid(float x, float y, float z, FILE *op) {
-	int sl = 10;
-	int st = 10;
+	int sl = (float) rand()/(float)RAND_MAX * 4 + 3;
+	int st = (float) rand()/(float)RAND_MAX * 4 + 3;
 	int stacks = st;
 	int slices = sl;
 	float r;
 	//ângulo das stacks
 	float angst=M_PI/st;
 	//ângulo das slices
-	r = (float)rand()/(float)RAND_MAX *(0.02-0.01) + 0.01;
+	r = (float)rand()/(float)RAND_MAX *(0.03-0.01) + 0.01;
 	float angsl=2*M_PI/sl;
 	for (st=0;st<stacks/2;st++){
 		for(sl = 0; sl<slices; sl++){
@@ -408,8 +408,8 @@ void satelites(float innerRadius,float outerRadius,int num,float max,float min,c
 }
 
 void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
-	int sl = 6;
-	int st = 6;
+	int sl = 10;
+	int st = 10;
 	int stacks = st;
 	int slices = sl;
 	float r;

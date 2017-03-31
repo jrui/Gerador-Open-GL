@@ -511,7 +511,6 @@ void special_key_handler(int key, int x, int y) {
 	switch(key) {
 		case GLUT_KEY_PAGE_DOWN:
 			radius -= 20.0f;
-			if (radius < 250.0f) radius = 250.0f;
 			break;
 		case GLUT_KEY_PAGE_UP:
 			radius += 20.0f;

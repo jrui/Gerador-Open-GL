@@ -33,7 +33,7 @@
 				<model file="objects/orbital.3d"/>
 			</group>
 			<group><!--Marte-->
-				<scale X="1.255" Y="1.255" Z="1.255"/>
+				<scale X="1.25" Y="1.25" Z="1.25"/>
 				<model file="objects/orbital.3d"/>
 			</group>
 			<group><!--Jupiter-->
@@ -45,11 +45,11 @@
 				<model file="objects/orbital.3d"/>
 			</group>
 			<group><!--Urano-->
-				<scale X="2.95" Y="2.95" Z="2.95"/>
+				<scale X="2.91" Y="2.91" Z="2.91"/>
 				<model file="objects/orbital.3d"/>
 			</group>
 			<group><!--Neptuno-->
-				<scale X="3.6" Y="3.6" Z="3.6"/>
+				<scale X="3.58" Y="3.58" Z="3.58"/>
 				<model file="objects/orbital.3d"/>
 			</group>
 		</group>
@@ -84,7 +84,8 @@
 		<group>
 			<color R="192" G="192" B="192"/>
 			<model file="objects/luasJ.3d"/>
-		</group>	</group>
+		</group>	
+	</group>
 	<group><!--Saturno-->
 		<color R="125" G="133" B="68"/>
 		<translate Z="3515"/>
