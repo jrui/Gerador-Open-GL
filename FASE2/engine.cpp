@@ -23,10 +23,10 @@ using namespace tinyxml2;
 float alfa = 0.0f, beta = 0.5f, radius = 5000.0f;
 float camX, camY, camZ;
 float rotation = 0.0f;
-float vert_rot, hori_rot;
+float vert_rot = 0.0f, hori_rot = 0.0f;
 float vert_trans = 0.0f, hori_trans = 0.0f;
-char view_mode;
-int x_pos = 0, y_pos = 0;
+char view_mode = 'l';
+int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
 
@@ -91,10 +91,6 @@ void spherical2Cartesian();
 *								as occured
 */
 int main(int argc, char **argv) {
- vert_rot = hori_rot = 0.0f;
- view_mode = 'l';
- x_pos = y_pos = 400;
-
  if(argc < 2) {
 	 printf("Invalid Input!\n");
 	 return -1;
@@ -511,7 +507,6 @@ void special_key_handler(int key, int x, int y) {
  switch(key) {
 	 case GLUT_KEY_PAGE_DOWN:
 		 radius -= 20.0f;
-		 if (radius < 250.0f) radius = 250.0f;
 		 break;
 	 case GLUT_KEY_PAGE_UP:
 		 radius += 20.0f;
@@ -564,7 +559,6 @@ void normal_key_handler(unsigned char c, int x, int y) {
 	 case 'P':
 		 view_mode = 'p';
 		 break;
-	 default: break;
  }
 
  //Re-render
