@@ -24,12 +24,6 @@ void mouse_handler(int button, int state, int x, int y);
 *		We will get into more details when we get to the functions that alter this
 * values.
 */
-/*
-float angX, angY;
-float axisX = 0, axisY = 0, axisZ = 0;
-char view_mode;
-float x, y, z;
-int r, g, b;*/
 float alfa = 0.0f, beta = 0.5f, radius = 5000.0f;
 float camX, camY, camZ;
 float rotation = 0.0f;
@@ -98,36 +92,6 @@ void normal_key_handler(unsigned char c, int x, int y);
 * @return int - Integer that serves as last resource to indicate if an error
 *								as occured
 */
-/*
-int main(int argc, char **argv) {
-	view_mode = 'l';
-
-	if(argc < 2) {
-		printf("Invalid Input!\n");
-		return -1;
-	}
-
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
-	glutInitWindowPosition(100,100);
-	glutInitWindowSize(800,800);
-	glutCreateWindow("Solar Sistem");
-
-	glutDisplayFunc(renderScene);
-	glutReshapeFunc(changeSize);
-
-	glutSpecialFunc(special_key_handler);
-	glutKeyboardFunc(normal_key_handler);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-
-	int exitCode = processXML(argv[1]);
-	if(exitCode < 0) return -1;
-	glutMainLoop();
-
-	return 1;
-}*/
 int main(int argc, char **argv) {
 	vert_rot = hori_rot = 0.0f;
 	view_mode = 'l';
@@ -379,26 +343,6 @@ std::vector<float> open3dModel(const char* tok) {
 *	@param void
 * @return void
 */
-/*
-void renderScene(void) {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	glLoadIdentity();
-
-	gluLookAt(axisX, axisY, axisZ,
-		        sin(angX)*5+axisX,axisY+angY,5*cos(angX)+axisZ,
-			      0.0f,1.0f,0.0f);
-
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
-					              		view_mode == 'l' ? GL_LINE :
-															GL_POINT);
-	renderFigures();
-
-	glutSwapBuffers();
-}*/
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -420,32 +364,6 @@ void renderScene(void) {
 	renderFigures();
 
 	glutSwapBuffers();
-}
-void spherical2Cartesian() {
-	camX = radius * cos(beta) * sin(alfa);
-	camY = radius * sin(beta);
-	camZ = radius * cos(beta) * cos(alfa);
-}
-void movement_handler(int x, int y) {
-	if (click) {
-		hori_rot -= (x_pos - x) / 2;
-		vert_rot -= (y_pos - y) / 2;
-		x_pos = x;
-		y_pos = y;
-
-		//Re-render
-		glutPostRedisplay();
-	}
-}
-void mouse_handler(int button, int state, int x, int y) {
-	if (button == GLUT_LEFT_BUTTON) {
-		if (state == GLUT_DOWN) {
-			click = true;
-			x_pos = x;
-			y_pos = y;
-		}
-		if (state == GLUT_UP) click = false;
-	}
 }
 
 
@@ -508,6 +426,77 @@ void changeSize(int w, int h) {
 
 
 /**
+* 	This function is invoked only when we need to convert the camera
+* coordinates to a cartesian format. It does so by setting new values
+* to the global variables representing the camera position.
+*
+* @return void
+*/
+void spherical2Cartesian() {
+	camX = radius * cos(beta) * sin(alfa);
+	camY = radius * sin(beta);
+	camZ = radius * cos(beta) * cos(alfa);
+}
+
+
+
+
+/**
+* 	This function is invoked only when mouse moves on screen. It receives
+*	two valus representing the current mouse position.
+*		The movement_handler function makes sure that we apply the correct
+*	rotation to the scene when we drag the mouse arrow, it updates the final
+* mouse position once it's done ajusting the rotation for the next render
+* invocation.
+*
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
+void movement_handler(int x, int y) {
+	if (click) {
+		hori_rot -= (x_pos - x) / 2;
+		vert_rot -= (y_pos - y) / 2;
+		x_pos = x;
+		y_pos = y;
+
+		//Re-render
+		glutPostRedisplay();
+	}
+}
+
+
+
+
+/**
+* 	This function is invoked only when mouse buttons are pressed. It receives
+*	an indicator of which key, and the state of it (Down meaning it's being pressed
+*	and Down meaning it's not).
+*		This function arranges with three variables, it sets the (click) variable
+*	either to true or false meaning that the mouse is or is not pressed. It also
+*	updates the coordenates of the mouse, so that we can track it's movement.
+*
+*	@param button - Integer representing the mouse button that is being pressed
+* @param state - Integer representation of Press value (GLUT_UP | GLUT_DOWN)
+* @param x - Integer representing the mouse x position
+* @param y - Integer representing the mouse y position
+* @return void
+*/
+void mouse_handler(int button, int state, int x, int y) {
+	if (button == GLUT_LEFT_BUTTON) {
+		if (state == GLUT_DOWN) {
+			click = true;
+			x_pos = x;
+			y_pos = y;
+		}
+		if (state == GLUT_UP) click = false;
+	}
+}
+
+
+
+
+/**
 * 	This function handles a special key press, changing the right variables
 *	to obtain the desired results.
 *		We use a global variable (radius) to assure thar the user can zoom in
@@ -519,30 +508,6 @@ void changeSize(int w, int h) {
 * @param y - Integer representing the mouse y position
 * @return void
 */
-/*
-void special_key_handler(int key, int x, int y) {
-	switch(key){
-		case GLUT_KEY_UP:
-			axisZ += 10 * cos(angX) * cos(angY);
-			axisX += 10 * sin(angX) * cos(angY);
-			axisY += 10 * sin(angY) * cos(angY);
-			break;
-		case GLUT_KEY_DOWN:
-			axisZ -= 10 * cos(angX) * cos(angY);
-			axisX -= 10 * sin(angX) * cos(angY);
-			axisY -= 10 * sin(angY) * cos(angY);
-			break;
-		case GLUT_KEY_LEFT:
-			axisX += 5 * cos(angX) * cos(angY);
-			axisZ -= 5 * sin(angX) * cos(angY);
-			break;
-		case GLUT_KEY_RIGHT:
-			axisX -= 5 * cos(angX) * cos(angY);
-			axisZ += 5 * sin(angX) * cos(angY);
-			break;
-	}
-	glutPostRedisplay();
-}*/
 void special_key_handler(int key, int x, int y) {
 	switch(key) {
 		case GLUT_KEY_PAGE_DOWN:
@@ -586,41 +551,6 @@ void special_key_handler(int key, int x, int y) {
 * @param y - Integer representing the mouse y position
 * @return void
 */
-/*void normal_key_handler(unsigned char c, int x, int y) {
-	switch(c) {
-		case 'f':
-		case 'F':
-			view_mode = 'f';
-			break;
-		case 'l':
-		case 'L':
-			view_mode = 'l';
-			break;
-		case 'p':
-		case 'P':
-			view_mode = 'p';
-			break;
-		case 'A':
-		case 'a':
-			angX += 0.1;
-			break;
-		case 'D':
-		case 'd':
-			angX -= 0.1;
-			break;
-		case 'W':
-		case 'w':
-			angY += 0.1;
-			break;
-		case 'S':
-		case 's':
-			angY -= 0.1;
-			break;
-	}
-
-	//Re-render
-	glutPostRedisplay();
-}*/
 void normal_key_handler(unsigned char c, int x, int y) {
 	switch (c) {
 		case 'f':
