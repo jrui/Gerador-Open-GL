@@ -1,0 +1,200 @@
+<scene>
+	<group>
+		<scale X="200" Y="200" Z="200"/>
+		<color R="255" G="255" B="255"/>
+		<translate Z="1530"/>
+		<model file="objects/sphere.3d"/>
+		<group><!--Lua-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="6.5"/>
+			<scale X="0.65" Y="0.65" Z="0.65"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group>
+			<color R="255" G="140" B="0"/>
+			<translate Y="7" Z="3"/>
+			<rotate angle="90" X="1"/>
+			<scale X="0.3" Y="0.3" Z="0.3"/>
+			<model file="objects/snowman_cone.3d"/>
+		</group>
+		<group><!--olho-->
+			<color R="0" G="0" B="0"/>
+			<translate Y="8" Z="2.2" X="1.5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--olho-->
+			<color R="0" G="0" B="0"/>
+			<translate Y="8" Z="2.2" X="-1.5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--pala-->
+			<color R="0" G="0" B="255"/>
+			<translate Y="9.2" Z="0" X="0"/>
+			<scale X="1" Y="0.01" Z="1"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--parte de cima do chapeu-->
+			<color R="0" G="" B="255"/>
+			<translate Y="10.5" Z="0" X="0"/>
+			<scale X="0.7" Y="0.3" Z="0.7"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--fita-->
+			<color R="255" G="" B="0"/>
+			<translate Y="10" Z="0" X="0"/>
+			<scale X="0.72" Y="0.08" Z="0.72"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--braço direito-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="2" Z="0" X="-5"/>
+			<rotate angle="45" Z="1"/>
+			<scale X="0.05" Y="1" Z="0.05"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--braço esquerda-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="2" Z="0" X="5"/>
+			<rotate angle="-45" Z="1"/>
+			<scale X="0.05" Y="1" Z="0.05"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--dedo 1 md-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="5.6" Z="0" X="-8.1"/>
+			<rotate angle="20" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--dedo 2 md-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="5.2" Z="0" X="-8.5"/>
+			<rotate angle="60" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--dedo 3 md-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="4.7" Z="0" X="-8.7"/>
+			<rotate angle="100" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--dedo 1 me-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="5.6" Z="0" X="8.1"/>
+			<rotate angle="-20" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--dedo 2 me-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="5.2" Z="0" X="8.5"/>
+			<rotate angle="-60" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--dedo 3 me-->
+			<color R="155" G="76" B="0"/>
+			<translate Y="4.7" Z="0" X="8.7"/>
+			<rotate angle="-100" Z="1"/>
+			<scale X="0.03" Y="0.2" Z="0.03"/>
+			<model file="objects/snowman_cylinder.3d"/>	
+		</group>
+		<group><!--boca-->
+			<color R="100" G="0" B="0"/>
+			<translate Y="5.5" Z="3" X="0"/>
+			<scale X="0.05" Y="0.05" Z="0.05"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--boca-->
+			<color R="100" G="0" B="0"/>
+			<translate Y="5.55" Z="2.85" X="-0.75"/>
+			<scale X="0.05" Y="0.05" Z="0.05"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--boca-->
+			<color R="100" G="0" B="0"/>
+			<translate Y="5.55" Z="2.85" X="0.75"/>
+			<scale X="0.05" Y="0.05" Z="0.05"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--boca-->
+			<color R="100" G="0" B="0"/>
+			<translate Y="5.65" Z="2.6" X="1.5"/>
+			<scale X="0.05" Y="0.05" Z="0.05"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--boca-->
+			<color R="100" G="0" B="0"/>
+			<translate Y="5.65" Z="2.6" X="-1.5"/>
+			<scale X="0.05" Y="0.05" Z="0.05"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--botão-->
+			<color R="0" G="0" B="0"/>
+			<translate Y="0" Z="5" X="0"/>
+			<rotate angle="90" X="1"/>
+			<scale X="0.1" Y="0.005" Z="0.1"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--buraco botão e-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="0" Z="5" X="-0.1"/>
+			<rotate angle="90" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--buraco butão d-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="0" Z="5" X="0.1"/>
+			<rotate angle="90" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--botão-->
+			<color R="0" G="0" B="0"/>
+			<translate Y="2" Z="4.6" X="0"/>
+			<rotate angle="70" X="1"/>
+			<scale X="0.1" Y="0.005" Z="0.1"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--buraco-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="2" Z="4.6" X="-0.1"/>
+			<rotate angle="70" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--buraco-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="2" Z="4.6" X="0.1"/>
+			<rotate angle="70" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--botão-->
+			<color R="0" G="0" B="0"/>
+			<translate Y="4" Z="3.1" X="0"/>
+			<rotate angle="50" X="1"/>
+			<scale X="0.1" Y="0.005" Z="0.1"/>
+			<model file="objects/snowman_cylinder.3d"/>
+		</group>
+		<group><!--buraco-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="4" Z="3.1" X="-0.1"/>
+			<rotate angle="50" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+		<group><!--buraco-->
+			<color R="255" G="255" B="255"/>
+			<translate Y="4" Z="3.1" X="0.1"/>
+			<rotate angle="50" X="1"/>
+			<scale X="0.01" Y="0.01" Z="0.01"/>
+			<model file="objects/sphere.3d"/>
+		</group>
+	</group>
+</scene>

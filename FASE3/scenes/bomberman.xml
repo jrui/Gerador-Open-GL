@@ -1,0 +1,214 @@
+<scene>
+  <group>
+    <translate Y="-500"/>
+    <!-- Feet-->
+    <group>
+      <scale X="4" Y="4" Z="4"/>
+  		<color R="204" G="0" B="204"/>
+      <translate Y="-1000"/>
+      <!-- Right Foot -->
+      <group>
+        <translate X="-100"/>
+        <model file="objects/bomberman_sphere.3d"/>
+      </group>
+      <!-- Left Foot -->
+      <group>
+        <translate X="100"/>
+        <model file="objects/bomberman_sphere.3d"/>
+      </group>
+    </group>
+
+    <!-- Legs -->
+    <group>
+      <scale X="4" Y="8" Z="4"/>
+  		<color R="160" G="160" B="160"/>
+      <translate Y="-500"/>
+      <!-- Right Leg -->
+      <group>
+        <translate X="-100"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+      <!-- Left Leg -->
+      <group>
+        <translate X="100"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+    </group>
+
+    <!-- Torso -->
+    <group>
+      <!-- Body -->
+      <group>
+        <scale X="15" Y="15" Z="15"/>
+        <translate Y="400"/>
+        <color R="51" G="51" B="255"/>
+        <model file="objects/bomberman_sphere.3d"/>
+      </group>
+      <!-- Belt -->
+      <group>
+        <scale X="65" Y="1" Z="65"/>
+        <translate Y="400"/>
+        <color R="96" G="96" B="96"/>
+        <model file="objects/bomberman_cylinder2.3d"/>
+        <!-- Inner Belt Thingy -->
+        <group>
+          <scale X="0.5" Y="12" Z="0.1"/>
+          <translate Z="11.8"/>
+          <color R="204" G="204" B="0"/>
+          <model file="objects/bomberman_cube.3d"/>
+          <!-- Inner Belt Black Thingy -->
+          <group>
+            <scale X="0.5" Y="0.5" Z="0.5"/>
+            <translate Z="4"/>
+            <color R="0" G="0" B="0"/>
+            <model file="objects/bomberman_cube.3d"/>
+          </group>
+        </group>
+      </group>
+    </group>
+
+    <!-- Arms and Hands -->
+    <group>
+      <scale X="4" Y="4" Z="4"/>
+      <translate Y="-100"/>
+      <!-- Right Arm Part 1 -->
+      <group>
+        <translate Y="200" X="-200"/>
+        <rotate angle="60" Z="1"/>
+        <color R="160" G="160" B="160"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+      <!-- Right Arm Part 2 -->
+      <group>
+        <translate Y="200" X="-280"/>
+        <rotate angle="-60" Z="1"/>
+        <color R="160" G="160" B="160"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+      <!-- Left Hand -->
+      <group>
+        <translate X="-330" Y="170"/>
+        <color R="204" G="0" B="204"/>
+        <model file="objects/bomberman_sphere.3d"/>
+      </group>
+      <!-- Left Arm Part 1 -->
+      <group>
+        <translate Y="150" X="200"/>
+        <rotate angle="60" Z="1"/>
+        <color R="160" G="160" B="160"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+      <!-- Left Arm Part 2 -->
+      <group>
+        <translate Y="160" X="275"/>
+        <rotate angle="-45" Z="1"/>
+        <color R="160" G="160" B="160"/>
+        <model file="objects/bomberman_cylinder.3d"/>
+      </group>
+      <!-- Left Hand -->
+      <group>
+        <translate X="320" Y="210"/>
+        <color R="204" G="0" B="204"/>
+        <model file="objects/bomberman_sphere.3d"/>
+      </group>
+    </group>
+
+    <!-- Bomb -->
+    <group>
+      <scale X="8" Y="8" Z="8"/>
+      <!-- Bomb Base -->
+      <group>
+        <translate X="150" Y="150"/>
+        <color R="32" G="32" B="32"/>
+        <model file="objects/bomberman_sphere.3d"/>
+        <!-- Bomb fuse base -->
+        <group>
+          <rotate angle="-30" Z="1"/>
+          <translate X="25" Y="40"/>
+          <scale X="1.5" Y="0.2" Z="1.5"/>
+          <model file="objects/bomberman_cylinder.3d"/>
+          <!-- Fuse -->
+          <group>
+            <color R="160" G="160" B="160"/>
+            <scale X="0.1" Y="1" Z="0.1"/>
+            <translate Y="100"/>
+            <model file="objects/bomberman_cylinder.3d"/>
+            <!-- Fire -->
+            <group>
+              <scale X="8" Y="4" Z="8"/>
+              <translate Y="90"/>
+              <rotate angle="180" Z="1"/>
+              <color R="255" G="0" B="0"/>
+              <model file="objects/bomberman_cone.3d"/>
+            </group>
+          </group>
+        </group>
+      </group>
+    </group>
+
+    <!-- Head -->
+    <group>
+      <scale X="5" Y="4" Z="5"/>
+      <translate Y="1400"/>
+      <!-- Main Head -->
+      <group>
+        <color R="160" G="160" B="160"/>
+        <model file="objects/bomberman_head.3d"/>
+      </group>
+      <!-- Inner Head -->
+      <group>
+        <color R="255" G="204" B="229"/>
+        <scale X="0.8" Y="0.8" Z="0.2"/>
+        <translate Z="100"/>
+        <model file="objects/bomberman_head.3d"/>
+      </group>
+      <!-- Eyes -->
+      <group>
+        <color R="0" G="0" B="0"/>
+        <!-- Right Eye -->
+        <group>
+          <scale X="0.1" Y="1" Z="0.1"/>
+          <translate Z="120" X="-40"/>
+          <model file="objects/bomberman_sphere.3d"/>
+        </group>
+        <!-- Right Eyebrow -->
+        <group>
+          <scale X="1" Y="3" Z="1"/>
+          <rotate angle="-120" Z="1"/>
+          <translate X="-40" Y="70" Z="120"/>
+          <model file="objects/bomberman_cone.3d"/>
+        </group>
+        <!-- Left Eye -->
+        <group>
+          <scale X="0.1" Y="1" Z="0.1"/>
+          <translate Z="120" X="40"/>
+          <model file="objects/bomberman_sphere.3d"/>
+        </group>
+        <!-- Left Eyebrow -->
+        <group>
+          <scale X="1" Y="3" Z="1"/>
+          <rotate angle="120" Z="1"/>
+          <translate X="40" Y="70" Z="120"/>
+          <model file="objects/bomberman_cone.3d"/>
+        </group>
+      </group>
+      <!-- Antenna -->
+      <group>
+        <rotate angle="-45" X="1"/>
+        <translate Y="120" Z="-20"/>
+        <!-- Base -->
+        <group>
+          <color R="160" G="160" B="160"/>
+          <model file="objects/bomberman_cylinder.3d"/>
+        </group>
+        <!-- Tip -->
+        <group>
+          <scale X="0.7" Y="0.7" Z="0.7"/>
+          <color R="204" G="0" B="204"/>
+          <translate Y="60"/>
+          <model file="objects/bomberman_sphere.3d"/>
+        </group>
+      </group>
+    </group>
+  </group>
+</scene>

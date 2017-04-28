@@ -1,0 +1,5 @@
+<scene>
+	<group>
+		<model file="objects/sphere.3d"/>
+	</group>
+</scene>
