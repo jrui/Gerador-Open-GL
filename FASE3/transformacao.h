@@ -68,11 +68,16 @@ class Model: public Transformacao {
 		}
 		std::vector<float> vc;
 		virtual void transformar(){
-			glBegin(GL_TRIANGLES);
-			for(int i = 0; i < vc.size(); i+=3) {
-				glVertex3f(vc[i],vc[i+1],vc[i+2]);
+			float v[vc.size()];
+			GLuint buffers[1];
+			for(int i = 0; i < vc.size(); i++){
+				v[i] = vc[i];
 			}
-			glEnd();
+			glGenBuffers(1, buffers);
+			glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc.size(), v, GL_STATIC_DRAW);
+			glVertexPointer(3,GL_FLOAT,0,0);
+			glDrawArrays(GL_TRIANGLES, 0, vc.size());
 		}
 };
 

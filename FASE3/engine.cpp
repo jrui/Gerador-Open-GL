@@ -1,6 +1,7 @@
 #ifdef __APPLE__
 #include <GLUT/glut.h>
 #else
+#include <GL/glew.h>
 #include <GL/glut.h>
 #endif
 #include <stdio.h>
@@ -11,6 +12,7 @@
 #include "transformacao.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
+
 
 
 /**
@@ -29,6 +31,7 @@ char view_mode = 'l';
 int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
+int N = 1;
 
 
 
@@ -109,6 +112,10 @@ int main(int argc, char **argv) {
  glutKeyboardFunc(normal_key_handler);
  glutMouseFunc(mouse_handler);
  glutMotionFunc(movement_handler);
+
+#ifndef __APPLE___
+	glewInit();
+#endif
 
  glEnable(GL_DEPTH_TEST);
  glEnable(GL_CULL_FACE);
@@ -200,6 +207,9 @@ void model(XMLElement* element2) {
 	 }
 	 printf("Opened %s successfully.\n", nome);
 	 Transformacao* tf = new Model(vc);
+	 for(int i =0; i < 10 ; i++){
+	 	printf("%d\n", vc[i] );
+	 }
 	 transformacoes.push_back(tf);
 	 tftemp = tftemp->NextSiblingElement("model");
  }
