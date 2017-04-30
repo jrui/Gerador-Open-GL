@@ -100,7 +100,8 @@
 		<group>
 			<color R="192" G="192" B="192"/>
 			<model file="objects/luasS.3d"/>
-		</group>	</group>
+		</group>
+	</group>
 	<group><!--Úrano-->
 		<color R="0" G="255" B="255"/>
 		<translate Z="4500"/>
