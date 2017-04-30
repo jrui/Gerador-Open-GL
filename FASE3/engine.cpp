@@ -32,8 +32,7 @@ int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
 int N = 1;
-
-
+GLuint buffers[1];
 
 
 /**
@@ -94,39 +93,41 @@ void spherical2Cartesian();
 *								as occured
 */
 int main(int argc, char **argv) {
- if(argc < 2) {
-	 printf("Invalid Input!\n");
-	 return -1;
- }
+	if(argc < 2) {
+		printf("Invalid Input!\n");
+		return -1;
+	}
 
- glutInit(&argc, argv);
- glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
- glutInitWindowPosition(100,100);
- glutInitWindowSize(800,800);
- glutCreateWindow("Rendering scene");
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH|GLUT_DOUBLE|GLUT_RGBA);
+	glutInitWindowPosition(100,100);
+	glutInitWindowSize(800,800);
+	glutCreateWindow("Rendering scene");
 
- glutDisplayFunc(renderScene);
- glutReshapeFunc(changeSize);
+	glutDisplayFunc(renderScene);
+	glutReshapeFunc(changeSize);
 
- glutSpecialFunc(special_key_handler);
- glutKeyboardFunc(normal_key_handler);
- glutMouseFunc(mouse_handler);
- glutMotionFunc(movement_handler);
+	glutSpecialFunc(special_key_handler);
+	glutKeyboardFunc(normal_key_handler);
+	glutMouseFunc(mouse_handler);
+	glutMotionFunc(movement_handler);
 
-#ifndef __APPLE___
-	glewInit();
-#endif
+	#ifndef __APPLE___
+		glewInit();
+	#endif
 
- glEnable(GL_DEPTH_TEST);
- glEnable(GL_CULL_FACE);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
- spherical2Cartesian();
+	spherical2Cartesian();
+	glGenBuffers(1, buffers);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	int exitCode = processXML(argv[1]);
+	if(exitCode < 0) return -1;
+	glutMainLoop();
 
- int exitCode = processXML(argv[1]);
- if(exitCode < 0) return -1;
- glutMainLoop();
-
- return 1;
+	return 1;
 }
 
 
@@ -207,9 +208,6 @@ void model(XMLElement* element2) {
 	 }
 	 printf("Opened %s successfully.\n", nome);
 	 Transformacao* tf = new Model(vc);
-	 for(int i =0; i < 10 ; i++){
-	 	printf("%d\n", vc[i] );
-	 }
 	 transformacoes.push_back(tf);
 	 tftemp = tftemp->NextSiblingElement("model");
  }
