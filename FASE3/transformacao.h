@@ -23,28 +23,55 @@ class PushMatrix: public Transformacao {
 
 class Rotate: public Transformacao {
 	public:
-		float x,y,z, angle;
+		float x, y, z, angle;
+		float time;
+		bool usetime;
 		Rotate(float ang, float xx, float yy, float zz){
 		 angle = ang;
 		 x = xx;
 		 y = yy;
 		 z = zz;
+		 usetime = false;
 		}
-		virtual void transformar(){
+		Rotate(float tt, float xx, float yy, float zz, bool ut) {
+			time = tt;
+			x = xx;
+			y = yy;
+			z = zz;
+			usetime = true;
+		}
+		virtual void transformar() {
+			if(usetime)
+				angle = fmod((glutGet(GLUT_ELAPSED_TIME) * 360.0f) / (time * 1000.0f), 360.0f);
 			glRotatef(angle,x,y,z);
+			glutPostRedisplay();
 		}
 };
 
 class Translate: public Transformacao {
 	public:
 		float x,y,z;
-		Translate(float xx,float yy,float zz){
+		std::vector<float> points;
+		float time;
+		bool usetime;
+		Translate(float xx,float yy,float zz) {
 			x = xx;
 			y = yy;
 			z = zz;
+			usetime = false;
+		}
+		Translate(float tt, std::vector<float> pp) {
+			time = tt;
+			points = pp;
+			usetime = true;
 		}
 		virtual void transformar(){
-			glTranslatef(x, y, z);
+			if(usetime) {
+				// -------------------------------------------------
+				// Tratar da transformacao com as curvas em "points"
+				// -------------------------------------------------
+			}
+			else glTranslatef(x, y, z);
 		}
 };
 

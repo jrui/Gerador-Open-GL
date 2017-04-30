@@ -1,5 +1,6 @@
 <scene>
 	<group><!--Terra-->
+		<rotate time="10" Y="1"/>
 		<scale X="4" Y="4" Z="4"/>
 		<color R="0" G="0" B="255"/>
 		<translate Z="1530"/>
@@ -84,7 +85,7 @@
 		<group>
 			<color R="192" G="192" B="192"/>
 			<model file="objects/luasJ.3d"/>
-		</group>	
+		</group>
 	</group>
 	<group><!--Saturno-->
 		<color R="125" G="133" B="68"/>

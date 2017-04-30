@@ -31,7 +31,7 @@ char view_mode = 'l';
 int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
-int N = 1;
+int N = 1, timebase = 0, frame = 0;
 GLuint buffers[1];
 
 
@@ -71,6 +71,8 @@ void normal_key_handler(unsigned char c, int x, int y);
 void movement_handler(int x, int y);
 void mouse_handler(int button, int state, int x, int y);
 void spherical2Cartesian();
+void showFPS();
+std::vector<float> processPointTranslate(XMLElement *element2);
 
 
 
@@ -151,12 +153,44 @@ void color(XMLElement* element2) {
 /**
 *
 */
+std::vector<float> processPointTranslate(XMLElement *element2) {
+	std::vector<float> v;
+	element2 = element2->FirstChildElement("point");
+	v.push_back(element2->FloatAttribute("X"));
+	v.push_back(element2->FloatAttribute("Y"));
+	v.push_back(element2->FloatAttribute("Z"));
+	element2 = element2->NextSiblingElement("point");
+	while(element2) {
+		v.push_back(element2->FloatAttribute("X"));
+		v.push_back(element2->FloatAttribute("Y"));
+		v.push_back(element2->FloatAttribute("Z"));
+		element2 = element2->NextSiblingElement("point");
+	}
+	return v;
+}
+
+
+
+
+/**
+*
+*/
 void translate(XMLElement* element2) {
- if(!(x = element2->FloatAttribute("X"))) x=0;
- if(!(y = element2->FloatAttribute("Y"))) y=0;
- if(!(z = element2->FloatAttribute("Z"))) z=0;
- Transformacao* tf = new Translate(x,y,z);
- transformacoes.push_back(tf);
+	float time;
+	Transformacao* tf;
+	if((time = element2->FloatAttribute("time"))) {
+		//Existe tempo, falta processar point
+		std::vector<float> pontos;
+		pontos = processPointTranslate(element2);
+		tf = new Translate(time, pontos);
+	}
+	else {
+		if(!(x = element2->FloatAttribute("X"))) x = 0;
+		if(!(y = element2->FloatAttribute("Y"))) y = 0;
+		if(!(z = element2->FloatAttribute("Z"))) z = 0;
+		tf = new Translate(x,y,z);
+	}
+ 	transformacoes.push_back(tf);
 }
 
 
@@ -166,12 +200,15 @@ void translate(XMLElement* element2) {
 *
 */
 void rotate(XMLElement* element2) {
- float ang;
+ float ang, time;
+ Transformacao* tf;
  if(!(x = element2->FloatAttribute("X"))) x=0;
  if(!(y = element2->FloatAttribute("Y"))) y=0;
  if(!(z = element2->FloatAttribute("Z"))) z=0;
  if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
- Transformacao* tf = new Rotate(ang,x,y,z);
+ if(!(time = element2->FloatAttribute("time"))) time = 0;
+ if(ang != 0) tf = new Rotate(ang, x, y, z);
+ else tf = new Rotate(time, x, y, z, true);
  transformacoes.push_back(tf);
 }
 
@@ -365,6 +402,7 @@ void renderScene(void) {
 													 view_mode == 'l' ? GL_LINE :
 														 GL_POINT);
  renderFigures();
+ showFPS();
 
  glutSwapBuffers();
 }
@@ -571,4 +609,21 @@ void normal_key_handler(unsigned char c, int x, int y) {
 
  //Re-render
  glutPostRedisplay();
+}
+
+
+
+void showFPS() {
+  float fps;
+	int time;
+	char s[64];
+  frame++;
+	time = glutGet(GLUT_ELAPSED_TIME);
+	if (time - timebase > 1000) {
+		fps = frame*1000.0/(time-timebase);
+		timebase = time;
+		frame = 0;
+		sprintf(s, "Rendering scene at %.2f FPS", fps);
+		glutSetWindowTitle(s);
+	}
 }
