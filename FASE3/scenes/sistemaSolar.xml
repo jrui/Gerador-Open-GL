@@ -3,7 +3,13 @@
 		<rotate time="10" Y="1"/>
 		<scale X="4" Y="4" Z="4"/>
 		<color R="0" G="0" B="255"/>
-		<translate Z="1530"/>
+		<!--<translate Z="1530"/>-->
+		<translate time="1000">
+			<point X="500" Y="500" Z="500"/>
+			<point X="500" Y="-500" Z="-500"/>
+			<point X="-500" Y="500" Z="-500"/>
+			<point X="-500" Y="-500" Z="500"/>
+		</translate>
 		<model file="objects/sphere.3d"/>
 		<group><!--Lua-->
 			<color R="192" G="192" B="192"/>
