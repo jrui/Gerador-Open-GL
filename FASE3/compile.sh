@@ -1,15 +1,16 @@
-mkdir build
+clear
 cd build
-cmake ../
 make
 mv ENGINE ../
 mv GENERATOR ../
 cd ..
-rm -rf build
 mv *.3d ./objects
 mv *.xml ./scenes
-clear
 
+echo ""
+echo ""
+echo ""
+echo ""
 echo ""
 echo "Generator commands:"
 echo "./GENERATOR plane x_dim z_dim filename"

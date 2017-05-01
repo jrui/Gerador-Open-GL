@@ -17,7 +17,7 @@ void satelites(float innerRadius,float outerRadius,int num,float max,float min,c
 void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
 void bezier(int tesselation, char* file, char* newFile);
 void makeFigure_bezier(int tess, char *newFile, int patches[][16], int n, float points[][3], int np);
-float getBezierPoint(float u, float v, float m[4][4] , float p[4][4]);
+float getB_Point(float u, float v, float m[4][4] , float p[4][4]);
 
 
 
@@ -494,63 +494,73 @@ void makeFigure_bezier(int tess, char *newFile, int patches[][16], int n, float 
 		                  {-3.0f,  3.0f,  0.0f, 0.0f},
 		                  { 1.0f,  0.0f,  0.0f, 0.0f} };
 
-    //Getting the points
     for(u = 0.0f; u < 1 ; u += level) {
       for(v = 0.0f; v < 1 ; v += level) {
-          res[0] = getBezierPoint(u, v, m, px);
-          res[1] = getBezierPoint(u, v, m, py);
-          res[2] = getBezierPoint(u, v, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point(u, v, m, px);
+          res[1] = getB_Point(u, v, m, py);
+          res[2] = getB_Point(u, v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
 
-          res[0] = getBezierPoint (u+level,v+level, m, px);
-          res[1] = getBezierPoint (u+level,v+level, m, py);
-          res[2] = getBezierPoint (u+level,v+level, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point(u + level, v + level, m, px);
+          res[1] = getB_Point(u + level, v + level, m, py);
+          res[2] = getB_Point(u + level, v + level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
 
-          res[0] = getBezierPoint (u+level,v, m, px);
-          res[1] = getBezierPoint (u+level,v, m, py);
-          res[2] = getBezierPoint (u+level,v, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point(u + level, v, m, px);
+          res[1] = getB_Point(u + level, v, m, py);
+          res[2] = getB_Point(u + level, v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
 
-          res[0] = getBezierPoint(u, v, m, px);
-          res[1] = getBezierPoint(u, v, m, py);
-          res[2] = getBezierPoint(u, v, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point(u, v, m, px);
+          res[1] = getB_Point(u, v, m, py);
+          res[2] = getB_Point(u, v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
 
-          res[0] = getBezierPoint (u,v+level, m, px);
-          res[1] = getBezierPoint (u,v+level, m, py);
-          res[2] = getBezierPoint (u,v+level, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point(u, v + level, m, px);
+          res[1] = getB_Point(u, v + level, m, py);
+          res[2] = getB_Point(u, v + level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
 
-          res[0] = getBezierPoint (u+level,v+level, m, px);
-          res[1] = getBezierPoint (u+level,v+level, m, py);
-          res[2] = getBezierPoint (u+level,v+level, m, pz);
-          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+          res[0] = getB_Point (u + level, v + level, m, px);
+          res[1] = getB_Point (u + level, v + level, m, py);
+          res[2] = getB_Point (u + level, v + level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0], res[1], res[2]);
       }
     }
   }
 }
 
-float getBezierPoint(float u, float v, float m[4][4] , float p[4][4]) {
-  float pointValue = 0;
-  float aux[4], aux2[4];
+float getB_Point(float u, float v, float m[4][4], float p[4][4]) {
+  float ponto = 0;
+  float temp1[4], temp2[4];
+	int i;
 
-  //bu*M
-  for(int i = 0; i<4; i++)
-    aux[i] = (powf(u,3.0)*m[0][i]) + (powf(u,2.0)*m[1][i]) + (u*m[2][i]) + m[3][i];
+  //Calculo  temp1i = Bi(u) * M
+  for(i = 0; i < 4; i++)
+    temp1[i] = ( m[0][i] * powf(u, 3.0) ) +
+							 ( m[1][i] * powf(u, 2.0) ) +
+							 ( m[2][i] * u) +
+							 m[3][i];
 
-  //(bu*M)*P
-  for(int i = 0; i<4; i++)
-    aux2[i] = (aux[0]*p[0][i]) + (aux[1]*p[1][i]) + (aux[2]*p[2][i]) + (aux[3]*p[3][i]);
+  //Calculo temp2i = temp1i * Pi
+  for(i = 0; i < 4; i++)
+    temp2[i] = ( temp1[0] * p[0][i] ) +
+							 ( temp1[1] * p[1][i] ) +
+							 ( temp1[2] * p[2][i] ) +
+							 ( temp1[3] * p[3][i] );
 
-  //((bu*M)*P)*MT
-  for(int i = 0; i<4; i++)
-    aux[i] = (aux2[0]*m[0][i]) + (aux2[1]*m[1][i]) + (aux2[2]*m[2][i]) + (aux2[3]*m[3][i]);
-  //(((bu*M)*P)*MT)*bv
-  pointValue = aux[0] * powf(v,3.0);
-  pointValue += aux[1] * powf(v,2.0);
-  pointValue += aux[2] * v;
-  pointValue += aux[3];
+  //Calculo temp1i = temp2i * MT
+  for(i = 0; i < 4; i++)
+    temp1[i] = ( temp2[0] * m[0][i] ) +
+							 ( temp2[1] * m[1][i] ) +
+							 ( temp2[2] * m[2][i] ) +
+							 ( temp2[3] * m[3][i] );
 
-  return pointValue;
+  //Calculo ponto = temp1i * Bi(v)
+  ponto = temp1[0] * powf(v,3.0);
+  ponto += temp1[1] * powf(v,2.0);
+  ponto += temp1[2] * v;
+  ponto += temp1[3];
+
+  return ponto;
 }

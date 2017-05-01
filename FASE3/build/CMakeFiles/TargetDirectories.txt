@@ -1,0 +1,4 @@
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/build/CMakeFiles/edit_cache.dir
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/build/CMakeFiles/GENERATOR.dir
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/build/CMakeFiles/rebuild_cache.dir
+/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/build/CMakeFiles/ENGINE.dir

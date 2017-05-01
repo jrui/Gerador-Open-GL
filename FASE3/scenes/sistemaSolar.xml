@@ -1,18 +1,18 @@
 <scene>
 	<group><!--Terra-->
-		<rotate time="10" Y="1"/>
+		<rotate time="2" Y="1"/>
 		<scale X="4" Y="4" Z="4"/>
 		<color R="0" G="0" B="255"/>
 		<!--<translate Z="1530"/>-->
-		<translate time="400">
-			<point X="1300"/>
-			<point X="999" Z="990"/>
+		<translate time="100">
+			<point X="942"/>
+			<point X="666" Z="1082"/>
 			<point Z="1530"/>
-			<point X="-999" Z="990"/>
-			<point X="-1300"/>
-			<point X="-999" Z="-990"/>
+			<point X="-666" Z="1082"/>
+			<point X="-942"/>
+			<point X="-666" Z="-1082"/>
 			<point Z="-1530"/>
-			<point X="999" Z="-990"/>
+			<point X="666" Z="-1082"/>
 		</translate>
 		<model file="objects/sphere.3d"/>
 		<group><!--Lua-->
@@ -23,34 +23,58 @@
 		</group>
 	</group>
 	<group><!--Sol-->
-		<rotate time="-800" Y="1"/>
+		<rotate time="50" Y="1"/>
 		<color R="255" G="255" B="0"/>
 		<scale X="110" Y="110" Z="110"/>
 		<model file="objects/sol.3d"/>
-		<group>
-			<rotate time="500" Y="1"/>
-			<scale X="1" Y="1" Z="1"/>
-			<color R="139" G="69" B="19"/>
-			<model file="objects/asteroid.3d"/>
-		</group>
 	</group>
 	<group><!--Mercúrio-->
-		<rotate time="10" Y="1"/>
+		<translate time="20">
+			<point X="621"/>
+			<point X="439" Z="714"/>
+			<point Z="1010"/>
+			<point X="-439" Z="714"/>
+			<point X="-621"/>
+			<point X="-439" Z="-714"/>
+			<point Z="-1010"/>
+			<point X="439" Z="-714"/>
+		</translate>
+		<rotate time="116" Y="1"/>
 		<color R="125" G="103" B="68"/>
-		<translate Z="1010"/>
+		<translate Z="7"/>
 		<scale X="1.528" Y="1.528" Z="1.528"/>
 		<model file="objects/sphere.3d"/>
 	</group>
 	<group><!--Vénus-->
-		<rotate time="-10" Y="1"/>
+		<translate time="67">
+			<point X="1180"/>
+			<point X="834" Z="1356"/>
+			<point Z="1918"/>
+			<point X="-834" Z="1356"/>
+			<point X="-1180"/>
+			<point X="-834" Z="-1356"/>
+			<point Z="-1918"/>
+			<point X="834" Z="-1356"/>
+		</translate>
+		<rotate time="-486" Y="1"/>
 		<color R="255" G="100" B="0"/>
-		<translate Z="1279"/>
+		<translate Z="7"/>
 		<scale X="3.796" Y="3.796" Z="3.796"/>
 		<model file="objects/sphere.3d"/>
 	</group>
 	<group><!--Marte-->
-		<rotate time="10" Y="1"/>
-		<translate Z="1918"/>
+		<translate time="188">
+			<point X="800"/>
+			<point X="565" Z="919"/>
+			<point Z="1300"/>
+			<point X="-565" Z="919"/>
+			<point X="-800"/>
+			<point X="-565" Z="-919"/>
+			<point Z="-1300"/>
+			<point X="564" Z="-919"/>
+		</translate>
+		<rotate time="2" Y="1"/>
+		<translate Z="7"/>
 		<color R="255" G="50" B="50"/>
 		<scale X="2.128" Y="2.128" Z="2.128"/>
 		<model file="objects/gasosos.3d"/>
@@ -59,8 +83,35 @@
 			<model file="objects/luasM.3d"/>
 		</group>
 	</group>
+	<group><!--Cintura de Asteróides-->
+		<scale X="70" Y="1" Z="110"/>
+		<color R="139" G="69" B="19"/>
+		<model file="objects/asteroid.3d"/>
+	</group>
+	<group><!--COMETA-->
+		<scale X="30" Y="30" Z="30"/>
+		<color R="153" G="0" B="0"/>
+		<rotate angle="-90" X="1"/>
+		<translate time="100">
+			<point X="7000" Y="2000" Z="7000"/>
+			<point X="-1000" Z="-9000"/>
+			<point X="-7000" Y="-2000" Z="-7000"/>
+			<point X="-1000" Z="9000"/>
+		</translate>
+		<model file="objects/teapot.3d"/>
+	</group>
 	<group><!--Júpiter-->
-		<rotate time="-20" Y="1"/>
+		<translate time="-900">
+			<point X="1723"/>
+			<point X="1218" Z="1980"/>
+			<point Z="2800"/>
+			<point X="-1218" Z="1980"/>
+			<point X="-1723"/>
+			<point X="-1218" Z="-1980"/>
+			<point Z="-2800"/>
+			<point X="1218" Z="-1980"/>
+		</translate>
+		<rotate time="-18" Y="1"/>
 		<color R="255" G="80" B="30"/>
 		<scale X="11.209" Y="11.209" Z="11.209"/>
 		<translate Z="2619"/>
@@ -71,7 +122,17 @@
 		</group>
 	</group>
 	<group><!--Saturno-->
-		<rotate time="25" Y="1"/>
+		<translate time="1200">
+			<point X="2163"/>
+			<point X="1529" Z="2485"/>
+			<point Z="3515"/>
+			<point X="-1529" Z="2485"/>
+			<point X="-2163"/>
+			<point X="-1529" Z="-2485"/>
+			<point Z="-3515"/>
+			<point X="1529" Z="-2485"/>
+		</translate>
+		<rotate time="10" Y="1"/>
 		<color R="125" G="133" B="68"/>
 		<translate Z="3515"/>
 		<scale X="9.449" Y="9.449" Z="9.449"/>
@@ -88,7 +149,17 @@
 		</group>
 	</group>
 	<group><!--Úrano-->
-		<rotate time="-10" Y="1"/>
+		<translate time="-1200">
+			<point X="2769"/>
+			<point X="1957" Z="3181"/>
+			<point Z="4500"/>
+			<point X="-1957" Z="3181"/>
+			<point X="-2769"/>
+			<point X="-1957" Z="-3181"/>
+			<point Z="-4500"/>
+			<point X="1957" Z="-3181"/>
+		</translate>
+		<rotate time="-3.8" Y="1"/>
 		<color R="0" G="255" B="255"/>
 		<translate Z="4500"/>
 		<scale X="8.007" Y="8.007" Z="8.007"/>
@@ -99,7 +170,17 @@
 		</group>
 	</group>
 	<group><!--Neptuno-->
-		<rotate time="10" Y="1"/>
+		<translate time="12400">
+			<point X="3383"/>
+			<point X="2392" Z="3889"/>
+			<point Z="5500"/>
+			<point X="-2392" Z="3889"/>
+			<point X="-3383"/>
+			<point X="-2392" Z="-3889"/>
+			<point Z="-5500"/>
+			<point X="2392" Z="-3889"/>
+		</translate>
+		<rotate time="4" Y="1"/>
 		<color R="55" G="55" B="200"/>
 		<translate Z="5500"/>
 		<scale X="6.883" Y="6.883" Z="6.883"/>
