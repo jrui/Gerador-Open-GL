@@ -1,7 +1,5 @@
 #include <math.h>
 #include <stdio.h>
-#include <unistd.h> /* chamadas ao sistema: defs e decls essenciais */
-#include <fcntl.h>  /* O_RDONLY, O_WRONLY, O_CREAT, O_* */
 #include <stdlib.h>
 #include <string.h>
 
@@ -18,7 +16,9 @@ void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro);
 void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro);
 void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
 
-
+struct vertex { 
+	float x, y, z; 
+	}Vertex;
 
 int main(int argc, char **argv) {
 	int err = 0;
@@ -432,7 +432,7 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
 
 			//face inferior
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl));
+			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl))
 			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
 
@@ -441,4 +441,43 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin((sl+1)*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos((sl+1)*angsl));
 		}
 	}
+}
+
+void bezier(char* tesselation, char* file){
+	FILE* op = fopen(file, "w+");
+	std::string pt;	
+	getline(op, pt);
+	char tmp[1024];
+	char *tok;
+	int n = stoi(pt);
+	int np = 0;
+	int patches[n][128];
+	Vertex points[np];
+	for(int i = 0; i < n; i++){
+		getline(op, pt);
+		strcpy(tmp, pt.c_str());
+		tok = strtok(tmp, " ,");
+		patches[i][0] = stoi(tok);
+		for(int j = 1; tok; j++){
+			tok = strtok(NULL, " ,");
+			patches[j][i] = stoi(tok);
+		}
+		tmp = NULL;
+	}
+	getline(op, pt);
+	np = stoi(pt);
+	for(int i = 0; i < np; i++){
+		getline(op, pt);
+		strcpy(tmp, pt.c_str());
+		tok = strtok(tmp, " ,");
+		points[i].x = atof(tok);
+		tok = strtok(NULL, " ,");
+		points[i].y = atof(tok);
+		tok = strtok(NULL, " ,");
+		points[i].z = atof(tok);
+		tmp = NULL;
+	}
+
+	printf("%d\n",patches[1][2] );
+
 }
