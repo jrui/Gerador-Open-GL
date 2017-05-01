@@ -15,10 +15,9 @@ void drawAsteroid(float x, float y, float z, FILE *op);
 void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro);
 void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro);
 void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
+void bezier(int tesselation, char* file);
 
-struct vertex { 
-	float x, y, z; 
-	}Vertex;
+
 
 int main(int argc, char **argv) {
 	int err = 0;
@@ -43,6 +42,8 @@ int main(int argc, char **argv) {
 			asteroid(atof(argv[2]), atof(argv[3]), atoi(argv[4]), argv[5]);
 	else if(strcmp(argv[1],  "satelites")==0)
 			satelites(atof(argv[2]),atof(argv[3]),atoi(argv[4]),atof(argv[5]),atof(argv[6]),argv[7]);
+	else if(strcmp(argv[1], "bezier") == 0)
+			bezier(atoi(argv[2]), argv[3]);
 	else printf("Not suported yet!");
 
 	return 1;
@@ -367,7 +368,7 @@ void drawAsteroid(float x, float y, float z, FILE *op) {
 	for (st=0;st<stacks/2;st++){
 		for(sl = 0; sl<slices; sl++){
 			//face superior
-			
+
 
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
@@ -421,7 +422,7 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 	for (st=0;st<stacks/2;st++){
 		for(sl = 0; sl<slices; sl++){
 			//face superior
-			
+
 
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
@@ -432,7 +433,7 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
 
 			//face inferior
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl))
+			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
 			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
 
@@ -443,41 +444,20 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 	}
 }
 
-void bezier(char* tesselation, char* file){
-	FILE* op = fopen(file, "w+");
-	std::string pt;	
-	getline(op, pt);
-	char tmp[1024];
-	char *tok;
-	int n = stoi(pt);
-	int np = 0;
-	int patches[n][128];
-	Vertex points[np];
-	for(int i = 0; i < n; i++){
-		getline(op, pt);
-		strcpy(tmp, pt.c_str());
-		tok = strtok(tmp, " ,");
-		patches[i][0] = stoi(tok);
-		for(int j = 1; tok; j++){
-			tok = strtok(NULL, " ,");
-			patches[j][i] = stoi(tok);
-		}
-		tmp = NULL;
-	}
-	getline(op, pt);
-	np = stoi(pt);
-	for(int i = 0; i < np; i++){
-		getline(op, pt);
-		strcpy(tmp, pt.c_str());
-		tok = strtok(tmp, " ,");
-		points[i].x = atof(tok);
-		tok = strtok(NULL, " ,");
-		points[i].y = atof(tok);
-		tok = strtok(NULL, " ,");
-		points[i].z = atof(tok);
-		tmp = NULL;
-	}
+void bezier(int tesselation, char* file) {
+	FILE* op = fopen(file, "r+");
+	int n = 0, np = 0, i = 0;
 
-	printf("%d\n",patches[1][2] );
+	fscanf(op, "%d\n", &n);
+	int patches[n][16];
+	for(i = 0; i < n; i++)
+		fscanf(op, "%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n",
+		&patches[i][0],&patches[i][1],&patches[i][2],&patches[i][3],
+		&patches[i][4],&patches[i][5],&patches[i][6],&patches[i][7],
+		&patches[i][8],&patches[i][9],&patches[i][10],&patches[i][11],
+		&patches[i][12],&patches[i][13],&patches[i][14],&patches[i][15]);
 
+	fscanf(op, "%d\n", &np);
+	float points[np][3];
+	for(i = 0; i < np; i++) fscanf(op, " %g, %g, %g\n", &points[i][0], &points[i][1], &points[i][2]);
 }
