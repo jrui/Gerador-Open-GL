@@ -73,27 +73,21 @@ class Translate: public Transformacao {
 				p[i] = (float*) malloc(sizeof(float) * 3);
 				for(int j = 0; j < 3; j++)
 					p[i][j] = points.at(i*3 + j);
-
-				//printf("%dº Ponto: %.2f\t%.2f\t%.2f\n", i, p[i][0], p[i][1], p[i][2]);
 			}
 		}
 		virtual void transformar(){
 			if(usetime) {
-				// -------------------------------------------------
-				// Tratar da transformacao com as curvas em "points"
-				// -------------------------------------------------
 				float res[3];
 				float der[3];
-				t += 0.01f / time;
+				t += 0.001f / time * 6;
 				glBegin(GL_LINE_LOOP);
 				for(int i = 0; i < 1000 / 3; i++ ){
 					getGlobalCatmullRomPoint((float)i/1000 + t,res,der);
 					glVertex3f(res[0], res[1], res[2]);
 				}
 				glEnd();
-				//printf("\t%.2f\t%.2f\t%.2f\n", res[0], res[1], res[2]);
 				glTranslatef(res[0], res[1], res[2]);
-				//glutPostRedisplay();
+				glutPostRedisplay();
 			}
 			else glTranslatef(x, y, z);
 		}
@@ -175,8 +169,6 @@ class Translate: public Transformacao {
 			indices[2] = (indices[1]+1)%(points.size()/3);
 			indices[3] = (indices[2]+1)%(points.size()/3);
 
-			//printf("INDEX:  %d\t%d\t%d\t%d\n", indices[0], indices[1], indices[2], indices[3]);
-			//printf("CATMUL: %.2f\t%.2f\t%.2f\t%.2f\n", p[indices[0]], p[indices[1]], p[indices[2]], p[indices[3]]);
 			getCatmullRomPoint(t, p[indices[0]], p[indices[1]], p[indices[2]], p[indices[3]], res, deriv);
 		}
 };

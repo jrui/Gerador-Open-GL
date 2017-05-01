@@ -15,7 +15,10 @@ void drawAsteroid(float x, float y, float z, FILE *op);
 void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro);
 void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro);
 void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
-void bezier(int tesselation, char* file);
+void bezier(int tesselation, char* file, char* newFile);
+void makeFigure_bezier(int tess, char *newFile, int patches[][16], int n, float points[][3], int np);
+float getBezierPoint(float u, float v, float m[4][4] , float p[4][4]);
+
 
 
 
@@ -43,7 +46,7 @@ int main(int argc, char **argv) {
 	else if(strcmp(argv[1],  "satelites")==0)
 			satelites(atof(argv[2]),atof(argv[3]),atoi(argv[4]),atof(argv[5]),atof(argv[6]),argv[7]);
 	else if(strcmp(argv[1], "bezier") == 0)
-			bezier(atoi(argv[2]), argv[3]);
+			bezier(atoi(argv[2]), argv[3], argv[4]);
 	else printf("Not suported yet!");
 
 	return 1;
@@ -444,7 +447,7 @@ void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
 	}
 }
 
-void bezier(int tesselation, char* file) {
+void bezier(int tesselation, char* file, char* filetoWrite) {
 	FILE* op = fopen(file, "r+");
 	int n = 0, np = 0, i = 0;
 
@@ -452,12 +455,102 @@ void bezier(int tesselation, char* file) {
 	int patches[n][16];
 	for(i = 0; i < n; i++)
 		fscanf(op, "%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d\n",
-		&patches[i][0],&patches[i][1],&patches[i][2],&patches[i][3],
-		&patches[i][4],&patches[i][5],&patches[i][6],&patches[i][7],
-		&patches[i][8],&patches[i][9],&patches[i][10],&patches[i][11],
+		&patches[i][0], &patches[i][1], &patches[i][2], &patches[i][3],
+		&patches[i][4], &patches[i][5], &patches[i][6], &patches[i][7],
+		&patches[i][8], &patches[i][9], &patches[i][10],&patches[i][11],
 		&patches[i][12],&patches[i][13],&patches[i][14],&patches[i][15]);
 
 	fscanf(op, "%d\n", &np);
 	float points[np][3];
 	for(i = 0; i < np; i++) fscanf(op, " %g, %g, %g\n", &points[i][0], &points[i][1], &points[i][2]);
+
+	makeFigure_bezier(tesselation, filetoWrite, patches, n, points, np);
+}
+
+void makeFigure_bezier(int tess, char *newFile, int patches[][16], int n, float points[][3], int np) {
+  int * patchIndices;
+  float * ma[16], mT[3][16], px[4][4], py[4][4], pz[4][4], res[3];
+  float u, v, level = (float) 1 / tess;
+	int patch, i, j, temp;
+
+  FILE *file = fopen(newFile, "w+");
+  for(patch = 0; patch < n; patch++) {
+    temp = 0;
+    //Criar matriz com de pontos
+    for(i = 0; i < 16; i++) ma[i] = points[patches[patch][i]];
+
+    //Matriz com todos os Pix, Piy, Piz
+    for(i = 0; i < 4; i++) {
+      for(j = 0; j < 4; j++, temp++) {
+        px[i][j] = ma[temp][0];
+        py[i][j] = ma[temp][1];
+        pz[i][j] = ma[temp][2];
+      }
+    }
+
+    //Matriz de bezier M
+    float m[4][4] = { {-1.0f,  3.0f, -3.0f, 1.0f},
+		                  { 3.0f, -6.0f,  3.0f, 0.0f},
+		                  {-3.0f,  3.0f,  0.0f, 0.0f},
+		                  { 1.0f,  0.0f,  0.0f, 0.0f} };
+
+    //Getting the points
+    for(u = 0.0f; u < 1 ; u += level) {
+      for(v = 0.0f; v < 1 ; v += level) {
+          res[0] = getBezierPoint(u, v, m, px);
+          res[1] = getBezierPoint(u, v, m, py);
+          res[2] = getBezierPoint(u, v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+
+          res[0] = getBezierPoint (u+level,v+level, m, px);
+          res[1] = getBezierPoint (u+level,v+level, m, py);
+          res[2] = getBezierPoint (u+level,v+level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+
+          res[0] = getBezierPoint (u+level,v, m, px);
+          res[1] = getBezierPoint (u+level,v, m, py);
+          res[2] = getBezierPoint (u+level,v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+
+          res[0] = getBezierPoint(u, v, m, px);
+          res[1] = getBezierPoint(u, v, m, py);
+          res[2] = getBezierPoint(u, v, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+
+          res[0] = getBezierPoint (u,v+level, m, px);
+          res[1] = getBezierPoint (u,v+level, m, py);
+          res[2] = getBezierPoint (u,v+level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+
+          res[0] = getBezierPoint (u+level,v+level, m, px);
+          res[1] = getBezierPoint (u+level,v+level, m, py);
+          res[2] = getBezierPoint (u+level,v+level, m, pz);
+          fprintf(file, "%f %f %f\n", res[0],res[1],res[2]);
+      }
+    }
+  }
+}
+
+float getBezierPoint(float u, float v, float m[4][4] , float p[4][4]) {
+  float pointValue = 0;
+  float aux[4], aux2[4];
+
+  //bu*M
+  for(int i = 0; i<4; i++)
+    aux[i] = (powf(u,3.0)*m[0][i]) + (powf(u,2.0)*m[1][i]) + (u*m[2][i]) + m[3][i];
+
+  //(bu*M)*P
+  for(int i = 0; i<4; i++)
+    aux2[i] = (aux[0]*p[0][i]) + (aux[1]*p[1][i]) + (aux[2]*p[2][i]) + (aux[3]*p[3][i]);
+
+  //((bu*M)*P)*MT
+  for(int i = 0; i<4; i++)
+    aux[i] = (aux2[0]*m[0][i]) + (aux2[1]*m[1][i]) + (aux2[2]*m[2][i]) + (aux2[3]*m[3][i]);
+  //(((bu*M)*P)*MT)*bv
+  pointValue = aux[0] * powf(v,3.0);
+  pointValue += aux[1] * powf(v,2.0);
+  pointValue += aux[2] * v;
+  pointValue += aux[3];
+
+  return pointValue;
 }

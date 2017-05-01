@@ -1,6 +1,14 @@
 <scene>
 	<group>
-		<rotate time="10" X="1"/>
-		<model file="objects/sphere.3d"/>
+		<rotate angle="-90" X="1"/>
+		<translate time="10">
+			<point X="1000"/>
+			<point Z="1000"/>
+			<point X="-1000"/>
+			<point Z="-1000"/>
+		</translate>
+		<scale X="200" Y="200" Z="200"/>
+		<color R="255"/>
+		<model file="objects/teapot.3d"/>
 	</group>
 </scene>
