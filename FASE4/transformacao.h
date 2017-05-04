@@ -188,14 +188,16 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector<float> v){
+		Model(std::vector< std::vector<float> > v){
 			vc = v;
 		}
-		std::vector<float> vc;
+		std::vector <std::vector<float> > vc;
 		virtual void transformar(){
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc.size(), &vc[0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc[0].size(), &vc[0][0], GL_STATIC_DRAW);
 			glVertexPointer(3,GL_FLOAT,0,0);
-			glDrawArrays(GL_TRIANGLES, 0, vc.size());
+			//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc[1].size(), &vc[1][0],GL_STATIC_DRAW);
+			//glNormalPointer(GL_FLOAT, 0, 0);
+			glDrawArrays(GL_TRIANGLES, 0, vc[0].size());
 		}
 };
 

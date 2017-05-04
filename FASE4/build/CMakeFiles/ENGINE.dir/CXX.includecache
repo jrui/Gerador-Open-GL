@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/engine.cpp
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/engine.cpp
 GLUT/glut.h
 -
 GL/glew.h
@@ -24,13 +24,13 @@ vector
 map
 -
 transformacao.h
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/transformacao.h
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/transformacao.h
 tinyxml2.h
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/tinyxml2.h
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
 
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/tinyxml2.cpp
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.cpp
 tinyxml2.h
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/tinyxml2.h
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
 new
 -
 stddef.h
@@ -42,7 +42,7 @@ cstddef
 cstdarg
 -
 
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/tinyxml2.h
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
 ctype.h
 -
 limits.h
@@ -72,5 +72,5 @@ android/log.h
 assert.h
 -
 
-/home/captainroy/Desktop/3Ano/CG/Gerador-Open-GL/FASE3/transformacao.h
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/transformacao.h
 

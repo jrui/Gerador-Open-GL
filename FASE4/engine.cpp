@@ -32,7 +32,7 @@ int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
 int N = 1, timebase = 0, frame = 0;
-GLuint buffers[1];
+GLuint buffers[2];
 
 
 /**
@@ -62,7 +62,7 @@ void popMatrix();
 void pushMatrix();
 int parserXML(XMLElement* pListElement);
 int processXML(char* file);
-std::vector<float> open3dModel(const char* tok);
+std::vector< std::vector<float> > open3dModel(const char* tok);
 void renderScene(void);
 void renderFigures(void);
 void changeSize(int w, int h);
@@ -73,6 +73,9 @@ void mouse_handler(int button, int state, int x, int y);
 void spherical2Cartesian();
 void showFPS();
 std::vector<float> processPointTranslate(XMLElement *element2);
+//void loadTexture(char *imagem);
+//void init(char *imagem);
+
 
 
 
@@ -95,6 +98,8 @@ std::vector<float> processPointTranslate(XMLElement *element2);
 *								as occured
 */
 int main(int argc, char **argv) {
+	float white[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
+
 	if(argc < 2) {
 		printf("Invalid Input!\n");
 		return -1;
@@ -123,10 +128,21 @@ int main(int argc, char **argv) {
 	glEnable(GL_CULL_FACE);
 
 	spherical2Cartesian();
-	glGenBuffers(1, buffers);
+	
+	glGenBuffers(3, buffers);
+
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
+
+	//glBindTexture(GL_TEXTURE_2D, texture);
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
+	
 	int exitCode = processXML(argv[1]);
 	if(exitCode < 0) return -1;
+	
+	//init("terra.jpg");
+
 	glutMainLoop();
 
 	return 1;
@@ -235,7 +251,7 @@ void scale(XMLElement* element2) {
 void model(XMLElement* element2) {
  XMLElement* tftemp = element2;
  char* nome;
- std::vector<float> vc;
+ std::vector< std::vector<float> > vc;
  while(tftemp != NULL) {
 	 nome = strdup((char*) tftemp->Attribute("file"));
 	 vc = open3dModel(nome);
@@ -348,23 +364,40 @@ int processXML(char* file) {
 *	@param tok - Character representing the name of the file to open.
 * @return vector - Vector containing the coordinates os every object.
 */
-std::vector<float> open3dModel(const char* tok) {
- FILE *f_3d;
- std::vector<float> vc;
- f_3d = fopen(tok, "r+");
- if (f_3d < 0) return vc;
+std::vector< std::vector<float> > open3dModel(const char* tok) {
+ 	FILE *f_3d;
+ 	std::vector< std::vector<float> > vc;
+ 	std::vector<float> v;
+ 	std::vector<float> n;
+ 	f_3d = fopen(tok, "r+");
+ 	if (f_3d < 0) return vc;
 
- char *s1, *s2, *s3;
- s1 = (char*) malloc(sizeof(char) * 64);
- s2 = (char*) malloc(sizeof(char) * 64);
- s3 = (char*) malloc(sizeof(char) * 64);
- while(fscanf(f_3d, "%s %s %s", s1, s2, s3) != EOF) {
-	 vc.push_back(atof(s1));
-	 vc.push_back(atof(s2));
-	 vc.push_back(atof(s3));
- }
- fclose(f_3d);
- return vc;
+	char *s1, *s2, *s3, *s4, *s5, *s6;
+ 	s1 = (char*) malloc(sizeof(char) * 64);
+ 	s2 = (char*) malloc(sizeof(char) * 64);
+ 	s3 = (char*) malloc(sizeof(char) * 64);
+ 	s4 = (char*) malloc(sizeof(char) * 64);
+ 	s5 = (char*) malloc(sizeof(char) * 64);
+ 	s6 = (char*) malloc(sizeof(char) * 64);
+ 
+ 	while(!feof(f_3d)){ 
+
+ 		fscanf(f_3d, "%s %s %s", s1, s2, s3);
+		v.push_back(atof(s1));
+		v.push_back(atof(s2));
+		v.push_back(atof(s3));
+	
+		fscanf(f_3d, "%s %s %s", s4, s5, s6);
+		n.push_back(atof(s4));
+		n.push_back(atof(s5));
+		n.push_back(atof(s6));	
+	}
+
+	vc.push_back(v);
+	vc.push_back(n);
+
+ 	fclose(f_3d);
+ 	return vc;
 }
 
 
@@ -627,3 +660,59 @@ void showFPS() {
 		glutSetWindowTitle(s);
 	}
 }
+
+/*
+void loadTexture(char *) {
+
+	unsigned int t, tw, th;
+	unsigned char *texData;
+	ilGenImages(1, &t);
+	ilBindImage(t);
+	ilLoadImage(imagem);
+	tw = ilGetInteger(IL_IMAGE_WIDTH);
+	th = ilGetInteger(IL_IMAGE_HEIGHT);
+	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+	texData = ilGetData();
+
+	glGenTextures(1, &texture);
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+}
+
+void init(char *imagem) {
+
+	alpha = 0.0;
+	beta = 0.0;
+
+	unsigned int ima[1];
+
+	ilInit();
+	ilGenImages(1, ima);
+	ilBindImage(ima[0]);
+	ilLoadImage(imagem);
+	ilConvertImage(IL_LUMINANCE, IL_UNSIGNED_BYTE);
+
+	imageWidth = ilGetInteger(IL_IMAGE_HEIGHT);
+	imageData = ilGetData();
+	printf("%d\n", imageWidth);
+
+	prepareTerrain();
+
+	loadTexture(imagem);
+	
+	glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
+}
+*/

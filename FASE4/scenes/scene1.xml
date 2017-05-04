@@ -9,6 +9,6 @@
 		</translate>
 		<scale X="200" Y="200" Z="200"/>
 		<color R="255"/>
-		<model file="objects/teapot.3d"/>
+		<model file="objects/bola.3d"/>
 	</group>
 </scene>
