@@ -1,0 +1,123 @@
+<scene>
+	<group><!--Base do cone da base do candeeiro -->
+		<scale X="4" Y="4" Z="4"/>
+		<color R="255" G="0" B="0"/>
+		<translate Z="1530"/>
+		<model file="objects/light_base.3d"/>
+		<group><!--Cone para a base do candeeiro-->
+			<scale X="1" Y= "5" Z ="1"/>
+			<translate Y="25"/>
+			<color R="255" G="0" B="0"/>
+			<model file="objects/light_cone.3d"/>
+		</group>
+		<group>
+			<!--Ligacao da base com a estrutura do candeeiro com uma esfera-->
+			<scale X="0.5" Y= "0.5" Z ="0.5"/>
+			<translate Y="50"/>
+			<color R="100" G="100" B="100"/>
+			<model file="objects/light_esfera.3d"/>
+		</group>
+		<group><!--Boxes que simulam a estrutura do candeeiro-->
+			<scale X="4" Y= "4" Z ="4"/>
+			<translate X="-30" Y="75"/>
+			<rotate angle="60" Z="1"/>
+			<color R="150" G="150" B="150"/>
+			<model file="objects/light_box.3d"/>
+			<group>
+				<translate Y="10"/>
+				<model file="objects/light_box.3d"/>
+			</group>
+			<group>
+				<translate Y="20"/>
+				<model file="objects/light_box.3d"/>
+			</group>
+			<group>
+				<translate Y="30"/>
+				<model file="objects/light_box.3d"/>
+			</group>
+			<group>
+				<translate Y="40"/>
+				<model file="objects/light_box.3d"/>
+			</group>
+			<group>
+				<translate Y="50"/>
+				<model file="objects/light_box.3d"/>
+			</group>
+			<group><!--Esfera que faz a ligação entre estrutura do candeeiro-->
+				<scale X="0.13" Y= "0.13" Z ="0.13"/>
+				<color R="100" G="100" B="100"/>
+				<translate Y="60"/>
+				<model file="objects/light_esfera.3d"/>
+			</group>
+			<group><!--Boxes que simulam a estrutura do candeeiro-->
+				<color R="150" G="150" B="150"/>
+				<rotate angle="-190" Z="1"/>
+				<translate X="10" Y="60"/>
+				<model file="objects/light_box.3d"/>
+				<group>
+					<translate X="-10"/>
+					<model file="objects/light_box.3d"/>
+				</group>
+				<group>
+					<translate X="-20"/>
+					<model file="objects/light_box.3d"/>
+				</group>
+				<group>
+					<translate X="-30"/>
+					<model file="objects/light_box.3d"/>
+				</group>
+				<group>
+					<translate X="-40"/>
+					<model file="objects/light_box.3d"/>
+				</group>
+				<group>
+					<translate X="-50"/>
+					<model file="objects/light_box.3d"/>
+				</group>
+				<group><!--Esfera que faz a ligação entre estrutura do candeeiro-->
+					<scale X="0.12" Y= "0.12" Z ="0.12"/>
+					<color R="100" G="100" B="100"/>
+					<translate X="-60"/>
+					<model file="objects/light_esfera.3d"/>
+				</group>
+				<group><!--Boxes que simulam a estrutura do candeeiro-->
+					<color R="150" G="150" B="150"/>
+					<rotate angle="-50" Z="1"/>
+					<translate X="-68" Y="6"/>
+					<model file="objects/light_box.3d"/>
+					<group>
+						<color R="150" G="150" B="150"/>
+						<translate X="-10"/>
+						<model file="objects/light_box.3d"/>
+					</group>
+					<group><!--Esfera que faz a ligação entre estrutura do candeeiro e a lâmpada-->
+						<scale X="0.12" Y= "0.12" Z ="0.12"/>
+						<color R="100" G="100" B="100"/>
+						<translate X="-20"/>
+						<model file="objects/light_esfera.3d"/>
+					</group>
+					<group><!--Cilindro de suporte à lâmpada-->
+						<scale X="0.3" Y= "0.5" Z ="0.3"/>
+						<color R="150" G="150" B="150"/>
+						<rotate angle="40" Z="1"/>
+						<translate X="-27" Y="9"/>
+						<model file="objects/light_sup.3d"/>
+						<group><!--Cone que representa a lâmpada-->
+							<color R="255" G="0" B="0"/>
+							<rotate angle="180" Z="1"/>
+							<translate Y="10"/>
+							<model file="objects/light_luz.3d"/>
+						</group>
+						<group>
+							<scale X="0.5" Y= "0.5" Z ="0.5"/>
+							<color R="255" G="255" B="255"/>
+							<translate Y="30"/>
+							<model file="objects/light_esfera.3d"/>
+						</group>
+					</group>
+				</group>
+			</group>
+		</group>
+	</group>
+	
+</scene>
