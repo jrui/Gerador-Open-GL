@@ -124,6 +124,7 @@ int main(int argc, char **argv) {
 	#endif
 
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 
@@ -249,21 +250,32 @@ void scale(XMLElement* element2) {
 *
 */
 void model(XMLElement* element2) {
- XMLElement* tftemp = element2;
- char* nome;
- std::vector< std::vector<float> > vc;
- while(tftemp != NULL) {
-	 nome = strdup((char*) tftemp->Attribute("file"));
-	 vc = open3dModel(nome);
-	 if(vc.size() == 0) {
-		 printf("Error opening %s!\n", nome);
-		 return;
-	 }
-	 printf("Opened %s successfully.\n", nome);
-	 Transformacao* tf = new Model(vc);
-	 transformacoes.push_back(tf);
-	 tftemp = tftemp->NextSiblingElement("model");
- }
+	XMLElement* tftemp = element2;
+	float r=0,g=0,b=0;
+	char* nome, *texture;
+	std::vector< std::vector<float> > vc;
+	while(tftemp != NULL) {
+		nome = strdup((char*) tftemp->Attribute("file"));
+	 	vc = open3dModel(nome);
+		if(vc.size() == 0) {
+			printf("Error opening %s!\n", nome);
+			return;
+		}
+		printf("Opened %s successfully.\n", nome);
+		if(!(tftemp->Attribute("texture"))){
+			r = tftemp->FloatAttribute("diffR");
+			g = tftemp->FloatAttribute("diffG");
+			b = tftemp->FloatAttribute("diffB");
+			Transformacao* tf = new Model(vc,r,g,b);
+			transformacoes.push_back(tf);
+		}
+		else{
+			texture = strdup((char*) tftemp->Attribute("texture"));
+			Transformacao* tf = new Model(vc,texture);
+			transformacoes.push_back(tf);
+		}
+		tftemp = tftemp->NextSiblingElement("model");
+	}
 }
 
 
@@ -290,16 +302,40 @@ void pushMatrix() {
 
 
 
+void light(XMLElement* element2){
+	char* type;
+	if(!(x = element2->FloatAttribute("posX"))) x=0;
+ 	if(!(y = element2->FloatAttribute("posY"))) y=0;
+ 	if(!(z = element2->FloatAttribute("posZ"))) z=0;
+ 	type = strdup((char*) element2->Attribute("type"));
+ 	Transformacao* tf = new Light(x,y,z, type);
+ 	transformacoes.push_back(tf);
+}
 
-/**
-*
-*/
-int parserXML(XMLElement* pListElement) {
+
+int parserXMLLight(XMLElement* pListElement) {
  XMLElement* element2;
  XMLElement* tempEl;
 
  if(pListElement != NULL) {
-	 pushMatrix();
+	 element2 = pListElement->FirstChildElement("light");
+	 while(element2!=NULL){	
+	 	light(element2);
+	 	element2 = element2 -> NextSiblingElement("light");
+	 }
+ }
+ return 1;
+}
+
+
+/**
+*
+*/
+int parserXMLGroup(XMLElement* pListElement) {
+ XMLElement* element2;
+ XMLElement* tempEl;
+
+ if(pListElement != NULL) {
 	 element2 = pListElement->FirstChildElement("color");
 	 if(element2!=NULL) color(element2);
 	 element2 = pListElement->FirstChildElement("translate");
@@ -311,12 +347,10 @@ int parserXML(XMLElement* pListElement) {
 	 element2 = pListElement->FirstChildElement("model");
 	 if(element2!=NULL) model(element2);
 	 tempEl = pListElement->FirstChildElement("group");
-	 if(tempEl != NULL) parserXML(tempEl);
-
-	 popMatrix();
+	 if(tempEl != NULL) parserXMLGroup(tempEl);
 
 	 tempEl = pListElement->NextSiblingElement("group");
-	 if(tempEl != NULL) parserXML(tempEl);
+	 if(tempEl != NULL) parserXMLGroup(tempEl);
  }
  return 1;
 }
@@ -345,8 +379,12 @@ int processXML(char* file) {
 	 return -1;
  }
  root = xmlDoc.FirstChildElement("scene");
- pListElement = root -> FirstChildElement("group");
- parserXML(pListElement);
+ if((pListElement = root -> FirstChildElement("lights")))
+ 	parserXMLLight(pListElement);
+
+ if((pListElement = root -> FirstChildElement("group")))
+ 	parserXMLGroup(pListElement);
+ 
  return XML_SUCCESS;
 }
 

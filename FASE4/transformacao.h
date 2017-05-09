@@ -7,6 +7,21 @@ class Transformacao {
 		virtual void transformar() = 0;
 };
 
+class Light: public Transformacao{
+	public:
+		float x,y,z;
+		char* type;
+		Light(float xx, float yy, float zz, char* ty){
+			x=xx;
+			y=yy;
+			z=zz;
+			type=strdup(ty);
+		}
+		virtual void transformar(){
+
+		}
+};
+
 class PopMatrix: public Transformacao {
 	public:
 		virtual void transformar(){
@@ -188,10 +203,20 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector< std::vector<float> > v){
+		Model(std::vector< std::vector<float> > v, char* t){
+			texture = strdup(t);
+			vc = v;
+		}
+
+		Model(std::vector< std::vector<float> > v, float rr, float gg, float bb){
+			r=rr;
+			g=gg;
+			b=bb;
 			vc = v;
 		}
 		std::vector <std::vector<float> > vc;
+		char* texture;
+		float r,g,b;
 		virtual void transformar(){
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc[0].size(), &vc[0][0], GL_STATIC_DRAW);
 			glVertexPointer(3,GL_FLOAT,0,0);
