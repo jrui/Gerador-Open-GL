@@ -9,16 +9,21 @@ class Transformacao {
 
 class Light: public Transformacao{
 	public:
-		float x,y,z;
+		GLfloat pos[4];
 		char* type;
 		Light(float xx, float yy, float zz, char* ty){
-			x=xx;
-			y=yy;
-			z=zz;
+			pos[0]=xx;
+			pos[1]=yy;
+			pos[2]=zz;
+			pos[3]=0.0;
 			type=strdup(ty);
 		}
 		virtual void transformar(){
-
+			GLfloat amb[4] = {0.2, 0.2, 0.2, 1.0};
+			GLfloat diff[4] = {1.0, 1.0, 1.0, 1.0};
+			glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
+			glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
+			glLightfv(GL_LIGHT0, GL_POSITION, pos);
 		}
 };
 
@@ -203,26 +208,29 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector< std::vector<float> > v, char* t){
+		Model(std::vector< float> v, std::vector<float> n, char* t){
 			texture = strdup(t);
 			vc = v;
+			normal = n;
 		}
 
-		Model(std::vector< std::vector<float> > v, float rr, float gg, float bb){
-			r=rr;
-			g=gg;
-			b=bb;
+		Model(std::vector<float> v, std::vector<float> n, float rr, float gg, float bb){
+			cor[0]=rr;
+			cor[1]=gg;
+			cor[2]=bb;
 			vc = v;
+			normal = n;
 		}
-		std::vector <std::vector<float> > vc;
+		std::vector <float> vc, normal;
 		char* texture;
-		float r,g,b;
+		float cor[3];
 		virtual void transformar(){
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc[0].size(), &vc[0][0], GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc.size(), &vc[0], GL_STATIC_DRAW);
 			glVertexPointer(3,GL_FLOAT,0,0);
-			//glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc[1].size(), &vc[1][0],GL_STATIC_DRAW);
-			//glNormalPointer(GL_FLOAT, 0, 0);
-			glDrawArrays(GL_TRIANGLES, 0, vc[0].size());
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normal.size(), &normal[0],GL_STATIC_DRAW);
+			glNormalPointer(GL_FLOAT, 0, 0);
+			glDrawArrays(GL_TRIANGLES, 0, vc.size());
+			glMaterialf(GL_FRONT,GL_SHININESS,128);
 		}
 };
 

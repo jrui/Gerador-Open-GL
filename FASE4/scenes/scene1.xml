@@ -1,14 +1,9 @@
 <scene>
-	<group>
-		<rotate angle="-90" X="1"/>
-		<translate time="10">
-			<point X="1000"/>
-			<point Z="1000"/>
-			<point X="-1000"/>
-			<point Z="-1000"/>
-		</translate>
-		<scale X="200" Y="200" Z="200"/>
-		<color R="255"/>
-		<model file="objects/bola.3d"/>
-	</group>
-</scene>
+ 	<lights>
+ 		<light type="POINT" posX="0" posY="10" posZ="0" />
+ 	</lights>
+ 	<group>
+ 		<translate X="10" Y="0" Z="2" />
+		<model file="objects/boxNova.3d" diffR="0.8" diffG="0.8" diffB="0.15" /> 
+ 	</group>
+</scene> 

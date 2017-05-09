@@ -58,11 +58,11 @@ void translate(XMLElement* element2);
 void rotate(XMLElement* element2);
 void scale(XMLElement* element2);
 void model(XMLElement* element2);
+void light(XMLElement* element2);
 void popMatrix();
 void pushMatrix();
 int parserXML(XMLElement* pListElement);
 int processXML(char* file);
-std::vector< std::vector<float> > open3dModel(const char* tok);
 void renderScene(void);
 void renderFigures(void);
 void changeSize(int w, int h);
@@ -127,6 +127,8 @@ int main(int argc, char **argv) {
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 
 	spherical2Cartesian();
 	
@@ -147,6 +149,58 @@ int main(int argc, char **argv) {
 	glutMainLoop();
 
 	return 1;
+}
+
+
+
+/**
+* 	This function is used everytime we want to open a 3d model file and save
+* it to a global variable (t).
+*		It will read a triplet of floats for each line of document that it reads.
+*	We defined that as the composition of our .3d model files, so this function
+* reads them procedurally and saves it to a vector.
+*		We can assume that the .3d file as an ammount of lines %3 equal to 0.
+*
+*	@param tok - Character representing the name of the file to open.
+* @return vector - Vector containing the coordinates os every object.
+*/
+void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n){
+ 	FILE *f_3d;
+ 	printf("Open\n");
+ 	f_3d = fopen(tok, "r+");
+ 	if (f_3d < 0) return;
+ 	printf("Open1\n");
+
+	char *s1, *s2, *s3, *s4, *s5, *s6;
+ 	s1 = (char*) malloc(sizeof(char) * 64);
+ 	s2 = (char*) malloc(sizeof(char) * 64);
+ 	s3 = (char*) malloc(sizeof(char) * 64);
+ 	s4 = (char*) malloc(sizeof(char) * 64);
+ 	s5 = (char*) malloc(sizeof(char) * 64);
+ 	s6 = (char*) malloc(sizeof(char) * 64);
+ 	printf("Open2\n");
+ 
+ 	while(!feof(f_3d)){ 
+ 		printf("Open6\n");
+ 		fscanf(f_3d, "%s %s %s", s1, s2, s3);
+ 		printf("Open7\n");
+		v.push_back(atof(s1));
+		printf("Open8\n");
+		v.push_back(atof(s2));
+		printf("Open9\n");
+		v.push_back(atof(s3));
+		printf("Open3\n");
+	
+		fscanf(f_3d, "%s %s %s", s4, s5, s6);
+		n.push_back(atof(s4));
+		n.push_back(atof(s5));
+		n.push_back(atof(s6));	
+		printf("Open4\n");
+	}
+	printf("Open5\n");
+ 	fclose(f_3d);
+ 	printf("Close\n");
+ 	return;
 }
 
 
@@ -253,10 +307,10 @@ void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
 	float r=0,g=0,b=0;
 	char* nome, *texture;
-	std::vector< std::vector<float> > vc;
+	std::vector<float> vc, norm;
 	while(tftemp != NULL) {
 		nome = strdup((char*) tftemp->Attribute("file"));
-	 	vc = open3dModel(nome);
+	 	open3dModel(nome, vc, norm);
 		if(vc.size() == 0) {
 			printf("Error opening %s!\n", nome);
 			return;
@@ -266,12 +320,12 @@ void model(XMLElement* element2) {
 			r = tftemp->FloatAttribute("diffR");
 			g = tftemp->FloatAttribute("diffG");
 			b = tftemp->FloatAttribute("diffB");
-			Transformacao* tf = new Model(vc,r,g,b);
+			Transformacao* tf = new Model(vc,norm,r,g,b);
 			transformacoes.push_back(tf);
 		}
 		else{
 			texture = strdup((char*) tftemp->Attribute("texture"));
-			Transformacao* tf = new Model(vc,texture);
+			Transformacao* tf = new Model(vc, norm,texture);
 			transformacoes.push_back(tf);
 		}
 		tftemp = tftemp->NextSiblingElement("model");
@@ -384,58 +438,8 @@ int processXML(char* file) {
 
  if((pListElement = root -> FirstChildElement("group")))
  	parserXMLGroup(pListElement);
- 
+
  return XML_SUCCESS;
-}
-
-
-
-
-/**
-* 	This function is used everytime we want to open a 3d model file and save
-* it to a global variable (t).
-*		It will read a triplet of floats for each line of document that it reads.
-*	We defined that as the composition of our .3d model files, so this function
-* reads them procedurally and saves it to a vector.
-*		We can assume that the .3d file as an ammount of lines %3 equal to 0.
-*
-*	@param tok - Character representing the name of the file to open.
-* @return vector - Vector containing the coordinates os every object.
-*/
-std::vector< std::vector<float> > open3dModel(const char* tok) {
- 	FILE *f_3d;
- 	std::vector< std::vector<float> > vc;
- 	std::vector<float> v;
- 	std::vector<float> n;
- 	f_3d = fopen(tok, "r+");
- 	if (f_3d < 0) return vc;
-
-	char *s1, *s2, *s3, *s4, *s5, *s6;
- 	s1 = (char*) malloc(sizeof(char) * 64);
- 	s2 = (char*) malloc(sizeof(char) * 64);
- 	s3 = (char*) malloc(sizeof(char) * 64);
- 	s4 = (char*) malloc(sizeof(char) * 64);
- 	s5 = (char*) malloc(sizeof(char) * 64);
- 	s6 = (char*) malloc(sizeof(char) * 64);
- 
- 	while(!feof(f_3d)){ 
-
- 		fscanf(f_3d, "%s %s %s", s1, s2, s3);
-		v.push_back(atof(s1));
-		v.push_back(atof(s2));
-		v.push_back(atof(s3));
-	
-		fscanf(f_3d, "%s %s %s", s4, s5, s6);
-		n.push_back(atof(s4));
-		n.push_back(atof(s5));
-		n.push_back(atof(s6));	
-	}
-
-	vc.push_back(v);
-	vc.push_back(n);
-
- 	fclose(f_3d);
- 	return vc;
 }
 
 
