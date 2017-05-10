@@ -1,11 +1,14 @@
 clear
 cd build
+rm * -rf
+cmake ../
 make
 mv ENGINE ../
 mv GENERATOR ../
 cd ..
 mv *.3d ./objects
 mv *.xml ./scenes
+cp *.jpg ./build
 
 echo ""
 echo ""
