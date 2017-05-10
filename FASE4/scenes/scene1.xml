@@ -1,9 +1,9 @@
 <scene>
  	<lights>
- 		<light type="POINT" posX="0" posY="10" posZ="0" />
+ 		<light type="POINT" posX="1" posY="1" posZ="1" />
  	</lights>
  	<group>
- 		<translate X="10" Y="0" Z="2" />
-		<model file="objects/boxNova.3d" diffR="0.8" diffG="0.8" diffB="0.15" /> 
+ 		<scale X="110" Y="110" Z="110"/>
+		<model file="objects/sphereNova.3d" texture="earth_daymap.jpg"/> 
  	</group>
 </scene> 

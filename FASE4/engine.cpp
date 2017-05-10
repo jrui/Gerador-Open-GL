@@ -8,10 +8,12 @@
 #include <string.h>
 #include <math.h>
 #include <vector>
+#include <string>
 #include <map>
 #include "transformacao.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
+#include <IL/il.h>
 
 
 
@@ -33,6 +35,7 @@ bool click = false;
 float x,y,z;
 int N = 1, timebase = 0, frame = 0;
 GLuint buffers[2];
+GLuint vertexCount, vertices, normals, texCoord, indices, indCount;
 
 
 /**
@@ -73,7 +76,7 @@ void mouse_handler(int button, int state, int x, int y);
 void spherical2Cartesian();
 void showFPS();
 std::vector<float> processPointTranslate(XMLElement *element2);
-//void loadTexture(char *imagem);
+int loadTexture(std::string imagem);
 //void init(char *imagem);
 
 
@@ -125,21 +128,16 @@ int main(int argc, char **argv) {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_TEXTURE_2D);
 
 	spherical2Cartesian();
-	
-	glGenBuffers(3, buffers);
 
-	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
 
-	//glBindTexture(GL_TEXTURE_2D, texture);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[1]);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[2]);
 	
 	int exitCode = processXML(argv[1]);
 	if(exitCode < 0) return -1;
@@ -164,42 +162,37 @@ int main(int argc, char **argv) {
 *	@param tok - Character representing the name of the file to open.
 * @return vector - Vector containing the coordinates os every object.
 */
-void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n){
+void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, std::vector<float>& t){
  	FILE *f_3d;
- 	printf("Open\n");
  	f_3d = fopen(tok, "r+");
  	if (f_3d < 0) return;
- 	printf("Open1\n");
 
-	char *s1, *s2, *s3, *s4, *s5, *s6;
+	char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8;
  	s1 = (char*) malloc(sizeof(char) * 64);
  	s2 = (char*) malloc(sizeof(char) * 64);
  	s3 = (char*) malloc(sizeof(char) * 64);
  	s4 = (char*) malloc(sizeof(char) * 64);
  	s5 = (char*) malloc(sizeof(char) * 64);
  	s6 = (char*) malloc(sizeof(char) * 64);
- 	printf("Open2\n");
+ 	s7 = (char*) malloc(sizeof(char) * 64);
+ 	s8 = (char*) malloc(sizeof(char) * 64);
  
  	while(!feof(f_3d)){ 
- 		printf("Open6\n");
  		fscanf(f_3d, "%s %s %s", s1, s2, s3);
- 		printf("Open7\n");
 		v.push_back(atof(s1));
-		printf("Open8\n");
 		v.push_back(atof(s2));
-		printf("Open9\n");
 		v.push_back(atof(s3));
-		printf("Open3\n");
 	
 		fscanf(f_3d, "%s %s %s", s4, s5, s6);
 		n.push_back(atof(s4));
 		n.push_back(atof(s5));
 		n.push_back(atof(s6));	
-		printf("Open4\n");
+
+		fscanf(f_3d, "%s %s", s7, s8);
+		t.push_back(atof(s7));
+		t.push_back(atof(s8));	
 	}
-	printf("Open5\n");
  	fclose(f_3d);
- 	printf("Close\n");
  	return;
 }
 
@@ -305,27 +298,32 @@ void scale(XMLElement* element2) {
 */
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
-	float r=0,g=0,b=0;
+	float diffR=0,diffG=0,diffB=0, matR=0, matG=0, matB=0;
 	char* nome, *texture;
-	std::vector<float> vc, norm;
+	std::vector<float> vc, norm, tex;
 	while(tftemp != NULL) {
 		nome = strdup((char*) tftemp->Attribute("file"));
-	 	open3dModel(nome, vc, norm);
+	 	open3dModel(nome, vc, norm, tex);
 		if(vc.size() == 0) {
 			printf("Error opening %s!\n", nome);
 			return;
 		}
 		printf("Opened %s successfully.\n", nome);
 		if(!(tftemp->Attribute("texture"))){
-			r = tftemp->FloatAttribute("diffR");
-			g = tftemp->FloatAttribute("diffG");
-			b = tftemp->FloatAttribute("diffB");
-			Transformacao* tf = new Model(vc,norm,r,g,b);
+			if(!(diffR = tftemp->FloatAttribute("diffR"))) diffR = 0;
+			if(!(diffG = tftemp->FloatAttribute("diffG"))) diffG = 0;
+			if(!(diffB = tftemp->FloatAttribute("diffB"))) diffB = 0;
+			if(!(matR = tftemp->FloatAttribute("matR"))) matR = 0;
+			if(!(matG = tftemp->FloatAttribute("matG"))) matG = 0;
+			if(!(matB = tftemp->FloatAttribute("matB"))) matB = 0;
+			Transformacao* tf = new Model(vc,norm,tex,diffR,diffG,diffB, matR, matG, matB);
 			transformacoes.push_back(tf);
 		}
 		else{
+			printf("Texture\n");
 			texture = strdup((char*) tftemp->Attribute("texture"));
-			Transformacao* tf = new Model(vc, norm,texture);
+			GLuint textID = loadTexture(texture);
+			Transformacao* tf = new Model(vc, norm,tex, textID);
 			transformacoes.push_back(tf);
 		}
 		tftemp = tftemp->NextSiblingElement("model");
@@ -390,6 +388,8 @@ int parserXMLGroup(XMLElement* pListElement) {
  XMLElement* tempEl;
 
  if(pListElement != NULL) {
+
+ 	pushMatrix();
 	 element2 = pListElement->FirstChildElement("color");
 	 if(element2!=NULL) color(element2);
 	 element2 = pListElement->FirstChildElement("translate");
@@ -402,7 +402,7 @@ int parserXMLGroup(XMLElement* pListElement) {
 	 if(element2!=NULL) model(element2);
 	 tempEl = pListElement->FirstChildElement("group");
 	 if(tempEl != NULL) parserXMLGroup(tempEl);
-
+	 popMatrix();
 	 tempEl = pListElement->NextSiblingElement("group");
 	 if(tempEl != NULL) parserXMLGroup(tempEl);
  }
@@ -470,7 +470,6 @@ void renderScene(void) {
  glRotatef(vert_rot, 1, 0, 0);
  glRotatef(hori_rot, 0, 1, 0);
 
- glEnable(GL_CULL_FACE);
  glCullFace(GL_BACK);
  glFrontFace(GL_CCW);
  glPolygonMode(GL_FRONT, view_mode == 'f' ? GL_FILL :
@@ -500,7 +499,8 @@ void renderFigures() {
  int color;
  std::vector<float> vc;
  Transformacao* tftemp;
- glLineWidth(1.0f);
+ GLfloat pos0[4] = {0,1300,0,0};
+ glLightfv(GL_LIGHT0, GL_POSITION, pos0);
  for(int i = 0; i < transformacoes.size(); i++) {
 	 tftemp = transformacoes.at(i);
 	 tftemp->transformar();
@@ -703,58 +703,37 @@ void showFPS() {
 	}
 }
 
-/*
-void loadTexture(char *) {
+int loadTexture(std::string s) {
 
-	unsigned int t, tw, th;
-	unsigned char *texData;
-	ilGenImages(1, &t);
-	ilBindImage(t);
-	ilLoadImage(imagem);
-	tw = ilGetInteger(IL_IMAGE_WIDTH);
-	th = ilGetInteger(IL_IMAGE_HEIGHT);
-	ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
-	texData = ilGetData();
+			unsigned int t,tw,th;
+			unsigned char *texData;
+			unsigned int texID;
 
-	glGenTextures(1, &texture);
+			ilInit();
+			ilEnable(IL_ORIGIN_SET);
+			ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+			ilGenImages(1,&t);
+			ilBindImage(t);
+			ilLoadImage((ILstring)s.c_str());
+			tw = ilGetInteger(IL_IMAGE_WIDTH);
+			th = ilGetInteger(IL_IMAGE_HEIGHT);
+			ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+			texData = ilGetData();
 
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glGenTextures(1,&texID);
+			
+			glBindTexture(GL_TEXTURE_2D,texID);
+			glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_S,		GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_WRAP_T,		GL_REPEAT);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MAG_FILTER,   	GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D,	GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
+			glGenerateMipmap(GL_TEXTURE_2D);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, texData);
-	glGenerateMipmap(GL_TEXTURE_2D);
-}
+			glBindTexture(GL_TEXTURE_2D, 0);
 
-void init(char *imagem) {
+			return texID;
 
-	alpha = 0.0;
-	beta = 0.0;
-
-	unsigned int ima[1];
-
-	ilInit();
-	ilGenImages(1, ima);
-	ilBindImage(ima[0]);
-	ilLoadImage(imagem);
-	ilConvertImage(IL_LUMINANCE, IL_UNSIGNED_BYTE);
-
-	imageWidth = ilGetInteger(IL_IMAGE_HEIGHT);
-	imageData = ilGetData();
-	printf("%d\n", imageWidth);
-
-	prepareTerrain();
-
-	loadTexture(imagem);
-	
-	glEnable(GL_TEXTURE_2D);
-
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-
-}
-*/
+		}
