@@ -20,13 +20,11 @@
 			<model file="objects/sphere.3d" texture="2k_moon.jpg"/>
 		</group>
 	</group>
-	<!--
 	<group>
 		<rotate time="50" Y="1"/>
 		<scale X="110" Y="110" Z="110"/>
 		<model file="objects/sol.3d" texture="2k_sun.jpg"/>
 	</group>
--->
 	<group>
 		<translate time="20">
 			<point X="621"/>

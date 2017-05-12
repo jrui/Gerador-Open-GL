@@ -62,6 +62,7 @@ void rotate(XMLElement* element2);
 void scale(XMLElement* element2);
 void model(XMLElement* element2);
 void light(XMLElement* element2);
+void material(XMLElement* element2);
 void popMatrix();
 void pushMatrix();
 int parserXML(XMLElement* pListElement);
@@ -199,6 +200,27 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 
 
 
+void material(XMLElement* element2) {
+	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0, sr=0, sg=0, sb=0, er=0, eg=0, eb=0;
+	int shin;
+	dr = element2->FloatAttribute("diffR");
+	dg = element2->FloatAttribute("diffG");
+	db = element2->FloatAttribute("diffB");
+	ar = element2->FloatAttribute("ambR");
+	ag = element2->FloatAttribute("ambG");
+	ab = element2->FloatAttribute("ambB");
+	sr = element2->FloatAttribute("specR");
+	sg = element2->FloatAttribute("specG");
+	sb = element2->FloatAttribute("specB");
+	er = element2->FloatAttribute("emiR");
+	eg = element2->FloatAttribute("emiG");
+	eb = element2->FloatAttribute("emiB");
+	shin = element2->IntAttribute("shininess");
+	Transformacao* tf = new Material(dr,dg,db,ar,ag,ab,sr,sg,sb,er,eg,eb, shin);
+	transformacoes.push_back(tf);
+}
+
+
 
 /**
 *
@@ -299,9 +321,11 @@ void scale(XMLElement* element2) {
 */
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
-	float diffR=0,diffG=0,diffB=0, matR=0, matG=0, matB=0;
 	char* nome, *texture;
+	int numero=1;
+	float rMin=0, rMax=0, xMax=1, xMin=1, yMax=1, yMin=1,zMax=1, zMin=1;
 	std::vector<float> vc, norm, tex;
+	GLuint textID = -1;
 	while(tftemp != NULL) {
 		nome = strdup((char*) tftemp->Attribute("file"));
 	 	open3dModel(nome, vc, norm, tex);
@@ -310,23 +334,22 @@ void model(XMLElement* element2) {
 			return;
 		}
 		printf("Opened %s successfully.\n", nome);
-		if(!(tftemp->Attribute("texture"))){
-			if(!(diffR = tftemp->FloatAttribute("diffR"))) diffR = 0;
-			if(!(diffG = tftemp->FloatAttribute("diffG"))) diffG = 0;
-			if(!(diffB = tftemp->FloatAttribute("diffB"))) diffB = 0;
-			if(!(matR = tftemp->FloatAttribute("matR"))) matR = 0;
-			if(!(matG = tftemp->FloatAttribute("matG"))) matG = 0;
-			if(!(matB = tftemp->FloatAttribute("matB"))) matB = 0;
-			Transformacao* tf = new Model(vc,norm,tex,diffR,diffG,diffB, matR, matG, matB);
-			transformacoes.push_back(tf);
-		}
-		else{
-			printf("Texture\n");
+		printf("Texture\n");
+		if(tftemp->Attribute("texture")){
 			texture = strdup((char*) tftemp->Attribute("texture"));
-			GLuint textID = loadTexture(texture);
-			Transformacao* tf = new Model(vc, norm,tex, textID);
-			transformacoes.push_back(tf);
+			textID = loadTexture(texture);
 		}
+		numero = element2->IntAttribute("num");
+		rMin = element2->FloatAttribute("rMin");
+		if(!(rMax = element2->FloatAttribute("rMax"))) rMax = 1000;
+		if(!(xMin = element2->FloatAttribute("xMin"))) xMin = 1;
+		if(!(xMax = element2->FloatAttribute("xMax"))) xMax = 1;
+		if(!(yMin = element2->FloatAttribute("yMin"))) yMin = 1;
+		if(!(yMax = element2->FloatAttribute("yMax"))) yMax = 1;
+		if(!(zMin = element2->FloatAttribute("zMin"))) zMin = 1;
+		if(!(zMax = element2->FloatAttribute("zMax"))) zMax = 1;
+		Transformacao* tf = new Model(vc, norm,tex, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
+		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
 	}
 }
@@ -357,11 +380,19 @@ void pushMatrix() {
 
 void light(XMLElement* element2){
 	char* type;
+	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0;
+	int shin;
+	dr = element2->FloatAttribute("diffR");
+	dg = element2->FloatAttribute("diffG");
+	db = element2->FloatAttribute("diffB");
+	ar = element2->FloatAttribute("ambR");
+	ag = element2->FloatAttribute("ambG");
+	ab = element2->FloatAttribute("ambB");
 	if(!(x = element2->FloatAttribute("posX"))) x=0;
  	if(!(y = element2->FloatAttribute("posY"))) y=0;
  	if(!(z = element2->FloatAttribute("posZ"))) z=0;
  	type = strdup((char*) element2->Attribute("type"));
- 	Transformacao* tf = new Light(x,y,z, type);
+ 	Transformacao* tf = new Light(x,y,z,dr,dg,db,ar,ag,ab, type);
  	transformacoes.push_back(tf);
 }
 

@@ -1,6 +1,7 @@
 #ifndef TRANSFORMACAO_H
 #define TRANSFORMACAO_H
 ;
+#include <math.h>
 
 class Transformacao {
 	public:
@@ -9,13 +10,21 @@ class Transformacao {
 
 class Light: public Transformacao{
 	public:
-		GLfloat pos[4];
+		GLfloat pos[4], diff[4], amb[4];
 		char* type;
-		Light(float xx, float yy, float zz, char* ty){
+		Light(float xx, float yy, float zz,float dr,float dg,float db,float ar, float ag, float ab , char* ty){
 			pos[0]=xx;
 			pos[1]=yy;
 			pos[2]=zz;
 			pos[3]=0.0;
+			diff[0] = dr;
+			diff[1] = dg;
+			diff[2] = db;
+			diff[3] = 1;
+			amb[0] = ar;
+			amb[1] = ag;
+			amb[2] = ab;
+			amb[3] = 1;
 			type=strdup(ty);
 		}
 		virtual void transformar(){
@@ -208,34 +217,29 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector< float> v, std::vector<float> n, std::vector<float> tex, GLuint t){
+		Model(std::vector< float> v, std::vector<float> n, std::vector<float> tex, GLuint t, int num, int rMi, int rMa, int xMi, int xMa, int yMi, int yMa, int zMi, int zMa){
 			texID = t;
 			vc = v;
 			normal = n;
 			text = tex;
-		}
-
-		Model(std::vector<float> v, std::vector<float> n, std::vector<float> t, float dr, float dg, float db, float mr, float mg, float mb){
-			text = t;
-			texID = -1;
-			diff[0]=dr;
-			diff[1]=dg;
-			diff[2]=db;
-			diff[3]=1;
-			mat[0]=mr;
-			mat[1]=mg;
-			mat[2]=mb;
-			mat[3]=1;
-			vc = v;
-			normal = n;
-			printf("%f %f %f\n", mat[0], mat[1], mat[2]);
+			numero = num;
+			rMin = rMi;
+			rMax = rMa;
+			xMin = xMi;
+			xMax = xMa;
+			yMin = yMi;
+			yMax = yMa;
+			zMin = zMi;
+			zMax = zMa;
 		}
 		GLuint buffers[3];
 		std::vector <float> vc, normal, text;
-		GLfloat diff[4], mat[4];
 		GLuint texID;
+		int numero;
+		float rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax;
 		virtual void transformar(){
-			glBindTexture(GL_TEXTURE_2D,texID);
+			GLfloat reset[4] = {0,0,0,1};
+			srand(123456789);
 			glGenBuffers(3, buffers);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[0]);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vc.size(), &vc[0], GL_STATIC_DRAW);
@@ -246,21 +250,30 @@ class Model: public Transformacao {
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[2]);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * text.size(), &text[0], GL_STATIC_DRAW);
 			glTexCoordPointer(2,GL_FLOAT,0,0);
-			if(texID==-1){
-				glBindTexture(GL_TEXTURE_2D,0);
-				GLfloat reset[4] = {0,0,0,0};
-				if(diff[0] || diff[1] || diff[2]) glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
-				if(mat[0] || mat[1] || mat[2]) glMaterialfv(GL_FRONT, GL_EMISSION, mat);
-				glMaterialf(GL_FRONT,GL_SHININESS,127); 
-				if(diff[0] || diff[1] || diff[2]) glMaterialfv(GL_FRONT, GL_DIFFUSE, reset);
-				if(mat[0] || mat[1] || mat[2]) glMaterialfv(GL_FRONT, GL_EMISSION, reset);
+			if(texID!=-1) glBindTexture(GL_TEXTURE_2D,texID);
+			if(numero!=0){
+				for(int i = 0; i < numero; i++){
+					glPushMatrix();
+					float tx;
+					float tz;
+					while(true){
+						tx = (float) rand()/(float)RAND_MAX*rMax;
+						tz = (float) rand()/(float)RAND_MAX*rMax;
+						if(sqrt(tx*tx + tz*tz)<=rMax && sqrt(tx*tx + tz*tz)>=rMin)
+							break;
+					}
+					float sx = (float) rand()/(float)RAND_MAX*(xMax-xMin)+xMin;
+					float sy = (float) rand()/(float)RAND_MAX*(yMax-yMin)+yMin;
+					float sz = (float) rand()/(float)RAND_MAX*(zMax-zMin)+zMin;
+					glScalef(sx, sy, sz);
+					glTranslatef(tx,0,tz);
+					glDrawArrays(GL_TRIANGLES, 0, vc.size());
+					glPopMatrix();
+				}
 			}
 			else{
-				float white[4] = { 1,1,1,1 };
-				glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, white);
-				glMaterialfv(GL_FRONT, GL_EMISSION, white);
-			}
-			glDrawArrays(GL_TRIANGLES, 0, vc.size());
+	
+			 glDrawArrays(GL_TRIANGLES, 0, vc.size()); }
 			if(texID!=-1) glBindTexture(GL_TEXTURE_2D,0);
 		}
 };
@@ -279,5 +292,37 @@ class Color: public Transformacao {
 };
 
 
+
+
+class Material: public Transformacao {
+	public:
+		float diff[4], amb[4], spec[4], emi[4];
+		int shininess;
+		Material(float drr, float dgg, float dbb, float arr, float agg, float abb, float srr, float sgg, float sbb, float err, float egg, float ebb, int shi){
+			diff[0] = drr;
+			diff[1] = dgg;
+			diff[2] = dbb;
+			diff[3] = 1;
+			amb[0] = arr;
+			amb[1] = agg;
+			amb[2] = abb;
+			amb[3] = 1;
+			spec[0] = srr;
+			spec[1] = sgg;
+			spec[2] = sbb;
+			spec[3] = 1;
+			emi[0] = err;
+			emi[1] = egg;
+			emi[2] = ebb;
+			emi[3] = 1;
+			shininess = shi;
+		}
+		virtual void transformar(){
+			if(diff[0] || diff[1] || diff[2])  glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
+			if(amb[0] || amb[1] || amb[2])  glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+			if(spec[0] || spec[1] || spec[2])  glMaterialfv(GL_FRONT, GL_SPECULAR, spec);
+			if(emi[0] || emi[1] || emi[2])  glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+		}
+};
 
 #endif
