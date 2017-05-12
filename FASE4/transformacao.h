@@ -238,7 +238,7 @@ class Model: public Transformacao {
 		int numero;
 		float rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax;
 		virtual void transformar(){
-			GLfloat reset[4] = {0,0,0,1};
+			GLfloat resAmb[4] = {0.2, 0.2, 0.2, 1.0}, resDiff[4] = {0.8, 0.8, 0.8, 1.0}, resSpec[4] = {0.0, 0.0, 0.0, 1.0};;
 			srand(123456789);
 			glGenBuffers(3, buffers);
 			glBindBuffer(GL_ARRAY_BUFFER,buffers[0]);
@@ -272,9 +272,14 @@ class Model: public Transformacao {
 				}
 			}
 			else{
-	
+
 			 glDrawArrays(GL_TRIANGLES, 0, vc.size()); }
 			if(texID!=-1) glBindTexture(GL_TEXTURE_2D,0);
+			glMaterialfv(GL_FRONT, GL_EMISSION, resSpec);
+			glMaterialfv(GL_FRONT, GL_SPECULAR, resSpec);
+			glMaterialfv(GL_FRONT, GL_AMBIENT, resAmb);
+			glMaterialfv(GL_FRONT, GL_DIFFUSE, resDiff);
+			glMaterialf(GL_FRONT, GL_SHININESS, 0);
 		}
 };
 
@@ -297,8 +302,8 @@ class Color: public Transformacao {
 class Material: public Transformacao {
 	public:
 		float diff[4], amb[4], spec[4], emi[4];
-		int shininess;
-		Material(float drr, float dgg, float dbb, float arr, float agg, float abb, float srr, float sgg, float sbb, float err, float egg, float ebb, int shi){
+		GLfloat shininess;
+		Material(float drr, float dgg, float dbb, float arr, float agg, float abb, float srr, float sgg, float sbb, float err, float egg, float ebb, GLfloat shi){
 			diff[0] = drr;
 			diff[1] = dgg;
 			diff[2] = dbb;
@@ -318,10 +323,11 @@ class Material: public Transformacao {
 			shininess = shi;
 		}
 		virtual void transformar(){
-			if(diff[0] || diff[1] || diff[2])  glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
-			if(amb[0] || amb[1] || amb[2])  glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
-			if(spec[0] || spec[1] || spec[2])  glMaterialfv(GL_FRONT, GL_SPECULAR, spec);
-			if(emi[0] || emi[1] || emi[2])  glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+			if(diff[0] || diff[1] || diff[2]) glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
+			if(amb[0] || amb[1] || amb[2]) glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+			if(spec[0] || spec[1] || spec[2]) glMaterialfv(GL_FRONT, GL_SPECULAR, spec);
+			if(emi[0] || emi[1] || emi[2]) glMaterialfv(GL_FRONT, GL_EMISSION, emi);
+			if(shininess) glMaterialf(GL_FRONT, GL_SHININESS, shininess);
 		}
 };
 

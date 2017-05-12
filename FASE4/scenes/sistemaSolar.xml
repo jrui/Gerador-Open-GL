@@ -20,9 +20,10 @@
 			<model file="objects/sphere.3d" texture="2k_moon.jpg"/>
 		</group>
 	</group>
-	<group>
+	<group><!--Sol-->
 		<rotate time="50" Y="1"/>
 		<scale X="110" Y="110" Z="110"/>
+		<material emiR="1" emiG="1" emiB="1"/>
 		<model file="objects/sol.3d" texture="2k_sun.jpg"/>
 	</group>
 	<group>

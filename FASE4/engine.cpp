@@ -202,7 +202,7 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 
 void material(XMLElement* element2) {
 	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0, sr=0, sg=0, sb=0, er=0, eg=0, eb=0;
-	int shin;
+	GLfloat shin = 0;
 	dr = element2->FloatAttribute("diffR");
 	dg = element2->FloatAttribute("diffG");
 	db = element2->FloatAttribute("diffB");
@@ -215,7 +215,7 @@ void material(XMLElement* element2) {
 	er = element2->FloatAttribute("emiR");
 	eg = element2->FloatAttribute("emiG");
 	eb = element2->FloatAttribute("emiB");
-	shin = element2->IntAttribute("shininess");
+	shin = (float)element2->FloatAttribute("shininess");
 	Transformacao* tf = new Material(dr,dg,db,ar,ag,ab,sr,sg,sb,er,eg,eb, shin);
 	transformacoes.push_back(tf);
 }
@@ -334,7 +334,6 @@ void model(XMLElement* element2) {
 			return;
 		}
 		printf("Opened %s successfully.\n", nome);
-		printf("Texture\n");
 		if(tftemp->Attribute("texture")){
 			texture = strdup((char*) tftemp->Attribute("texture"));
 			textID = loadTexture(texture);
@@ -424,6 +423,8 @@ int parserXMLGroup(XMLElement* pListElement) {
  	pushMatrix();
 	 element2 = pListElement->FirstChildElement("color");
 	 if(element2!=NULL) color(element2);
+	 tempEl = pListElement->FirstChildElement("material");
+	 if(tempEl != NULL) material(tempEl);
 	 element2 = pListElement->FirstChildElement("translate");
 	 if(element2!=NULL) translate(element2);
 	 element2 = pListElement->FirstChildElement("rotate");
