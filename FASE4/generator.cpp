@@ -471,40 +471,55 @@ void ring (float innerRadius, float outerRadius, int sl, char *ficheiro){
 		//Triangulo com base no inner
 		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i)),innerRadius*cos(alpha*(i)));
 		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 1\n",(float)(i)/sl);
+
+		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
+		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 0\n",(float)(i)/sl);
+
+		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
+		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 1\n",(float)(i+1)/sl);
+
+		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
+		fprintf(op,"0 -1 0\n");
+		fprintf(op,"%f 1\n",(float)(i+1)/sl);
+
+		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
+		fprintf(op,"0 -1 0\n");
+		fprintf(op,"%f 0\n",(float)(i)/sl);
 		
-		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
-		fprintf(op,"0 1 0\n");
-
-		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
-		fprintf(op,"0 1 0\n");
-
-		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
-		fprintf(op,"0 1 0\n");
-
-		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
-		fprintf(op,"0 1 0\n");
-
 		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i)),innerRadius*cos(alpha*(i)));
-		fprintf(op,"0 1 0\n");
+		fprintf(op,"0 -1 0\n");
+		fprintf(op,"%f 1\n",(float)(i)/sl);
+
 
 		//Triangulo com base no outer
 		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
-		fprintf(op,"0 -1 0\n");
-
+		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 0\n",(float)(i)/sl);
+		
 		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i+1)),outerRadius*cos(alpha*(i+1)));
-		fprintf(op,"0 -1 0\n");
+		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 0\n",(float)(i+1)/sl);
+		
+		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
+		fprintf(op,"0 1 0\n");
+		fprintf(op,"%f 1\n",(float)(i+1)/sl);
 
 		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
 		fprintf(op,"0 -1 0\n");
-
-		fprintf(op,"%f 0 %f\n", innerRadius*sin(alpha*(i+1)),innerRadius*cos(alpha*(i+1)));
-		fprintf(op,"0 -1 0\n");
-
+		fprintf(op,"%f 1\n",(float)(i+1)/sl);
+		
 		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i+1)),outerRadius*cos(alpha*(i+1)));
 		fprintf(op,"0 -1 0\n");
-
+		fprintf(op,"%f 0\n",(float)(i+1)/sl);
+		
 		fprintf(op,"%f 0 %f\n", outerRadius*sin(alpha*(i)),outerRadius*cos(alpha*(i)));
 		fprintf(op,"0 -1 0\n");
+		fprintf(op,"%f 0\n",(float)(i)/sl);
+
+		printf("%i\n",i);
 	}
 	fclose(op);
 }

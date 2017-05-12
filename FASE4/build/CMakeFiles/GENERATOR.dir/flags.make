@@ -6,5 +6,5 @@ CXX_FLAGS =
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -I/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/ยง{IL_INCLUDE_DIR} 
 

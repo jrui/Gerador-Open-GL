@@ -15,17 +15,19 @@
 		</translate>
 		<model file="objects/sphere.3d" texture="earth_daymap.jpg"/>
 		<group><!--Lua-->
-			<translate X="7"/>
+			<translate X="15"/>
 			<scale X="0.2724" Y="0.2724" Z="0.2724"/>
-			<model file="objects/sphere.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
+			<model file="objects/sphere.3d" texture="2k_moon.jpg"/>
 		</group>
 	</group>
-	<group><!--Sol-->
+	<!--
+	<group>
 		<rotate time="50" Y="1"/>
 		<scale X="110" Y="110" Z="110"/>
-		<model file="objects/sol.3d" diffR="0.75" diffG="1" diffB="0" matR="0.75" matG="1" matB="0"/>
+		<model file="objects/sol.3d" texture="2k_sun.jpg"/>
 	</group>
-	<group><!--Mercúrio-->
+-->
+	<group>
 		<translate time="20">
 			<point X="621"/>
 			<point X="439" Z="714"/>
@@ -39,9 +41,9 @@
 		<rotate time="116" Y="1"/>
 		<translate Z="7"/>
 		<scale X="1.528" Y="1.528" Z="1.528"/>
-		<model file="objects/sphere.3d" diffR="0.49" diffG="0.40" diffB="0.27"/>
+		<model file="objects/sphere.3d" texture="2k_mercury.jpg"/>
 	</group>
-	<group><!--Vénus-->
+	<group>
 		<translate time="67">
 			<point X="1180"/>
 			<point X="834" Z="1356"/>
@@ -55,9 +57,9 @@
 		<rotate time="-486" Y="1"/>
 		<translate Z="7"/>
 		<scale X="3.796" Y="3.796" Z="3.796"/>
-		<model file="objects/sphere.3d" diffR="1" diffG="0.39" diffB="0"/>
+		<model file="objects/sphere.3d" texture="2k_venus_surface.jpg"/>
 	</group>
-	<group><!--Marte-->
+	<group>
 		<translate time="188">
 			<point X="800"/>
 			<point X="565" Z="919"/>
@@ -71,14 +73,10 @@
 		<rotate time="2" Y="1"/>
 		<translate Z="7"/>
 		<scale X="2.128" Y="2.128" Z="2.128"/>
-		<model file="objects/gasosos.3d" diffR="1" diffG="0.20" diffB="0.20"/>
-		<model file="objects/luasM.3d" diffR="0.75" diffG="0.47" diffB="0.39"/>
+		<model file="objects/gasosos.3d" texture="2k_mars.jpg"/>
 	</group>
-	<group><!--Cintura de Asteróides-->
-		<scale X="70" Y="1" Z="110"/>
-		<model file="objects/asteroid.3d" diffR="0.55" diffG="0.27" diffB="0.07"/>
-	</group>
-	<group><!--COMETA-->
+	<!--
+	<group>
 		<scale X="30" Y="30" Z="30"/>
 		<rotate angle="-90" X="1"/>
 		<translate time="100">
@@ -89,7 +87,8 @@
 		</translate>
 		<model file="objects/teapot.3d" diffR="0.6" diffG="0" diffB="0"/>
 	</group>
-	<group><!--Júpiter-->
+-->
+	<group>
 		<translate time="-900">
 			<point X="1723"/>
 			<point X="1218" Z="1980"/>
@@ -103,10 +102,10 @@
 		<rotate time="-18" Y="1"/>
 		<scale X="11.209" Y="11.209" Z="11.209"/>
 		<translate Z="2619"/>
-		<model file="objects/gasosos.3d" diffR="1" diffG="0.31" diffB="0.12"/>
-		<model file="objects/luasJ.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
+		<model file="objects/gasosos.3d" texture="2k_jupiter.jpg"/>
 	</group>
-	<group><!--Saturno-->
+	<!--
+	<group>
 		<translate time="1200">
 			<point X="2163"/>
 			<point X="1529" Z="2485"/>
@@ -120,7 +119,7 @@
 		<rotate time="10" Y="1"/>
 		<translate Z="3515"/>
 		<scale X="9.449" Y="9.449" Z="9.449"/>
-		<model file="objects/gasosos.3d" diffR="0.49" diffG="0.52" diffB="0.27"/>
+		<model file="objects/gasosos.3d" texture="2k_saturn.jpg"/>
 		<group>
 			<scale X="1" Y="1" Z="1"/>
 			<rotate time="100" Y="1"/>
@@ -128,7 +127,7 @@
 			<model file="objects/luasS.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
 		</group>
 	</group>
-	<group><!--Úrano-->
+	<group>
 		<translate time="-1200">
 			<point X="2769"/>
 			<point X="1957" Z="3181"/>
@@ -142,10 +141,10 @@
 		<rotate time="-3.8" Y="1"/>
 		<translate Z="4500"/>
 		<scale X="8.007" Y="8.007" Z="8.007"/>
-		<model file="objects/gasosos.3d" diffR="0" diffG="1" diffB="1"/>
+		<model file="objects/gasosos.3d" texture="2k_uranusjpg"/>
 		<model file="objects/luasU.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
 	</group>
-	<group><!--Neptuno-->
+	<group>
 		<translate time="12400">
 			<point X="3383"/>
 			<point X="2392" Z="3889"/>
@@ -159,7 +158,8 @@
 		<rotate time="4" Y="1"/>
 		<translate Z="5500"/>
 		<scale X="6.883" Y="6.883" Z="6.883"/>
-		<model file="objects/gasosos.3d" diffR="0.22" diffG="0.22" diffB="0.78"/>
+		<model file="objects/gasosos.3d" texture="2k_neptune.jpg"/>
 		<model file="objects/luasN.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
 	</group>
+-->
 </scene>

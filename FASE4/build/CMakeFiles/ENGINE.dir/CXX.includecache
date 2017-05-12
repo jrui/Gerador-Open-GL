@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/engine.cpp
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/engine.cpp
 GLUT/glut.h
 -
 GL/glew.h
@@ -21,16 +21,20 @@ math.h
 -
 vector
 -
+string
+-
 map
 -
 transformacao.h
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/transformacao.h
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/transformacao.h
 tinyxml2.h
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/tinyxml2.h
+IL/il.h
+-
 
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.cpp
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/tinyxml2.cpp
 tinyxml2.h
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/tinyxml2.h
 new
 -
 stddef.h
@@ -42,7 +46,7 @@ cstddef
 cstdarg
 -
 
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.h
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/tinyxml2.h
 ctype.h
 -
 limits.h
@@ -72,5 +76,5 @@ android/log.h
 assert.h
 -
 
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/transformacao.h
+/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/transformacao.h
 

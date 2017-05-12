@@ -1,1 +1,1 @@
-/usr/bin/c++      CMakeFiles/ENGINE.dir/engine.cpp.o CMakeFiles/ENGINE.dir/tinyxml2.cpp.o  -o ENGINE -rdynamic -lGLEW -lGLU -lGL -lglut -lXmu -lXi 
+/usr/bin/c++      CMakeFiles/ENGINE.dir/engine.cpp.o CMakeFiles/ENGINE.dir/tinyxml2.cpp.o  -o ENGINE -rdynamic -lGLEW -lIL -lGLU -lGL -lglut -lXmu -lXi 

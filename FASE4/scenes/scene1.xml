@@ -4,6 +4,10 @@
  	</lights>
  	<group>
  		<scale X="110" Y="110" Z="110"/>
-		<model file="objects/sphereNova.3d" texture="earth_daymap.jpg"/> 
+		<model file="objects/sphereNova.3d" texture="2k_saturn.jpg"/> 
+		<group>
+			<scale X="1" Y="1" Z="1"/>
+			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
+		</group>
  	</group>
 </scene> 
