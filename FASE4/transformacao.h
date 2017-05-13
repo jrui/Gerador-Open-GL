@@ -254,11 +254,11 @@ class Model: public Transformacao {
 			if(numero!=0){
 				for(int i = 0; i < numero; i++){
 					glPushMatrix();
-					float tx;
-					float tz;
+					float tx, tz;
+					int nx = rand() % 2 * 2 -1, nz = rand() % 2 * 2 -1;
 					while(true){
-						tx = (float) rand()/(float)RAND_MAX*rMax;
-						tz = (float) rand()/(float)RAND_MAX*rMax;
+						tx = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin;
+						tz = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin;
 						if(sqrt(tx*tx + tz*tz)<=rMax && sqrt(tx*tx + tz*tz)>=rMin)
 							break;
 					}
@@ -266,7 +266,7 @@ class Model: public Transformacao {
 					float sy = (float) rand()/(float)RAND_MAX*(yMax-yMin)+yMin;
 					float sz = (float) rand()/(float)RAND_MAX*(zMax-zMin)+zMin;
 					glScalef(sx, sy, sz);
-					glTranslatef(tx,0,tz);
+					glTranslatef(nx*tx,0,nz*tz);
 					glDrawArrays(GL_TRIANGLES, 0, vc.size());
 					glPopMatrix();
 				}
