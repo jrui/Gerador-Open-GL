@@ -3,11 +3,24 @@
  		<light type="POINT" posX="1" posY="1" posZ="1" />
  	</lights>
  	<group>
+ 		<rotate time="10" Y="1"/>
  		<scale X="110" Y="110" Z="110"/>
 		<model file="objects/sphereNova.3d" texture="2k_saturn.jpg"/> 
 		<group>
 			<scale X="1" Y="1" Z="1"/>
 			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
 		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="Titan.png"/>
+		</group>
+		<group>
+			<rotate time="10" Y="8"/>
+			<translate X="-20" Y="-5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d" texture="Enceladus.png"/>
+		</group> 	
  	</group>
 </scene> 

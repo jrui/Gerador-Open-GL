@@ -195,6 +195,7 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 		t.push_back(atof(s8));	
 	}
  	fclose(f_3d);
+ 	free(s1); free(s2); free(s3); free(s4); free(s5); free(s6); free(s7); free(s8);
  	return;
 }
 
@@ -350,6 +351,7 @@ void model(XMLElement* element2) {
 		Transformacao* tf = new Model(vc, norm,tex, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
 		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
+		free(texture);
 	}
 }
 
@@ -360,8 +362,9 @@ void model(XMLElement* element2) {
 *
 */
 void popMatrix() {
- Transformacao* tf = new PopMatrix();
- transformacoes.push_back(tf);
+	printf("Pop\n");
+	Transformacao* tf = new PopMatrix();
+	transformacoes.push_back(tf);
 }
 
 
@@ -371,8 +374,9 @@ void popMatrix() {
 *
 */
 void pushMatrix() {
- Transformacao* tf = new PushMatrix();
- transformacoes.push_back(tf);
+	printf("Push\n");
+	Transformacao* tf = new PushMatrix();
+	transformacoes.push_back(tf);
 }
 
 
@@ -420,24 +424,24 @@ int parserXMLGroup(XMLElement* pListElement) {
 
  if(pListElement != NULL) {
 
- 	pushMatrix();
-	 element2 = pListElement->FirstChildElement("color");
-	 if(element2!=NULL) color(element2);
-	 tempEl = pListElement->FirstChildElement("material");
-	 if(tempEl != NULL) material(tempEl);
-	 element2 = pListElement->FirstChildElement("translate");
-	 if(element2!=NULL) translate(element2);
-	 element2 = pListElement->FirstChildElement("rotate");
-	 if(element2!=NULL) rotate(element2);
-	 element2 = pListElement->FirstChildElement("scale");
-	 if(element2!=NULL) scale(element2);
-	 element2 = pListElement->FirstChildElement("model");
-	 if(element2!=NULL) model(element2);
-	 tempEl = pListElement->FirstChildElement("group");
-	 if(tempEl != NULL) parserXMLGroup(tempEl);
-	 popMatrix();
-	 tempEl = pListElement->NextSiblingElement("group");
-	 if(tempEl != NULL) parserXMLGroup(tempEl);
+ 		pushMatrix();
+		element2 = pListElement->FirstChildElement("color");
+		if(element2!=NULL) color(element2);
+		tempEl = pListElement->FirstChildElement("material");
+		if(tempEl != NULL) material(tempEl);
+		element2 = pListElement->FirstChildElement("translate");
+		if(element2!=NULL) translate(element2);
+		element2 = pListElement->FirstChildElement("rotate");
+		if(element2!=NULL) rotate(element2);
+		element2 = pListElement->FirstChildElement("scale");
+		if(element2!=NULL) scale(element2);
+		element2 = pListElement->FirstChildElement("model");
+		if(element2!=NULL) model(element2);
+		tempEl = pListElement->FirstChildElement("group");
+		if(tempEl != NULL) parserXMLGroup(tempEl);
+		popMatrix();
+		tempEl = pListElement->NextSiblingElement("group");
+		if(tempEl != NULL) parserXMLGroup(tempEl);
  }
  return 1;
 }

@@ -274,12 +274,17 @@ class Model: public Transformacao {
 			else{
 
 			 glDrawArrays(GL_TRIANGLES, 0, vc.size()); }
-			if(texID!=-1) glBindTexture(GL_TEXTURE_2D,0);
+			if(texID!=-1){ 
+				glBindTexture(GL_TEXTURE_2D,0);
+				//glDeleteTextures(1, &texID);
+			}
+			glDeleteBuffers(3, buffers);
 			glMaterialfv(GL_FRONT, GL_EMISSION, resSpec);
 			glMaterialfv(GL_FRONT, GL_SPECULAR, resSpec);
 			glMaterialfv(GL_FRONT, GL_AMBIENT, resAmb);
 			glMaterialfv(GL_FRONT, GL_DIFFUSE, resDiff);
 			glMaterialf(GL_FRONT, GL_SHININESS, 0);
+
 		}
 };
 

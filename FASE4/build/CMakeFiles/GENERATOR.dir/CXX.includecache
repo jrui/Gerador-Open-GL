@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/bruno/Desktop/TrabalhoCG/Gerador-Open-GL/FASE4/generator.cpp
+/home/bruno/Desktop/Gerador-Open-GL/FASE4/generator.cpp
 math.h
 -
 stdio.h

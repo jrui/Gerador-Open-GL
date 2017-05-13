@@ -102,8 +102,32 @@
 		<scale X="11.209" Y="11.209" Z="11.209"/>
 		<translate Z="2619"/>
 		<model file="objects/gasosos.3d" texture="2k_jupiter.jpg"/>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="callisto.jpg"/>
+		</group>
+		<group>
+			<rotate time="10" Y="8"/>
+			<translate X="-20" Y="-5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d" texture="ganymede.jpg"/>
+		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6" Z="-15"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="IO.jpg"/>
+		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6" Z="15"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="europa.jpg"/>
+		</group>
 	</group>
-	<!--
+	
 	<group>
 		<translate time="1200">
 			<point X="2163"/>
@@ -121,10 +145,20 @@
 		<model file="objects/gasosos.3d" texture="2k_saturn.jpg"/>
 		<group>
 			<scale X="1" Y="1" Z="1"/>
-			<rotate time="100" Y="1"/>
-			<model file="objects/ring.3d" diffR="0.78" diffG="0.78" diffB="0.78"/>
-			<model file="objects/luasS.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
+			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
 		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="Titan.png"/>
+		</group>
+		<group>
+			<rotate time="10" Y="8"/>
+			<translate X="-20" Y="-5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d" texture="Enceladus.png"/>
+		</group> 	
 	</group>
 	<group>
 		<translate time="-1200">
@@ -141,7 +175,6 @@
 		<translate Z="4500"/>
 		<scale X="8.007" Y="8.007" Z="8.007"/>
 		<model file="objects/gasosos.3d" texture="2k_uranusjpg"/>
-		<model file="objects/luasU.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
 	</group>
 	<group>
 		<translate time="12400">
@@ -158,7 +191,6 @@
 		<translate Z="5500"/>
 		<scale X="6.883" Y="6.883" Z="6.883"/>
 		<model file="objects/gasosos.3d" texture="2k_neptune.jpg"/>
-		<model file="objects/luasN.3d" diffR="0.75" diffG="0.75" diffB="0.75"/>
 	</group>
--->
+
 </scene>

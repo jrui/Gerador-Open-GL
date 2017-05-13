@@ -1,0 +1,37 @@
+<scene>
+ 	<lights>
+ 		<light type="POINT" posX="1" posY="1" posZ="1" />
+ 	</lights>
+ 	<group>
+ 		<rotate time="10" Y="1"/>
+ 		<scale X="50" Y="50" Z="50"/>
+		<model file="objects/sphereNova.3d" texture="2k_jupiter.jpg"/> 
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="callisto.jpg"/>
+		</group>
+		<group>
+			<rotate time="10" Y="8"/>
+			<translate X="-20" Y="-5"/>
+			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<model file="objects/sphere.3d" texture="ganymede.jpg"/>
+		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6" Z="-15"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="IO.jpg"/>
+		</group>
+		<group>
+			<rotate time="9" Y="1"/>
+			<translate X="15" Y="6" Z="15"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<model file="objects/sphere.3d" texture="europa.jpg"/>
+		</group>
+		<group>
+			<model file="objects/asteroide.3d" texture="callisto.jpg" num="100" rMin="10" rMax="100" xMin="1" xMax="2" yMin="1" yMax="2" zMin="1" zMax="2"/>
+		</group>  	
+ 	</group>
+</scene> 
