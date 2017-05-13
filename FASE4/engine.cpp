@@ -135,6 +135,13 @@ int main(int argc, char **argv) {
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHT2);
+	glEnable(GL_LIGHT3);
+	glEnable(GL_LIGHT4);
+	glEnable(GL_LIGHT5);
+	glEnable(GL_LIGHT6);
+	glEnable(GL_LIGHT7);
 	glEnable(GL_TEXTURE_2D);
 
 	spherical2Cartesian();
@@ -536,8 +543,19 @@ void renderFigures() {
  int color;
  std::vector<float> vc;
  Transformacao* tftemp;
- GLfloat pos0[4] = {0,1300,0,0};
+ GLfloat pos0[4] = {0,1300,0,1};
+ GLfloat pos1[4] = {0,-1300,0,1};
+ GLfloat pos2[4] = {1300,0,0,1};
+ GLfloat pos3[4] = {-1300,0,0,-1};
+ GLfloat pos4[4] = {0,0,1300,-1};
+ GLfloat pos5[4] = {0,0,-1300,-1};
  glLightfv(GL_LIGHT0, GL_POSITION, pos0);
+ glLightfv(GL_LIGHT1,GL_POSITION,pos1);
+ glLightfv(GL_LIGHT2,GL_POSITION,pos2);
+ glLightfv(GL_LIGHT3,GL_POSITION,pos3);
+ glLightfv(GL_LIGHT4,GL_POSITION,pos4);
+ glLightfv(GL_LIGHT5,GL_POSITION,pos5);
+
  for(int i = 0; i < transformacoes.size(); i++) {
 	 tftemp = transformacoes.at(i);
 	 tftemp->transformar();

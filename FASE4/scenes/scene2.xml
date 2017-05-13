@@ -1,11 +1,12 @@
 <scene>
  	<lights>
- 		<light type="POINT" posX="1" posY="1" posZ="1" />
+ 		<light type="POINT" posX="0" posY="0" posZ="0" />
  	</lights>
  	<group>
  		<rotate time="10" Y="1"/>
  		<scale X="50" Y="50" Z="50"/>
-		<model file="objects/sphereNova.3d" texture="2k_jupiter.jpg"/> 
+		<model file="objects/sphereNova.3d" texture="2k_jupiter.jpg"/>
+		<model file="objects/sphereNova.3d" emiR="255" emiG="255" emiB="255"/>  
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="15" Y="6"/>

@@ -217,7 +217,7 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector< float> v, std::vector<float> n, std::vector<float> tex, GLuint t, int num, int rMi, int rMa, int xMi, int xMa, int yMi, int yMa, int zMi, int zMa){
+		Model(std::vector< float> v, std::vector<float> n, std::vector<float> tex, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
 			texID = t;
 			vc = v;
 			normal = n;
@@ -254,19 +254,16 @@ class Model: public Transformacao {
 			if(numero!=0){
 				for(int i = 0; i < numero; i++){
 					glPushMatrix();
-					float tx, tz;
-					int nx = rand() % 2 * 2 -1, nz = rand() % 2 * 2 -1;
-					while(true){
-						tx = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin;
+					float tx, tz,alpha;
+						tx = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin; 
 						tz = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin;
-						if(sqrt(tx*tx + tz*tz)<=rMax && sqrt(tx*tx + tz*tz)>=rMin)
-							break;
-					}
-					float sx = (float) rand()/(float)RAND_MAX*(xMax-xMin)+xMin;
+						alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
+			
+					float sx = (float) rand()/(float)RAND_MAX*(xMax-xMin)+xMin; 
 					float sy = (float) rand()/(float)RAND_MAX*(yMax-yMin)+yMin;
 					float sz = (float) rand()/(float)RAND_MAX*(zMax-zMin)+zMin;
-					glScalef(sx, sy, sz);
-					glTranslatef(nx*tx,0,nz*tz);
+					glTranslatef(0.75*tx*cos(alpha),0,1.25*tz*sin(alpha));
+					glScalef(sy, sy, sy);
 					glDrawArrays(GL_TRIANGLES, 0, vc.size());
 					glPopMatrix();
 				}

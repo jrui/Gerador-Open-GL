@@ -28,28 +28,28 @@ The CXX compiler identification is GNU, found in "/home/bruno/Desktop/Gerador-Op
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_28d9b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_28d9b.dir/build.make CMakeFiles/cmTC_28d9b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_d2d17/fast"
+/usr/bin/make -f CMakeFiles/cmTC_d2d17.dir/build.make CMakeFiles/cmTC_d2d17.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_28d9b.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_28d9b.dir/testCCompiler.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_28d9b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28d9b.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_28d9b.dir/testCCompiler.c.o  -o cmTC_28d9b -rdynamic 
+Building C object CMakeFiles/cmTC_d2d17.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_d2d17.dir/testCCompiler.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_d2d17
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d2d17.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_d2d17.dir/testCCompiler.c.o  -o cmTC_d2d17 -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_936fd/fast"
-/usr/bin/make -f CMakeFiles/cmTC_936fd.dir/build.make CMakeFiles/cmTC_936fd.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_65cdb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_65cdb.dir/build.make CMakeFiles/cmTC_65cdb.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_936fd
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_936fd.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o  -o cmTC_936fd -rdynamic  
+Building C object CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_65cdb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65cdb.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o  -o cmTC_65cdb -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -59,8 +59,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_936fd' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cciE9HKi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_936fd /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_65cdb' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnxVU8x.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_65cdb /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -68,14 +68,14 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_936fd/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_936fd.dir/build.make CMakeFiles/cmTC_936fd.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_65cdb/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_65cdb.dir/build.make CMakeFiles/cmTC_65cdb.dir/build]
   ignore line: [make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_936fd]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_936fd.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o  -o cmTC_936fd -rdynamic  ]
+  ignore line: [Building C object CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_65cdb]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_65cdb.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o  -o cmTC_65cdb -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -85,13 +85,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_936fd' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/cciE9HKi.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_936fd /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_65cdb' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnxVU8x.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_65cdb /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/cciE9HKi.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccnxVU8x.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -109,7 +109,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_936fd] ==> ignore
+    arg [cmTC_65cdb] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -121,7 +121,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_936fd.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_65cdb.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -155,14 +155,14 @@ Parsed C implicit link information from above output:
 Detecting C [-std=c11] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_14cc7/fast"
-/usr/bin/make -f CMakeFiles/cmTC_14cc7.dir/build.make CMakeFiles/cmTC_14cc7.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_bf088/fast"
+/usr/bin/make -f CMakeFiles/cmTC_bf088.dir/build.make CMakeFiles/cmTC_bf088.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_14cc7.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_14cc7.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_14cc7
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_14cc7.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_14cc7.dir/feature_tests.c.o  -o cmTC_14cc7 -rdynamic 
+Building C object CMakeFiles/cmTC_bf088.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_bf088.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_bf088
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bf088.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_bf088.dir/feature_tests.c.o  -o cmTC_bf088 -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -175,14 +175,14 @@ make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMak
 Detecting C [-std=c99] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_5800d/fast"
-/usr/bin/make -f CMakeFiles/cmTC_5800d.dir/build.make CMakeFiles/cmTC_5800d.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_8caeb/fast"
+/usr/bin/make -f CMakeFiles/cmTC_8caeb.dir/build.make CMakeFiles/cmTC_8caeb.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_5800d.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_5800d.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_5800d
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5800d.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_5800d.dir/feature_tests.c.o  -o cmTC_5800d -rdynamic 
+Building C object CMakeFiles/cmTC_8caeb.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_8caeb.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_8caeb
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8caeb.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_8caeb.dir/feature_tests.c.o  -o cmTC_8caeb -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -195,14 +195,14 @@ make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMak
 Detecting C [-std=c90] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_bca90/fast"
-/usr/bin/make -f CMakeFiles/cmTC_bca90.dir/build.make CMakeFiles/cmTC_bca90.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_67e2c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_67e2c.dir/build.make CMakeFiles/cmTC_67e2c.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_bca90.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_bca90.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
-Linking C executable cmTC_bca90
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bca90.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_bca90.dir/feature_tests.c.o  -o cmTC_bca90 -rdynamic 
+Building C object CMakeFiles/cmTC_67e2c.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_67e2c.dir/feature_tests.c.o   -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_67e2c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67e2c.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_67e2c.dir/feature_tests.c.o  -o cmTC_67e2c -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -213,28 +213,28 @@ make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMak
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_eddf9/fast"
-/usr/bin/make -f CMakeFiles/cmTC_eddf9.dir/build.make CMakeFiles/cmTC_eddf9.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_93912/fast"
+/usr/bin/make -f CMakeFiles/cmTC_93912.dir/build.make CMakeFiles/cmTC_93912.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_eddf9.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_eddf9.dir/testCXXCompiler.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_eddf9
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eddf9.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_eddf9.dir/testCXXCompiler.cxx.o  -o cmTC_eddf9 -rdynamic 
+Building CXX object CMakeFiles/cmTC_93912.dir/testCXXCompiler.cxx.o
+/usr/bin/c++      -o CMakeFiles/cmTC_93912.dir/testCXXCompiler.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_93912
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_93912.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_93912.dir/testCXXCompiler.cxx.o  -o cmTC_93912 -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_286c6/fast"
-/usr/bin/make -f CMakeFiles/cmTC_286c6.dir/build.make CMakeFiles/cmTC_286c6.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_515e2/fast"
+/usr/bin/make -f CMakeFiles/cmTC_515e2.dir/build.make CMakeFiles/cmTC_515e2.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_286c6
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_286c6.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_286c6 -rdynamic  
+Building CXX object CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++      -o CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_515e2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_515e2.dir/link.txt --verbose=1
+/usr/bin/c++       -v CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_515e2 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper
@@ -244,8 +244,8 @@ Thread model: posix
 gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_286c6' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvXl3BC.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_286c6 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_515e2' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccgpITBV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_515e2 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -253,14 +253,14 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_286c6/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_286c6.dir/build.make CMakeFiles/cmTC_286c6.dir/build]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_515e2/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_515e2.dir/build.make CMakeFiles/cmTC_515e2.dir/build]
   ignore line: [make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_286c6]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_286c6.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_286c6 -rdynamic  ]
+  ignore line: [Building CXX object CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_515e2]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_515e2.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_515e2 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper]
@@ -270,13 +270,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.4) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/5/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/5/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_286c6' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvXl3BC.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_286c6 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_515e2' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/5/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper -plugin-opt=-fresolution=/tmp/ccgpITBV.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_515e2 /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/5/crtend.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/5/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccvXl3BC.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccgpITBV.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -294,7 +294,7 @@ Parsed CXX implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_286c6] ==> ignore
+    arg [cmTC_515e2] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/5/crtbegin.o] ==> ignore
@@ -306,7 +306,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/5/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/5/../../..]
-    arg [CMakeFiles/cmTC_286c6.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_515e2.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -338,14 +338,14 @@ Parsed CXX implicit link information from above output:
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a4e79/fast"
-/usr/bin/make -f CMakeFiles/cmTC_a4e79.dir/build.make CMakeFiles/cmTC_a4e79.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_ffe04/fast"
+/usr/bin/make -f CMakeFiles/cmTC_ffe04.dir/build.make CMakeFiles/cmTC_ffe04.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_a4e79.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_a4e79.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_a4e79
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a4e79.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_a4e79.dir/feature_tests.cxx.o  -o cmTC_a4e79 -rdynamic 
+Building CXX object CMakeFiles/cmTC_ffe04.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_ffe04.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_ffe04
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffe04.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_ffe04.dir/feature_tests.cxx.o  -o cmTC_ffe04 -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -411,14 +411,14 @@ make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMak
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_fc1cc/fast"
-/usr/bin/make -f CMakeFiles/cmTC_fc1cc.dir/build.make CMakeFiles/cmTC_fc1cc.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_060f2/fast"
+/usr/bin/make -f CMakeFiles/cmTC_060f2.dir/build.make CMakeFiles/cmTC_060f2.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_fc1cc.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_fc1cc.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_fc1cc
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fc1cc.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_fc1cc.dir/feature_tests.cxx.o  -o cmTC_fc1cc -rdynamic 
+Building CXX object CMakeFiles/cmTC_060f2.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_060f2.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_060f2
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_060f2.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_060f2.dir/feature_tests.cxx.o  -o cmTC_060f2 -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
@@ -484,14 +484,14 @@ make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMak
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
 Change Dir: /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_33b2b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_33b2b.dir/build.make CMakeFiles/cmTC_33b2b.dir/build
+Run Build Command:"/usr/bin/make" "cmTC_e7fde/fast"
+/usr/bin/make -f CMakeFiles/cmTC_e7fde.dir/build.make CMakeFiles/cmTC_e7fde.dir/build
 make[1]: Entering directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_33b2b.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_33b2b.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_33b2b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_33b2b.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_33b2b.dir/feature_tests.cxx.o  -o cmTC_33b2b -rdynamic 
+Building CXX object CMakeFiles/cmTC_e7fde.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_e7fde.dir/feature_tests.cxx.o -c /home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_e7fde
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e7fde.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_e7fde.dir/feature_tests.cxx.o  -o cmTC_e7fde -rdynamic 
 make[1]: Leaving directory '/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/CMakeTmp'
 
 
