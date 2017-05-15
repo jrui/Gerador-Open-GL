@@ -253,7 +253,8 @@ void color(XMLElement* element2) {
 
 
 /**
-*
+* É utilizada  para guardar os pontos da tag "Translate". Estes pontos serão
+* usados para definir a trajetória do objeto, utilizando Catmull.
 */
 std::vector<float> processPointTranslate(XMLElement *element2) {
 	std::vector<float> v;

@@ -159,6 +159,14 @@ class Rotate: public Transformacao {
 		}
 };
 
+/**
+* 		Class "Translate" que contêm o método virtual da classe "Transformacao".
+* Na classe Translate, o usetime indica se se utiliza as variaveis associadas ao tempo
+* ou não. Caso o usetime seja true, a partir dos pontos fornecidos, calcula-se 
+* a trajetória do movimento do objeto, através de Catmull. Caso o usetime seja true,
+* utiliza-se as coordenadas fornecidas para mover o refenrencial. O método "transformar"
+* utiliza a função "translate", com a nova posição do referencial onde se desenha o objeto.
+*/
 class Translate: public Transformacao {
 	public:
 		float x,y,z;
