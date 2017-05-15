@@ -33,7 +33,7 @@ char view_mode = 'l';
 int x_pos = 400, y_pos = 400;
 bool click = false;
 float x,y,z;
-int N = 1, timebase = 0, frame = 0;
+int N = 1, timebase = 0, frame = 0, lights = 0;
 GLuint buffers[2];
 GLuint vertexCount, vertices, normals, texCoord, indices, indCount;
 
@@ -134,14 +134,6 @@ int main(int argc, char **argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHT1);
-	glEnable(GL_LIGHT2);
-	glEnable(GL_LIGHT3);
-	glEnable(GL_LIGHT4);
-	glEnable(GL_LIGHT5);
-	glEnable(GL_LIGHT6);
-	glEnable(GL_LIGHT7);
 	glEnable(GL_TEXTURE_2D);
 
 	spherical2Cartesian();
@@ -154,6 +146,7 @@ int main(int argc, char **argv) {
 	//init("terra.jpg");
 
 	glutMainLoop();
+	printf("Saí\n");
 
 	return 1;
 }
@@ -278,6 +271,7 @@ void translate(XMLElement* element2) {
 		std::vector<float> pontos;
 		pontos = processPointTranslate(element2);
 		tf = new Translate(time, pontos);
+		pontos = std::vector<float>();
 	}
 	else {
 		if(!(x = element2->FloatAttribute("X"))) x = 0;
@@ -332,7 +326,7 @@ void model(XMLElement* element2) {
 	char* nome, *texture;
 	int numero=1;
 	float rMin=0, rMax=0, xMax=1, xMin=1, yMax=1, yMin=1,zMax=1, zMin=1;
-	std::vector<float> vc, norm, tex;
+	std::vector<float> vc , norm, tex;
 	GLuint textID = -1;
 	while(tftemp != NULL) {
 		nome = strdup((char*) tftemp->Attribute("file"));
@@ -359,6 +353,10 @@ void model(XMLElement* element2) {
 		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
 		free(texture);
+		free(nome);
+		vc = std::vector<float>();
+		norm = std::vector<float>();
+		tex = std::vector<float>();
 	}
 }
 
@@ -369,7 +367,6 @@ void model(XMLElement* element2) {
 *
 */
 void popMatrix() {
-	printf("Pop\n");
 	Transformacao* tf = new PopMatrix();
 	transformacoes.push_back(tf);
 }
@@ -381,7 +378,6 @@ void popMatrix() {
 *
 */
 void pushMatrix() {
-	printf("Push\n");
 	Transformacao* tf = new PushMatrix();
 	transformacoes.push_back(tf);
 }
@@ -390,19 +386,29 @@ void pushMatrix() {
 
 void light(XMLElement* element2){
 	char* type;
-	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0;
+	GLfloat pos[3], diff[3], amb[3], spec[3], dir[3];
+	float exp, cut;
 	int shin;
-	dr = element2->FloatAttribute("diffR");
-	dg = element2->FloatAttribute("diffG");
-	db = element2->FloatAttribute("diffB");
-	ar = element2->FloatAttribute("ambR");
-	ag = element2->FloatAttribute("ambG");
-	ab = element2->FloatAttribute("ambB");
-	if(!(x = element2->FloatAttribute("posX"))) x=0;
- 	if(!(y = element2->FloatAttribute("posY"))) y=0;
- 	if(!(z = element2->FloatAttribute("posZ"))) z=0;
+	if(!(diff[0] = element2->FloatAttribute("diffR"))) diff[0] = 0;
+	if(!(diff[1] = element2->FloatAttribute("diffG"))) diff[1] = 0;
+	if(!(diff[2] = element2->FloatAttribute("diffB"))) diff[2] = 0;
+	if(!(amb[0] = element2->FloatAttribute("ambR"))) amb[0] = 0;
+	if(!(amb[1] = element2->FloatAttribute("ambG"))) amb[1] = 0;
+	if(!(amb[2] = element2->FloatAttribute("ambB"))) amb[2] = 0;
+	if(!(spec[0] = element2->FloatAttribute("specR"))) spec[0] = 0;
+	if(!(spec[1] = element2->FloatAttribute("specG"))) spec[1] = 0;
+	if(!(spec[2] = element2->FloatAttribute("specB"))) spec[2] = 0;
+	if(!(pos[0] = element2->FloatAttribute("posX"))) pos[0]=0;
+ 	if(!(pos[1] = element2->FloatAttribute("posY"))) pos[1]=0;
+ 	if(!(pos[2] = element2->FloatAttribute("posZ"))) pos[2]=0;
+ 	if(!(dir[0] = element2->FloatAttribute("dirX"))) dir[0] = 0;
+	if(!(dir[1] = element2->FloatAttribute("dirY"))) dir[1] = 0;
+	if(!(dir[2] = element2->FloatAttribute("dirZ"))) dir[2] = 0;
+	if(!(exp = element2->FloatAttribute("exp"))) exp = 0;
+	if(!(cut = element2->FloatAttribute("cut"))) cut = 180;
  	type = strdup((char*) element2->Attribute("type"));
- 	Transformacao* tf = new Light(x,y,z,dr,dg,db,ar,ag,ab, type);
+ 	Transformacao* tf = new Light(pos,diff,amb,spec, dir,exp, cut,lights,type);
+ 	lights++;
  	transformacoes.push_back(tf);
 }
 
@@ -412,11 +418,13 @@ int parserXMLLight(XMLElement* pListElement) {
  XMLElement* tempEl;
 
  if(pListElement != NULL) {
-	 element2 = pListElement->FirstChildElement("light");
-	 while(element2!=NULL){	
+	element2 = pListElement->FirstChildElement("light");
+	while(element2!=NULL){	
+		pushMatrix();
 	 	light(element2);
-	 	element2 = element2 -> NextSiblingElement("light");
-	 }
+	 	popMatrix();
+		element2 = element2 -> NextSiblingElement("light");
+	}
  }
  return 1;
 }
@@ -483,6 +491,7 @@ int processXML(char* file) {
  if((pListElement = root -> FirstChildElement("group")))
  	parserXMLGroup(pListElement);
 
+ xmlDoc.Clear();
  return XML_SUCCESS;
 }
 
@@ -543,19 +552,17 @@ void renderFigures() {
  int color;
  std::vector<float> vc;
  Transformacao* tftemp;
+ /*float white[4] = {1,1,1,1}, black[4] = {0,0,0,1};
  GLfloat pos0[4] = {0,1300,0,1};
- GLfloat pos1[4] = {0,-1300,0,1};
+ GLfloat pos1[4] = {0,0,0,1};
  GLfloat pos2[4] = {1300,0,0,1};
  GLfloat pos3[4] = {-1300,0,0,-1};
  GLfloat pos4[4] = {0,0,1300,-1};
  GLfloat pos5[4] = {0,0,-1300,-1};
- glLightfv(GL_LIGHT0, GL_POSITION, pos0);
- glLightfv(GL_LIGHT1,GL_POSITION,pos1);
- glLightfv(GL_LIGHT2,GL_POSITION,pos2);
- glLightfv(GL_LIGHT3,GL_POSITION,pos3);
- glLightfv(GL_LIGHT4,GL_POSITION,pos4);
- glLightfv(GL_LIGHT5,GL_POSITION,pos5);
-
+ glLightfv(GL_LIGHT1, GL_AMBIENT, black);
+ glLightfv(GL_LIGHT1, GL_DIFFUSE, white);
+ glLightfv(GL_LIGHT1, GL_POSITION, pos1);
+ glEnable(GL_LIGHT1);*/
  for(int i = 0; i < transformacoes.size(); i++) {
 	 tftemp = transformacoes.at(i);
 	 tftemp->transformar();

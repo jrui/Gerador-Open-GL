@@ -10,29 +10,81 @@ class Transformacao {
 
 class Light: public Transformacao{
 	public:
-		GLfloat pos[4], diff[4], amb[4];
+		GLfloat pos[4], diff[4], amb[4], spec[4], dir[4];
+		float exp, cut;
+		GLenum light;
 		char* type;
-		Light(float xx, float yy, float zz,float dr,float dg,float db,float ar, float ag, float ab , char* ty){
-			pos[0]=xx;
-			pos[1]=yy;
-			pos[2]=zz;
-			pos[3]=0.0;
-			diff[0] = dr;
-			diff[1] = dg;
-			diff[2] = db;
+		Light(GLfloat* p,GLfloat* d, GLfloat *a, GLfloat *s, GLfloat *di, float e, float c, int luz, char* ty){
+			switch(luz%8){
+				case 0:
+					light = GL_LIGHT0;
+					break;
+				case 01:
+					light = GL_LIGHT1;
+					break;
+				case 2:
+					light = GL_LIGHT2;
+					break;
+				case 3:
+					light = GL_LIGHT3;
+					break;
+				case 4:
+					light = GL_LIGHT4;
+					break;
+				case 5:
+					light = GL_LIGHT5;
+					break;	
+				case 6:
+					light = GL_LIGHT6;
+					break;
+				case 7:
+					light = GL_LIGHT7;
+					break;
+			}
+			glEnable(light);
+			pos[0]=p[0];
+			pos[1]=p[1];
+			pos[2]=p[2];
+			if(!strcmp(ty, "DIRECIONAL")) pos[3]=0;
+			else{ pos[3] = 1; }
+			diff[0] = d[0];
+			diff[1] = d[1];
+			diff[2] = d[2];
 			diff[3] = 1;
-			amb[0] = ar;
-			amb[1] = ag;
-			amb[2] = ab;
+			dir[0] = di[0];
+			dir[1] = di[1];
+			dir[2] = di[2];
+			dir[3] = 1;
+			amb[0] = a[0];
+			amb[1] = a[1];
+			amb[2] = a[2];
 			amb[3] = 1;
+			spec[0] = s[0];
+			spec[1] = s[1];
+			spec[2] = s[2];
+			spec[3] = 1;
+			exp = e;
+			cut = c;
 			type=strdup(ty);
 		}
 		virtual void transformar(){
-			/*GLfloat amb[4] = {0.2, 0.2, 0.2, 1.0};
-			GLfloat diff[4] = {1.0, 1.0, 1.0, 1.0};
-			glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-			glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
-			glLightfv(GL_LIGHT0, GL_POSITION, pos);*/
+			GLfloat resAmb[4] = {0, 0, 0, 1.0};
+			GLfloat resDiff[4] = {1.0, 1.0, 1.0, 1.0};
+			if(amb[0] || amb[1] || amb[2]) glLightfv(light, GL_AMBIENT, amb);
+			else{ glLightfv(light, GL_AMBIENT, resAmb); }
+			if(diff[0] || diff[1] || diff[2]) glLightfv(light, GL_DIFFUSE, diff);
+			else{ glLightfv(light, GL_DIFFUSE, resDiff); }
+			if( spec[0] || spec[1] || spec[2]) glLightfv(light, GL_SPECULAR, spec);
+			else{ glLightfv(light, GL_SPECULAR, resDiff); }
+			if(!strcmp(type, "SPOTLIGHT")){
+				glLightfv(light, GL_POSITION, pos);
+				glLightfv(light, GL_SPOT_DIRECTION, dir);
+				glLightf(light, GL_SPOT_EXPONENT, exp);
+				glLightf(light, GL_SPOT_CUTOFF, cut);
+			}
+			else{
+				glLightfv(light, GL_POSITION, pos);
+			}
 		}
 };
 
@@ -92,7 +144,7 @@ class Translate: public Transformacao {
 			t = 0.0f;
 			usetime = false;
 		}
-		Translate(float tt, std::vector<float> pp) {
+		Translate(float tt, std::vector<float>& pp) {
 			time = tt;
 			points = pp;
 			t = 0.0f;
@@ -217,7 +269,7 @@ class Scale: public Transformacao {
 
 class Model: public Transformacao {
 	public:
-		Model(std::vector< float> v, std::vector<float> n, std::vector<float> tex, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
+		Model(std::vector< float>& v, std::vector<float>& n, std::vector<float>& tex, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
 			texID = t;
 			vc = v;
 			normal = n;

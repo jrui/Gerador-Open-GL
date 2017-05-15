@@ -1,4 +1,7 @@
 <scene>
+	<lights>
+ 		<light type="POINT" posX="0" posY="0" posZ="0"/>
+ 	</lights>
 	<group><!--Terra-->
 		<rotate time="2" Y="1"/>
 		<scale X="4" Y="4" Z="4"/>
@@ -27,7 +30,7 @@
 		<model file="objects/sol.3d" texture="2k_sun.jpg"/>
 	</group>
 	<group>
-			<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="1550" rMax="2100" xMin="5" xMax="10" yMin="5" yMax="10" zMin="5" zMax="10"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="1550" rMax="2100" xMin="5" xMax="10" yMin="5" yMax="10" zMin="5" zMax="10"/>
 	</group>
 	<group>
 		<translate time="20">
