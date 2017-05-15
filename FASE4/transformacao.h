@@ -3,11 +3,24 @@
 ;
 #include <math.h>
 
+/**
+* Class abstrata que contêm o método transformar
+*/
 class Transformacao {
 	public:
 		virtual void transformar() = 0;
 };
 
+
+/**
+* Class "Light" que contêm o método virtual da classe "Transformacao".
+* Esta classe guarda todas as informações da luz a implementar, através
+* do método virtual "transformar", guardando a posição da luz, os valores
+* da luz difusa, ambiente, especular e a direção, caso a luz seja do tipo
+* "Spotlight". Este irá ligar a luz dependendo quantas luzes já estiverem
+* ligadas, atribuindo os aspectos guardados a essa luz. O método "transformar"
+* irá executar as funções "glLightfv" e "glLightf" com as informações guardadas. 
+*/
 class Light: public Transformacao{
 	public:
 		GLfloat pos[4], diff[4], amb[4], spec[4], dir[4];
@@ -88,6 +101,11 @@ class Light: public Transformacao{
 		}
 };
 
+
+/**
+* 		Class "PopMatrix" que contêm o método virtual da classe "Transformacao".
+* O método apenas executará o método "glPopMatrix".
+*/
 class PopMatrix: public Transformacao {
 	public:
 		virtual void transformar(){
@@ -95,6 +113,11 @@ class PopMatrix: public Transformacao {
 		}
 };
 
+
+/**
+* 		Class "PushMatrix" que contêm o método virtual da classe "Transformacao".
+* O método apenas executará o método "glPushMatrix".
+*/
 class PushMatrix: public Transformacao {
 	public:
 		virtual void transformar(){
@@ -102,6 +125,13 @@ class PushMatrix: public Transformacao {
 		}
 };
 
+
+/**
+* 		Class "Rotate" que contêm o método virtual da classe "Transformacao".
+* Este guardará as informações relativas ao tempo que demora a completar uma
+* rotação completa do objeto, especificando o centro de rotação.
+* O método virtual irá utilizar o método "glRotatef" com as respetivas informações.
+*/
 class Rotate: public Transformacao {
 	public:
 		float x, y, z, angle;
@@ -254,6 +284,13 @@ class Translate: public Transformacao {
 		}
 };
 
+
+/**
+* 		Class "Scale" que contêm o método virtual da classe "Transformacao".
+* A classe guardará as dimensões das novas dimensões que serão utilizadas no
+* método "transformar" que irá executar a função "glScalef" com as dimensões
+* guardadas.
+*/
 class Scale: public Transformacao {
 	public:
 		float x,y,z;
@@ -267,6 +304,21 @@ class Scale: public Transformacao {
 		}
 };
 
+
+/**
+* 		Class "Model" que contêm o método virtual da classe "Transformacao".
+* A classe guarda os valores dos vértices, os vetores das normais respetivas
+* a cada vértice e as coordenadas da textura, caso esta seja utilizada. Guarda
+* também o inteiro relativo a essa textura, se esta for utilizada, assim como
+* o número de objetos a desenhar, caso queira desenhar mais que um objeto com
+* os vétices expecificados. Caso este queira desenhar vários objetos, poderá
+* expecificar as variação nas dimensões do objeto e a área onde serão desenhados
+* os objetos, expecificando o raio interior e exterior. A classe transformar irá
+* associar os vetores dos vértices, normais e texturas aos buffers,  associando
+* também a textura, caso esta seja expecificada, e randomizar os valores das
+* das posições dos objetos, posicionaodo-os sempre dentro dos limites especificados,
+* assim como as dimensões dos objetos.
+*/
 class Model: public Transformacao {
 	public:
 		Model(std::vector< float>& v, std::vector<float>& n, std::vector<float>& tex, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
@@ -337,6 +389,12 @@ class Model: public Transformacao {
 		}
 };
 
+
+/**
+* 		Class "Color" que contêm o método virtual da classe "Transformacao".
+* A classe contêm os valores da cor dos objetos, utilizando-os na função 
+* "glColor3ub", no método transformar.
+*/
 class Color: public Transformacao {
 	public:
 		float r,g,b;
@@ -352,7 +410,13 @@ class Color: public Transformacao {
 
 
 
-
+/**
+* Class "Material" que contêm o método virtual da classe "Transformacao".
+* Esta classe guarda todas as informações do material relativo ao objeto a desenhar
+* , através do método virtual "transformar", guardando o valor da cor do objeto quando
+* recebe luz difusa, luz do ambiente, luz especular e a cor que o objeto emite.
+*  O método "transformar" irá executar as funções "glMaterialfv" com as informações guardadas. 
+*/
 class Material: public Transformacao {
 	public:
 		float diff[4], amb[4], spec[4], emi[4];

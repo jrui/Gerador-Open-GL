@@ -156,7 +156,9 @@ int main(int argc, char **argv) {
 /**
 * 	This function is used everytime we want to open a 3d model file and save
 * it to a global variable (t).
-*		It will read a triplet of floats for each line of document that it reads.
+*		It will read three triplet of floats for each vertice of the document that it reads
+* , being the first three floats the positions of the vertices, the second three floats are the 
+* normal vectors of that vertice and the last three floats are the texture coordenates of the vertice.
 *	We defined that as the composition of our .3d model files, so this function
 * reads them procedurally and saves it to a vector.
 *		We can assume that the .3d file as an ammount of lines %3 equal to 0.
@@ -200,7 +202,14 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 }
 
 
-
+/**
+* 	This function is used everytime we want to process a tag "Material".
+* It collects every aspect that might be used to define the material of the
+* objects, creating a class "Transformacao" with those aspects, storing
+* them to be used in the render scene.
+*
+*	@param element2 - Pointer to the tag "Material"
+*/
 void material(XMLElement* element2) {
 	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0, sr=0, sg=0, sb=0, er=0, eg=0, eb=0;
 	GLfloat shin = 0;
@@ -224,7 +233,12 @@ void material(XMLElement* element2) {
 
 
 /**
+* 	This function is used everytime we want to process a tag "Color".
+* It collects every aspect that might be used to define the colors of the
+* objects, creating a class "Transformacao" with those aspects, storing
+* them to be used in the render scene.
 *
+*	@param element2 - Pointer to the tag "Color"
 */
 void color(XMLElement* element2) {
  int r=0, g=0, b=0;
@@ -261,13 +275,20 @@ std::vector<float> processPointTranslate(XMLElement *element2) {
 
 
 /**
+* 	This function is used everytime we want to process a tag "Translate".
+* It collects every aspect that might be used to define movement of the objects
+* depending if the object will move only one time, or will have a continuous movement.
+* If the object has a continuous movement, it is specified the time it takes to make
+* a fill loop of the trajectory specified by the points of the XML file,
+* creating a class "Transformacao" with those aspects, storing
+* them to be used in the render scene.
 *
+*	@param element2 - Pointer to the tag "Translate"
 */
 void translate(XMLElement* element2) {
 	float time;
 	Transformacao* tf;
 	if((time = element2->FloatAttribute("time"))) {
-		//Existe tempo, falta processar point
 		std::vector<float> pontos;
 		pontos = processPointTranslate(element2);
 		tf = new Translate(time, pontos);
@@ -286,7 +307,13 @@ void translate(XMLElement* element2) {
 
 
 /**
+* 	This function is used everytime we want to process a tag "Rotate".
+* It collects every aspect that might be used to define the rotation of the
+* objects, specifying the time it takes to make a full rotation over himself
+* , and the angle of the rotation, creating a class "Transformacao" with 
+* those aspects, storing them to be used in the render scene.
 *
+*	@param element2 - Pointer to the tag "Rotate"
 */
 void rotate(XMLElement* element2) {
  float ang, time;
@@ -305,7 +332,12 @@ void rotate(XMLElement* element2) {
 
 
 /**
+* 	This function is used everytime we want to process a tag "Scale".
+* It collects every aspect that might be used to define the dimensions of the
+* scale that will be aplied to theobjects, creating a class "Transformacao" 
+* with those aspects, storing them to be used in the render scene.
 *
+*	@param element2 - Pointer to the tag "Scale"
 */
 void scale(XMLElement* element2) {
  if(!(x = element2->FloatAttribute("X"))) x=1;
@@ -319,7 +351,15 @@ void scale(XMLElement* element2) {
 
 
 /**
+* 	This function is used everytime we want to process a tag "Model".
+* It collects every aspect that might be used to define the Model to be
+* drawn. It can also specify the number of objects of the file model to
+* be drawn, also specifying the variations of the dimensions of the objects
+* and the área which will be drawn, indicating the innerRadius and OuterRadius,
+* , creating a class "Transformacao" with those aspects, storing them to 
+* be used in the render scene.
 *
+*	@param element2 - Pointer to the tag "Model"
 */
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
@@ -364,7 +404,9 @@ void model(XMLElement* element2) {
 
 
 /**
-*
+* 	This function is used everytime we want to process a tag "/Group".
+* It only creates a class "Transformacao" that will be executed in the render
+* executing a glPopMatrix();
 */
 void popMatrix() {
 	Transformacao* tf = new PopMatrix();
@@ -375,7 +417,9 @@ void popMatrix() {
 
 
 /**
-*
+* 	This function is used everytime we want to process a tag "Group".
+* It only creates a class "Transformacao" that will be executed in the render
+* executing a glPushMatrix();
 */
 void pushMatrix() {
 	Transformacao* tf = new PushMatrix();
@@ -384,6 +428,15 @@ void pushMatrix() {
 
 
 
+/**
+* 	This function is used everytime we want to process a tag "Light".
+* It collects every aspect that might be used to define the Light to be
+* positioned in the scene. It can also specify type of Light, defining every aspect
+* of the light, depending on the type. The type can be "Point, SPOTLIGHT, DIRECTIONAL".
+* It will be stored in a classe "Transformacao" that will be executed in the render.
+*
+*	@param element2 - Pointer to the tag "Light"
+*/
 void light(XMLElement* element2){
 	char* type;
 	GLfloat pos[3], diff[3], amb[3], spec[3], dir[3];
@@ -413,6 +466,13 @@ void light(XMLElement* element2){
 }
 
 
+/**
+* 		It will be called to treat all the tags "Light" inside of the
+* tag "Lights". It will iterate over every tag "Light", calling the
+* function "light" for every tag.
+*
+* @param element2 - Pointer to the tag "Lights"
+*/
 int parserXMLLight(XMLElement* pListElement) {
  XMLElement* element2;
  XMLElement* tempEl;
@@ -431,7 +491,13 @@ int parserXMLLight(XMLElement* pListElement) {
 
 
 /**
+* 		It will be called to treat all the tags inside the tag "Group"
+* It will iterate over every tag, calling the function that will collect
+* the information necessary to treat that tag. It will also iterate over
+* tags "Group" that are inside the tag "Group", and tags 'brothers' of the
+* tag "Group".
 *
+* @param element2 - Pointer to the tag "Group"
 */
 int parserXMLGroup(XMLElement* pListElement) {
  XMLElement* element2;
