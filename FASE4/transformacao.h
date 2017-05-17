@@ -196,15 +196,19 @@ class Translate: public Transformacao {
 		}
 		virtual void transformar(){
 			if(usetime) {
+				GLfloat white[4] = {1,1,1,1};
+				GLfloat resEmi[4] = {0,0,0,1};
 				float res[3];
 				float der[3];
 				t += 0.001f / time * 6;
+				glMaterialfv(GL_FRONT, GL_EMISSION, white);
 				glBegin(GL_LINE_LOOP);
 				for(int i = 0; i < 1000 / 3; i++ ){
 					getGlobalCatmullRomPoint((float)i/1000 + t,res,der);
 					glVertex3f(res[0], res[1], res[2]);
 				}
 				glEnd();
+				glMaterialfv(GL_FRONT, GL_EMISSION, resEmi);
 				glTranslatef(res[0], res[1], res[2]);
 				glutPostRedisplay();
 			}
