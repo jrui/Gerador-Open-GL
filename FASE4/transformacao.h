@@ -179,13 +179,14 @@ class Translate: public Transformacao {
 			x = xx;
 			y = yy;
 			z = zz;
-			t = 0.0f;
+			srand(123456789);
+			t = (float) rand()/(float)RAND_MAX;
 			usetime = false;
 		}
 		Translate(float tt, std::vector<float>& pp) {
 			time = tt;
 			points = pp;
-			t = 0.0f;
+			t = (float) rand()/(float)RAND_MAX;
 			usetime = true;
 			p = (float**) malloc(sizeof(float) * points.size() * 3);
 			for(int i = 0; i < points.size() / 3; i++) {
@@ -370,15 +371,12 @@ class Model: public Transformacao {
 			if(numero!=0){
 				for(int i = 0; i < numero; i++){
 					glPushMatrix();
-					float tx, tz,alpha;
-						tx = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin; 
-						tz = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin;
-						alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
-			
+					float dist = (float) rand()/(float)RAND_MAX*(rMax - rMin) + rMin; 
+					float alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
 					float sx = (float) rand()/(float)RAND_MAX*(xMax-xMin)+xMin; 
 					float sy = (float) rand()/(float)RAND_MAX*(yMax-yMin)+yMin;
 					float sz = (float) rand()/(float)RAND_MAX*(zMax-zMin)+zMin;
-					glTranslatef(0.75*tx*cos(alpha),0,1.25*tz*sin(alpha));
+					glTranslatef(dist*cos(alpha),0,dist*sin(alpha));
 					glScalef(sy, sy, sy);
 					glDrawArrays(GL_TRIANGLES, 0, vc.size());
 					glPopMatrix();

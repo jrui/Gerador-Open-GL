@@ -4,22 +4,22 @@
  	</lights>
 	<group><!--Terra-->
 		<rotate time="2" Y="1"/>
-		<scale X="4" Y="4" Z="4"/>
 		<!--<translate Z="1530"/>-->
 		<translate time="100">
-			<point X="942"/>
-			<point X="666" Z="1082"/>
-			<point Z="1530"/>
-			<point X="-666" Z="1082"/>
-			<point X="-942"/>
-			<point X="-666" Z="-1082"/>
-			<point Z="-1530"/>
-			<point X="666" Z="-1082"/>
+			<point X="2220"/>
+			<point X="1555.63" Z="-1308.15"/>
+			<point Z="-1850"/>
+			<point X="-1555.63" Z="-1308.15"/>
+			<point X="-2220"/>
+			<point X="-1555.63" Z="1308.15"/>
+			<point Z="1850"/>
+			<point X="1555.63" Z="1308.15"/>
 		</translate>
+		<scale X="3.03" Y="3.03" Z="3.03"/>
 		<model file="objects/sphere.3d" texture="earth_daymap.jpg"/>
 		<group><!--Lua-->
 			<translate X="15"/>
-			<scale X="0.2724" Y="0.2724" Z="0.2724"/>
+			<scale X="0.27" Y="0.27" Z="0.27"/>
 			<model file="objects/sphere.3d" texture="2k_moon.jpg"/>
 		</group>
 	</group>
@@ -30,173 +30,173 @@
 		<model file="objects/sol.3d" texture="2k_sun.jpg"/>
 	</group>
 	<group>
-		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="1550" rMax="2100" xMin="5" xMax="10" yMin="5" yMax="10" zMin="5" zMax="10"/>
+		<rotate time="80" Y="1"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="3200" rMax="3700" xMin="3" xMax="15" yMin="3" yMax="5" zMin="3" zMax="15"/>
+	</group>
+	<group>
+		<translate Y="40"/>
+		<rotate time="85" Y="1"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="3200" rMax="3700" xMin="3" xMax="15" yMin="3" yMax="5" zMin="3" zMax="15"/>
+	</group>
+	<group>
+		<translate Y="-40"/>
+		<rotate time="70" Y="1"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="3200" rMax="3700" xMin="3" xMax="15" yMin="3" yMax="5" zMin="3" zMax="15"/>
+	</group>
+	<group>
+		<translate Y="-80"/>
+		<rotate time="75" Y="1"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="3200" rMax="3700" xMin="3" xMax="15" yMin="3" yMax="5" zMin="3" zMax="15"/>
+	</group>
+	<group>
+		<translate Y="80"/>
+		<rotate time="90" Y="1"/>
+		<model file="objects/asteroide.3d" texture="asteroide.png" num="100" rMin="3200" rMax="3700" xMin="3" xMax="15" yMin="3" yMax="5" zMin="3" zMax="15"/>
 	</group>
 	<group>
 		<translate time="20">
-			<point X="621"/>
-			<point X="439" Z="714"/>
-			<point Z="1010"/>
-			<point X="-439" Z="714"/>
-			<point X="-621"/>
-			<point X="-439" Z="-714"/>
-			<point Z="-1010"/>
-			<point X="439" Z="-714"/>
+			<point X="1350"/>
+			<point X="954.6" Z="795.5"/>
+			<point Z="1125"/>
+			<point X="-954.6" Z="795.5"/>
+			<point X="-1350"/>
+			<point X="-954.6" Z="-795.5"/>
+			<point Z="-1125"/>
+			<point X="954.6" Z="-795.5"/>
 		</translate>
 		<rotate time="116" Y="1"/>
 		<translate Z="7"/>
-		<scale X="1.528" Y="1.528" Z="1.528"/>
+		<scale X="1.17" Y="1.17" Z="1.17"/>
 		<model file="objects/sphere.3d" texture="2k_mercury.jpg"/>
 	</group>
 	<group>
 		<translate time="188">
-			<point X="800"/>
-			<point X="565" Z="919"/>
-			<point Z="1300"/>
-			<point X="-565" Z="919"/>
-			<point X="-800"/>
-			<point X="-565" Z="-919"/>
-			<point Z="-1300"/>
-			<point X="564" Z="-919"/>
+			<point X="1800"/>
+			<point X="1272.8" Z="-1060.66"/>
+			<point Z="-1500"/>
+			<point X="-1272.8" Z="-1060.66"/>
+			<point X="-1800"/>
+			<point X="-1272.8" Z="1060.66"/>
+			<point Z="1500"/>
+			<point X="1272.8" Z="1060.66"/>
 		</translate>
 		<rotate time="-100" Y="1"/>
 		<translate Z="7"/>
-		<scale X="3.796" Y="3.796" Z="3.796"/>
+		<scale X="2.88" Y="2.88" Z="2.88"/>
 		<model file="objects/sphere.3d" texture="2k_venus_surface.jpg"/>
 	</group>
 	<group>
 		<translate time="67">
-			<point X="1180"/>
-			<point X="834" Z="1356"/>
-			<point Z="1918"/>
-			<point X="-834" Z="1356"/>
-			<point X="-1180"/>
-			<point X="-834" Z="-1356"/>
-			<point Z="-1918"/>
-			<point X="834" Z="-1356"/>
+			<point X="2640"/>
+			<point X="1866.76" Z="1555.63"/>
+			<point Z="2200"/>
+			<point X="-1866.76" Z="1555.63"/>
+			<point X="-2640"/>
+			<point X="-1866.76" Z="-1555.63"/>
+			<point Z="-2200"/>
+			<point X="1866.76" Z="-1555.63"/>
 		</translate>
 		<rotate time="2" Y="1"/>
 		<translate Z="7"/>
-		<scale X="2.128" Y="2.128" Z="2.128"/>
+		<scale X="1.62" Y="1.62" Z="1.62"/>
 		<model file="objects/gasosos.3d" texture="2k_mars.jpg"/>
 	</group>
-	<!--
-	<group>
-		<scale X="30" Y="30" Z="30"/>
-		<rotate angle="-90" X="1"/>
-		<translate time="100">
-			<point X="7000" Y="2000" Z="7000"/>
-			<point X="-1000" Z="-9000"/>
-			<point X="-7000" Y="-2000" Z="-7000"/>
-			<point X="-1000" Z="9000"/>
-		</translate>
-		<model file="objects/teapot.3d" diffR="0.6" diffG="0" diffB="0"/>
-	</group>
--->
 	<group>
 		<translate time="-900">
-			<point X="1723"/>
-			<point X="1218" Z="1980"/>
-			<point Z="2800"/>
-			<point X="-1218" Z="1980"/>
-			<point X="-1723"/>
-			<point X="-1218" Z="-1980"/>
-			<point Z="-2800"/>
-			<point X="1218" Z="-1980"/>
+			<point X="5400"/>
+			<point X="3818.38" Z="3181.98"/>
+			<point Z="4500"/>
+			<point X="-3818.38" Z="3181.98"/>
+			<point X="-5400"/>
+			<point X="-3818.38" Z="-3181.98"/>
+			<point Z="-4500"/>
+			<point X="3818.38" Z="-3181.98"/>
 		</translate>
 		<rotate time="-18" Y="1"/>
-		<scale X="11.209" Y="11.209" Z="11.209"/>
+		<scale X="33.93" Y="33.93" Z="33.93"/>
 		<translate Z="2619"/>
 		<model file="objects/gasosos.3d" texture="2k_jupiter.jpg"/>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="7" Y="6"/>
-			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<scale X="0.034" Y="0.034" Z="0.034"/>
 			<model file="objects/sphere.3d" texture="callisto.jpg"/>
 		</group>
 		<group>
 			<rotate time="10" Y="8"/>
 			<translate X="-10" Y="-5"/>
-			<scale X="0.1" Y="0.1" Z="0.1"/>
+			<scale X="0.038" Y="0.038" Z="0.038"/>
 			<model file="objects/sphere.3d" texture="ganymede.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="4" Y="-7" Z="-3"/>
-			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<scale X="0.026" Y="0.026" Z="0.026"/>
 			<model file="objects/sphere.3d" texture="IO.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="10" Y="6" Z="5"/>
-			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<scale X="0.023" Y="0.023" Z="0.023"/>
 			<model file="objects/sphere.3d" texture="europa.jpg"/>
 		</group>
 	</group>
-	
 	<group>
 		<translate time="1200">
-			<point X="2163"/>
-			<point X="1529" Z="2485"/>
-			<point Z="3515"/>
-			<point X="-1529" Z="2485"/>
-			<point X="-2163"/>
-			<point X="-1529" Z="-2485"/>
-			<point Z="-3515"/>
-			<point X="1529" Z="-2485"/>
+			<point X="7200"/>
+			<point X="5091.17" Z="4242.64"/>
+			<point Z="6000"/>
+			<point X="-5091.17" Z="4242.64"/>
+			<point X="-7200"/>
+			<point X="-5091.17" Z="-4242.64"/>
+			<point Z="-6000"/>
+			<point X="5091.17" Z="-4242.64"/>
 		</translate>
 		<rotate time="10" Y="1"/>
 		<translate Z="3515"/>
-		<scale X="9.449" Y="9.449" Z="9.449"/>
+		<scale X="28.62" Y="28.62" Z="28.62"/>
 		<model file="objects/gasosos.3d" texture="2k_saturn.jpg"/>
 		<group>
-			<scale X="1" Y="1" Z="1"/>
+			<rotate angle="10" Z="1"/>
 			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="9" Y="6"/>
-			<scale X="0.15" Y="0.15" Z="0.15"/>
+			<scale X="0.022" Y="0.022" Z="0.022"/>
 			<model file="objects/sphere.3d" texture="Titan.png"/>
 		</group>
-		<group>
-			<rotate time="10" Y="8"/>
-			<translate X="-10" Y="-5"/>
-			<scale X="0.1" Y="0.1" Z="0.1"/>
-			<model file="objects/sphere.3d" texture="Enceladus.png"/>
-		</group> 	
 	</group>
 	<group>
 		<translate time="-1200">
-			<point X="2769"/>
-			<point X="1957" Z="3181"/>
-			<point Z="4500"/>
-			<point X="-1957" Z="3181"/>
-			<point X="-2769"/>
-			<point X="-1957" Z="-3181"/>
-			<point Z="-4500"/>
-			<point X="1957" Z="-3181"/>
+			<point X="9000"/>
+			<point X="6363.96" Z="5303.3"/>
+			<point Z="7500"/>
+			<point X="-6363.96" Z="5303.3"/>
+			<point X="-9000"/>
+			<point X="-6363.96" Z="-5303.3"/>
+			<point Z="-7500"/>
+			<point X="6363.96" Z="-5303.3"/>
 		</translate>
 		<rotate time="-3.8" Y="1"/>
 		<translate Z="4500"/>
-		<scale X="8.007" Y="8.007" Z="8.007"/>
+		<scale X="12.15" Y="12.15" Z="12.15"/>
 		<model file="objects/gasosos.3d" texture="2k_uranus.jpg"/>
 	</group>
 	<group>
 		<translate time="12400">
-			<point X="3383"/>
-			<point X="2392" Z="3889"/>
-			<point Z="5500"/>
-			<point X="-2392" Z="3889"/>
-			<point X="-3383"/>
-			<point X="-2392" Z="-3889"/>
-			<point Z="-5500"/>
-			<point X="2392" Z="-3889"/>
+			<point X="10800"/>
+			<point X="7636.75" Z="6363.96"/>
+			<point Z="9000"/>
+			<point X="-7636.75" Z="6363.96"/>
+			<point X="-10800"/>
+			<point X="-7636.75" Z="-6363.96"/>
+			<point Z="-9000"/>
+			<point X="7636.75" Z="-6363.96"/>
 		</translate>
 		<rotate time="4" Y="1"/>
 		<translate Z="5500"/>
-		<scale X="6.883" Y="6.883" Z="6.883"/>
+		<scale X="11.76" Y="11.76" Z="11.76"/>
 		<model file="objects/gasosos.3d" texture="2k_neptune.jpg"/>
 	</group>
-
 </scene>

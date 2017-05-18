@@ -268,7 +268,6 @@ void sphere (float r, int slices, int stacks , char *ficheiro){
 	//ângulo das slices
 	float angsl=2*M_PI/slices;
 if(!odd) {
-	printf("Odd\n");
 	for (st=0;st<stacks/2;st++) {
 		for(sl = 0; sl<slices; sl++) {
 
@@ -325,7 +324,6 @@ if(!odd) {
 		}
 	}
 			else {
-				printf("Odd1\n");
 				float s = angst / 2;
 				for(sl = 0; sl<slices; sl++){
 					fprintf(op,"%f %f %f\n", r*cos(-s)*sin(sl*angsl),r*sin(-s),r*cos(-s)*cos(sl*angsl));
