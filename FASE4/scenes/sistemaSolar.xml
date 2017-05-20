@@ -3,7 +3,6 @@
  		<light type="POINT" posX="0" posY="0" posZ="0"/>
  	</lights>
 	<group><!--Terra-->
-		<rotate time="2" Y="1"/>
 		<!--<translate Z="1530"/>-->
 		<translate time="100">
 			<point X="2220"/>
@@ -15,10 +14,24 @@
 			<point Z="1850"/>
 			<point X="1555.63" Z="1308.15"/>
 		</translate>
-		<scale X="3.03" Y="3.03" Z="3.03"/>
-		<model file="objects/sphere.3d" texture="earth_daymap.jpg"/>
+		<scale X="10" Y="10" Z="10"/>
+		<group>
+			<rotate time="2" Y="1"/>
+			<model file="objects/sphere.3d" texture="earth_daymap.jpg"/>
+		</group>
 		<group><!--Lua-->
-			<translate X="15"/>
+			<rotate angle="45" X="1"/>
+			<translate time="54.64">
+				<point X="10"/>
+				<point X="7.07" Z="-7.07"/>
+				<point Z="-10"/>
+				<point X="-7.07" Z="-7.07"/>
+				<point X="-10"/>
+				<point X="-7.07" Z="7.07"/>
+				<point Z="10"/>
+				<point X="7.07" Z="7.07"/>
+			</translate>
+			<rotate time="54.64" Y="1"/>
 			<scale X="0.27" Y="0.27" Z="0.27"/>
 			<model file="objects/sphere.3d" texture="2k_moon.jpg"/>
 		</group>
@@ -65,8 +78,7 @@
 			<point X="954.6" Z="-795.5"/>
 		</translate>
 		<rotate time="116" Y="1"/>
-		<translate Z="7"/>
-		<scale X="1.17" Y="1.17" Z="1.17"/>
+		<scale X="3" Y="3" Z="3"/>
 		<model file="objects/sphere.3d" texture="2k_mercury.jpg"/>
 	</group>
 	<group>
@@ -81,8 +93,7 @@
 			<point X="1272.8" Z="1060.66"/>
 		</translate>
 		<rotate time="-100" Y="1"/>
-		<translate Z="7"/>
-		<scale X="2.88" Y="2.88" Z="2.88"/>
+		<scale X="9" Y="9" Z="9"/>
 		<model file="objects/sphere.3d" texture="2k_venus_surface.jpg"/>
 	</group>
 	<group>
@@ -97,8 +108,7 @@
 			<point X="1866.76" Z="-1555.63"/>
 		</translate>
 		<rotate time="2" Y="1"/>
-		<translate Z="7"/>
-		<scale X="1.62" Y="1.62" Z="1.62"/>
+		<scale X="5" Y="5" Z="5"/>
 		<model file="objects/gasosos.3d" texture="2k_mars.jpg"/>
 	</group>
 	<group>
@@ -114,30 +124,29 @@
 		</translate>
 		<rotate time="-18" Y="1"/>
 		<scale X="33.93" Y="33.93" Z="33.93"/>
-		<translate Z="2619"/>
 		<model file="objects/gasosos.3d" texture="2k_jupiter.jpg"/>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="7" Y="6"/>
-			<scale X="0.034" Y="0.034" Z="0.034"/>
+			<scale X="0.089" Y="0.089" Z="0.089"/>
 			<model file="objects/sphere.3d" texture="callisto.jpg"/>
 		</group>
 		<group>
 			<rotate time="10" Y="8"/>
 			<translate X="-10" Y="-5"/>
-			<scale X="0.038" Y="0.038" Z="0.038"/>
+			<scale X="0.091" Y="0.091" Z="0.091"/>
 			<model file="objects/sphere.3d" texture="ganymede.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="4" Y="-7" Z="-3"/>
-			<scale X="0.026" Y="0.026" Z="0.026"/>
+			<scale X="0.12" Y="0.12" Z="0.12"/>
 			<model file="objects/sphere.3d" texture="IO.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="10" Y="6" Z="5"/>
-			<scale X="0.023" Y="0.023" Z="0.023"/>
+			<scale X="0.11" Y="0.11" Z="0.11"/>
 			<model file="objects/sphere.3d" texture="europa.jpg"/>
 		</group>
 	</group>
@@ -153,17 +162,16 @@
 			<point X="5091.17" Z="-4242.64"/>
 		</translate>
 		<rotate time="10" Y="1"/>
-		<translate Z="3515"/>
 		<scale X="28.62" Y="28.62" Z="28.62"/>
 		<model file="objects/gasosos.3d" texture="2k_saturn.jpg"/>
 		<group>
-			<rotate angle="10" Z="1"/>
+			<rotate angle="70" Z="1"/>
 			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
 		</group>
 		<group>
 			<rotate time="9" Y="1"/>
 			<translate X="9" Y="6"/>
-			<scale X="0.022" Y="0.022" Z="0.022"/>
+			<scale X="0.15" Y="0.15" Z="0.15"/>
 			<model file="objects/sphere.3d" texture="Titan.png"/>
 		</group>
 	</group>
@@ -179,7 +187,6 @@
 			<point X="6363.96" Z="-5303.3"/>
 		</translate>
 		<rotate time="-3.8" Y="1"/>
-		<translate Z="4500"/>
 		<scale X="12.15" Y="12.15" Z="12.15"/>
 		<model file="objects/gasosos.3d" texture="2k_uranus.jpg"/>
 	</group>
@@ -195,7 +202,6 @@
 			<point X="7636.75" Z="-6363.96"/>
 		</translate>
 		<rotate time="4" Y="1"/>
-		<translate Z="5500"/>
 		<scale X="11.76" Y="11.76" Z="11.76"/>
 		<model file="objects/gasosos.3d" texture="2k_neptune.jpg"/>
 	</group>

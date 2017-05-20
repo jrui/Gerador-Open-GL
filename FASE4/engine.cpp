@@ -20,15 +20,17 @@ using namespace tinyxml2;
 /**
 *		Global variables used to store program data, rotations, translations, view
 *	mode, mouse coords, colors, some variables used throughout the code, and
-* finnaly the triangles used to render every object.
+* finnaly the triangles used to render every object. It also specifies where the
+* camera will be initially, by the variables z_trans and y_trans, as well as the angle
+* of the camera by the varuable vert_rot and hori_rot.
 *		We will get into more details when we get to the functions that alter this
 * values.
 */
-float alfa = 0.0f, beta = 0.5f, radius = 5000.0f;
+float alfa = 0.0f, beta = 0.5f, racio_trans = 20.0f;
 float camX, camY, camZ;
 float rotation = 0.0f;
-float vert_rot = 0.0f, hori_rot = 0.0f;
-float vert_trans = 0.0f, hori_trans = 0.0f;
+float vert_rot = 10.0f, hori_rot = 0.0f;
+float x_trans = 0.0f, y_trans = 500.0f, z_trans = -1500.0f;
 char view_mode = 'l';
 int x_pos = 400, y_pos = 400;
 bool click = false;
@@ -241,12 +243,12 @@ void material(XMLElement* element2) {
 *	@param element2 - Pointer to the tag "Color"
 */
 void color(XMLElement* element2) {
- int r=0, g=0, b=0;
- if(!(r = element2->IntAttribute("R"))) r = r%256;
- if(!(g = element2->IntAttribute("G"))) g = g%256;
- if(!(b = element2->IntAttribute("B"))) b = b%256;
- Transformacao* tf = new Color(r,g,b);
- transformacoes.push_back(tf);
+	int r=0, g=0, b=0;
+	if(!(r = element2->IntAttribute("R"))) r = r%256;
+	if(!(g = element2->IntAttribute("G"))) g = g%256;
+	if(!(b = element2->IntAttribute("B"))) b = b%256;
+	Transformacao* tf = new Color(r,g,b);
+	transformacoes.push_back(tf);
 }
 
 
@@ -317,16 +319,16 @@ void translate(XMLElement* element2) {
 *	@param element2 - Pointer to the tag "Rotate"
 */
 void rotate(XMLElement* element2) {
- float ang, time;
- Transformacao* tf;
- if(!(x = element2->FloatAttribute("X"))) x=0;
- if(!(y = element2->FloatAttribute("Y"))) y=0;
- if(!(z = element2->FloatAttribute("Z"))) z=0;
- if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
- if(!(time = element2->FloatAttribute("time"))) time = 0;
- if(ang != 0) tf = new Rotate(ang, x, y, z);
- else tf = new Rotate(time, x, y, z, true);
- transformacoes.push_back(tf);
+	float ang, time;
+	Transformacao* tf;
+	if(!(x = element2->FloatAttribute("X"))) x=0;
+	if(!(y = element2->FloatAttribute("Y"))) y=0;
+	if(!(z = element2->FloatAttribute("Z"))) z=0;
+	if(!(ang = element2->FloatAttribute("angle"))) ang = 0;
+	if(!(time = element2->FloatAttribute("time"))) time = 0;
+	if(ang != 0) tf = new Rotate(ang, x, y, z);
+	else tf = new Rotate(time, x, y, z, true);
+	transformacoes.push_back(tf);
 }
 
 
@@ -341,11 +343,11 @@ void rotate(XMLElement* element2) {
 *	@param element2 - Pointer to the tag "Scale"
 */
 void scale(XMLElement* element2) {
- if(!(x = element2->FloatAttribute("X"))) x=1;
- if(!(y = element2->FloatAttribute("Y"))) y=1;
- if(!(z = element2->FloatAttribute("Z"))) z=1;
- Transformacao* tf = new Scale(x,y,z);
- transformacoes.push_back(tf);
+	if(!(x = element2->FloatAttribute("X"))) x=1;
+	if(!(y = element2->FloatAttribute("Y"))) y=1;
+	if(!(z = element2->FloatAttribute("Z"))) z=1;
+	Transformacao* tf = new Scale(x,y,z);
+	transformacoes.push_back(tf);
 }
 
 
@@ -495,37 +497,26 @@ int parserXMLLight(XMLElement* pListElement) {
 * 		It will be called to treat all the tags inside the tag "Group"
 * It will iterate over every tag, calling the function that will collect
 * the information necessary to treat that tag. It will also iterate over
-* tags "Group" that are inside the tag "Group", and tags 'brothers' of the
-* tag "Group".
+* tags "Group" that are inside the tag "Group".
 *
 * @param element2 - Pointer to the tag "Group"
 */
 int parserXMLGroup(XMLElement* pListElement) {
- XMLElement* element2;
- XMLElement* tempEl;
+	XMLElement* element2;
 
- if(pListElement != NULL) {
-
- 		pushMatrix();
-		element2 = pListElement->FirstChildElement("color");
-		if(element2!=NULL) color(element2);
-		tempEl = pListElement->FirstChildElement("material");
-		if(tempEl != NULL) material(tempEl);
-		element2 = pListElement->FirstChildElement("translate");
-		if(element2!=NULL) translate(element2);
-		element2 = pListElement->FirstChildElement("rotate");
-		if(element2!=NULL) rotate(element2);
-		element2 = pListElement->FirstChildElement("scale");
-		if(element2!=NULL) scale(element2);
-		element2 = pListElement->FirstChildElement("model");
-		if(element2!=NULL) model(element2);
-		tempEl = pListElement->FirstChildElement("group");
-		if(tempEl != NULL) parserXMLGroup(tempEl);
-		popMatrix();
-		tempEl = pListElement->NextSiblingElement("group");
-		if(tempEl != NULL) parserXMLGroup(tempEl);
- }
- return 1;
+ 	pushMatrix();
+ 	for(element2 = pListElement -> FirstChildElement(); element2 != NULL ; element2 = element2 -> NextSiblingElement()){
+		if(!strcmp(element2 -> Value(), "color")) color(element2);
+		else{ if(!strcmp(element2 -> Value(), "material")) material(element2);
+		else{ if(!strcmp(element2 -> Value(), "translate")) translate(element2);
+		else{ if(!strcmp(element2 -> Value(), "rotate")) rotate(element2);
+		else{ if(!strcmp(element2 -> Value(), "scale")) scale(element2);
+		else{ if(!strcmp(element2 -> Value(), "model")) model(element2);
+		else{ if(!strcmp(element2 -> Value(), "group"))	parserXMLGroup(element2);
+		}}}}}}
+	}
+	popMatrix();
+ 	return 1;
 }
 
 
@@ -537,29 +528,30 @@ int parserXMLGroup(XMLElement* pListElement) {
 * responsible for invoking the open3dModel function, since this will extract
 *	the filenames where to find the 3d files.
 *		It checks for the rootElement, in our case the scene, then it iterates
-*	for the first group, running the parserXML which will parse the XML file
-* indicated by "file", checking for error codes while doing so.
+*	for child elements, running the parserXML corresponding to that element
+* which will parse the XML file indicated by "file", checking for error codes 
+* while doing so.
 *
 *	@param file - Character array with the path to the XML file
 * @return int - Integer associated to an errorCode
 */
 int processXML(char* file) {
- XMLDocument xmlDoc;
- XMLNode *root;
- XMLElement *pListElement;
- if(xmlDoc.LoadFile(file) != XML_SUCCESS) {
-	 printf("Error loading %s.\n", file);
-	 return -1;
- }
- root = xmlDoc.FirstChildElement("scene");
- if((pListElement = root -> FirstChildElement("lights")))
- 	parserXMLLight(pListElement);
+	XMLDocument xmlDoc;
+	XMLNode *root;
+	XMLElement *pListElement;
+	if(xmlDoc.LoadFile(file) != XML_SUCCESS) {
+		printf("Error loading %s.\n", file);
+		return -1;
+	}
+	root = xmlDoc.FirstChildElement("scene");
+	for(pListElement = root -> FirstChildElement(); pListElement != NULL ; pListElement = pListElement -> NextSiblingElement()){
+		if(!strcmp(pListElement -> Value(), "lights")) parserXMLLight(pListElement);
 
- if((pListElement = root -> FirstChildElement("group")))
- 	parserXMLGroup(pListElement);
+		if(!strcmp(pListElement -> Value(), "group")) parserXMLGroup(pListElement);
+	}
 
- xmlDoc.Clear();
- return XML_SUCCESS;
+	xmlDoc.Clear();
+	return XML_SUCCESS;
 }
 
 
@@ -569,8 +561,11 @@ int processXML(char* file) {
 * 	This function is only invoked either by the glutMainLoop or by a user
 *	key press / mouse interaction. What this function does is render the scene
 *	specified in the program input XML file.
-*		This function sets up the camera position, view point. It also renders
-* rotations and translations that the user might have done to the scenery.
+*		This function sets up the camera position, view point. The camera gets set
+* in the position specified by the x_trans (x position in the space), y_trans
+* and z_trans. These positions can be modified by the user. The point where the camera
+* is pointing is defined not only by the position of the câmera but the angles which
+* can also be modified by the user.
 *	It then checks how the user wants to render the images, either by filling
 * them, seeing only the lines or the points. Finally it calls the renderFigures
 * function.
@@ -582,13 +577,9 @@ void renderScene(void) {
  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
  glLoadIdentity();
- gluLookAt(camX, camY, camZ,
-					 0.0f, 0.0f, 0.0f,
-					 0.0f, 1.0f, 0.0f);
-
- glTranslatef(vert_trans, 0, hori_trans);
- glRotatef(vert_rot, 1, 0, 0);
- glRotatef(hori_rot, 0, 1, 0);
+ gluLookAt(-camX + x_trans, camY + y_trans, -camZ + z_trans,
+		   x_trans, y_trans, z_trans,
+		   0.0f, 1.0f, 0.0f);
 
  glCullFace(GL_BACK);
  glFrontFace(GL_CCW);
@@ -597,7 +588,6 @@ void renderScene(void) {
 														 GL_POINT);
  renderFigures();
  showFPS();
-
  glutSwapBuffers();
 }
 
@@ -619,17 +609,6 @@ void renderFigures() {
  int color;
  std::vector<float> vc;
  Transformacao* tftemp;
- /*float white[4] = {1,1,1,1}, black[4] = {0,0,0,1};
- GLfloat pos0[4] = {0,1300,0,1};
- GLfloat pos1[4] = {0,0,0,1};
- GLfloat pos2[4] = {1300,0,0,1};
- GLfloat pos3[4] = {-1300,0,0,-1};
- GLfloat pos4[4] = {0,0,1300,-1};
- GLfloat pos5[4] = {0,0,-1300,-1};
- glLightfv(GL_LIGHT1, GL_AMBIENT, black);
- glLightfv(GL_LIGHT1, GL_DIFFUSE, white);
- glLightfv(GL_LIGHT1, GL_POSITION, pos1);
- glEnable(GL_LIGHT1);*/
  for(int i = 0; i < transformacoes.size(); i++) {
 	 tftemp = transformacoes.at(i);
 	 tftemp->transformar();
@@ -672,27 +651,24 @@ void changeSize(int w, int h) {
 
 /**
 * 	This function is invoked only when we need to convert the camera
-* coordinates to a cartesian format. It does so by setting new values
-* to the global variables representing the camera position.
+* angles to a cartesian format. It does so by setting new values
+* to the global variables representing the camera position, converting from
+* degrees to radians.
 *
 * @return void
 */
 void spherical2Cartesian() {
- camX = radius * cos(beta) * sin(alfa);
- camY = radius * sin(beta);
- camZ = radius * cos(beta) * cos(alfa);
+	camX = 20 * sin(hori_rot*3.14/180);
+	camZ = 20 * cos(hori_rot*3.14/180);
+	camY = 20 * sin(vert_rot*3.14/180);
 }
-
-
 
 
 /**
 * 	This function is invoked only when mouse moves on screen. It receives
 *	two valus representing the current mouse position.
-*		The movement_handler function makes sure that we apply the correct
-*	rotation to the scene when we drag the mouse arrow, it updates the final
-* mouse position once it's done ajusting the rotation for the next render
-* invocation.
+*		The movement handler determines the angle of the câmera, determining
+* the direction the câmera will move.
 *
 * @param x - Integer representing the mouse x position
 * @param y - Integer representing the mouse y position
@@ -704,7 +680,11 @@ void movement_handler(int x, int y) {
 	 vert_rot -= (y_pos - y) / 2;
 	 x_pos = x;
 	 y_pos = y;
-
+	 if(vert_rot>90)
+	 	vert_rot = 89;
+	 if(vert_rot<-90)
+	 	vert_rot = -89;
+	 spherical2Cartesian();
 	 //Re-render
 	 glutPostRedisplay();
  }
@@ -744,9 +724,9 @@ void mouse_handler(int button, int state, int x, int y) {
 /**
 * 	This function handles a special key press, changing the right variables
 *	to obtain the desired results.
-*		We use a global variable (radius) to assure thar the user can zoom in
-* or zoom out as they wish to. We impose a limit of 250, so that it won't be
-* possible to get closer to the earth than this.
+*		We use a global variable (racio_trans) to assure thar the user can determine
+* the speed in which he desires to move the camera, doubling the speed or decresing it
+* by half.
 *
 *	@param key - Character representing the special key pressed
 * @param x - Integer representing the mouse x position
@@ -754,28 +734,15 @@ void mouse_handler(int button, int state, int x, int y) {
 * @return void
 */
 void special_key_handler(int key, int x, int y) {
- switch(key) {
-	 case GLUT_KEY_PAGE_DOWN:
-		 radius -= 20.0f;
-		 break;
-	 case GLUT_KEY_PAGE_UP:
-		 radius += 20.0f;
-		 break;
-	 case GLUT_KEY_UP:
-		 hori_trans += 20.0f;
-		 break;
-	 case GLUT_KEY_DOWN:
-		 hori_trans -= 20.0f;
-		 break;
-	 case GLUT_KEY_RIGHT:
-		 vert_trans -= 20.0f;
-		 break;
-	 case GLUT_KEY_LEFT:
-		 vert_trans += 20.0f;
-		 break;
- }
- spherical2Cartesian();
- glutPostRedisplay();
+	switch(key) {
+		case GLUT_KEY_PAGE_DOWN:
+			racio_trans = (float)racio_trans/2;
+			break;
+		case GLUT_KEY_PAGE_UP:
+			racio_trans = (float)racio_trans*2;;
+			break;
+	}
+	glutPostRedisplay();
 }
 
 
@@ -788,7 +755,11 @@ void special_key_handler(int key, int x, int y) {
 *	pressed, and then we can render the desired scenes accordingly. This
 * variable stores an 'f' if the user wants to see the object filled, an 'l'
 * if we want to see only lines and finnaly a 'p' if we only want to render
-* points.
+* points. We also enabled the user to determine the speed in which he
+* desires to move the camera with the keys + and -, incresing and decreasing
+* it respectivly. The user cane move the câmera forward by pressing 'w' and
+* backwards by pressing 's', move the câmera sideways by pressing 'a' or 'd'
+* , depending in wich direction he wants to move.
 *
 *	@param c - Character representing the key pressed (non special keys)
 * @param x - Integer representing the mouse x position
@@ -797,26 +768,59 @@ void special_key_handler(int key, int x, int y) {
 */
 void normal_key_handler(unsigned char c, int x, int y) {
  switch (c) {
-	 case 'f':
-	 case 'F':
-		 view_mode = 'f';
-		 break;
-	 case 'l':
-	 case 'L':
-		 view_mode = 'l';
-		 break;
-	 case 'p':
-	 case 'P':
-		 view_mode = 'p';
-		 break;
- }
-
- //Re-render
- glutPostRedisplay();
+	case 'f':
+	case 'F':
+		view_mode = 'f';
+		break;
+	case 'l':
+	case 'L':
+		view_mode = 'l';
+		break;
+	case 'p':
+	case 'P':
+		view_mode = 'p';
+		break;
+	case '+':
+		racio_trans += 20.0f;
+		break;
+	case '-':
+		racio_trans -= 20.0f;
+		if(racio_trans < 0)
+				racio_trans = 0.0f;
+		break;
+	case 'w':
+	case 'W':
+		x_trans += racio_trans * sin(hori_rot*3.14/180)*cos(vert_rot*3.14/180);
+		z_trans += racio_trans * cos(hori_rot*3.14/180)*cos(vert_rot*3.14/180);
+		y_trans -= racio_trans * sin(vert_rot*3.14/180);
+		break;
+	case 's':
+	case 'S':
+		x_trans -= racio_trans * sin(hori_rot*3.14/180)*cos(vert_rot*3.14/180);
+		z_trans -= racio_trans * cos(hori_rot*3.14/180)*cos(vert_rot*3.14/180);
+		y_trans += racio_trans * sin(vert_rot*3.14/180);
+		break;
+	case 'd':
+	case 'D':
+		x_trans -= racio_trans * cos(hori_rot*3.14/180);
+		z_trans += racio_trans * sin(hori_rot*3.14/180);
+		break;
+	case 'a':
+	case 'A':
+		x_trans += racio_trans * cos(hori_rot*3.14/180);
+		z_trans -= racio_trans * sin(hori_rot*3.14/180);
+		break;
+	}
+ 	//Re-render
+	spherical2Cartesian();
+ 	glutPostRedisplay();
 }
 
 
-
+/**
+* This func enable the user to show the frames per second the image is
+* being rendered, showing it in the title of the window.
+*/
 void showFPS() {
   float fps;
 	int time;
@@ -831,6 +835,7 @@ void showFPS() {
 		glutSetWindowTitle(s);
 	}
 }
+
 
 int loadTexture(std::string s) {
 
