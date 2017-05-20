@@ -89,14 +89,11 @@ class Light: public Transformacao{
 			else{ glLightfv(light, GL_DIFFUSE, resDiff); }
 			if( spec[0] || spec[1] || spec[2]) glLightfv(light, GL_SPECULAR, spec);
 			else{ glLightfv(light, GL_SPECULAR, resDiff); }
+			glLightfv(light, GL_POSITION, pos);
 			if(!strcmp(type, "SPOTLIGHT")){
-				glLightfv(light, GL_POSITION, pos);
 				glLightfv(light, GL_SPOT_DIRECTION, dir);
 				glLightf(light, GL_SPOT_EXPONENT, exp);
 				glLightf(light, GL_SPOT_CUTOFF, cut);
-			}
-			else{
-				glLightfv(light, GL_POSITION, pos);
 			}
 		}
 };

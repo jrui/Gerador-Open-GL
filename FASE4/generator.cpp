@@ -11,10 +11,6 @@ void cone (float r, float h, int sl, int st, char *ficheiro);
 void sphere (float r,int sl,int st , char *ficheiro);
 void cylinder(float radius, float height, int slices, int stacks, char *ficheiro);
 void ring(float innerRadius, float outerRadius, int sl, char *ficheiro);
-void drawAsteroid(float x, float y, float z, FILE *op);
-void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro);
-void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro);
-void drawSatelite(float x, float y, float z,float max,float min, FILE *op);
 void bezier(int tesselation, char* file, char* newFile);
 void makeFigure_bezier(int tess, char *newFile, int patches[][16], int n, float points[][3], int np);
 float getB_Point(float u, float v, float m[4][4] , float p[4][4]);
@@ -41,10 +37,6 @@ int main(int argc, char **argv) {
 		 	cylinder(atof(argv[2]), atof(argv[3]), atoi(argv[4]), atoi(argv[5]), argv[6]);
 	else if(strcmp(argv[1], "ring") == 0)
 		 	ring(atof(argv[2]), atof(argv[3]), atoi(argv[4]),argv[5]);
-	else if(strcmp(argv[1],  "asteroid") == 0)
-			asteroid(atof(argv[2]), atof(argv[3]), atoi(argv[4]), argv[5]);
-	else if(strcmp(argv[1],  "satelites")==0)
-			satelites(atof(argv[2]),atof(argv[3]),atoi(argv[4]),atof(argv[5]),atof(argv[6]),argv[7]);
 	else if(strcmp(argv[1], "bezier") == 0)
 			bezier(atoi(argv[2]), argv[3], argv[4]);
 	else printf("Not suported yet!");
@@ -60,16 +52,27 @@ void plane(float x, float z, char* ficheiro){
 	op = fopen(ficheiro, "w+");
 	fprintf(op, "%f 0 %f\n", x/2, z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "0 0\n");
+	
 	fprintf(op, "%f 0 %f\n", x/2, -z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "1 0\n");
+	
 	fprintf(op, "%f 0 %f\n", -x/2, -z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "1 1\n");
+	
 	fprintf(op, "%f 0 %f\n", -x/2, -z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "1 1\n");
+	
 	fprintf(op, "%f 0 %f\n", -x/2, z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "0 1\n");
+	
 	fprintf(op, "%f 0 %f\n", x/2, z/2);
 	fprintf(op, "0 1 0\n");
+	fprintf(op, "0 0\n");
 	fclose(op);
 }
 
@@ -106,62 +109,104 @@ void box(float x, float y, float z, int slices, char* ficheiro){
 			//triângulo "menos negativo" em x e z
 			fprintf(op,"%f %f %f\n", xaux0, y, zaux0);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+			
 			fprintf(op,"%f %f %f\n", xaux0, y, zaux1);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, y, zaux1);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
 			//triângulo "mais negativo" em x e z
 			fprintf(op,"%f %f %f\n", xaux0, y, zaux0);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, y, zaux1);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, y, zaux0);
 			fprintf(op, "0 1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
 			//face de baixo
 			//triângulo "menos negativo" em x e z
 			fprintf(op,"%f %f %f\n", xaux0, yn, zaux0);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yn, zaux1);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux0, yn, zaux1);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			//triângulo "mais negativo" em x e z
 			fprintf(op,"%f %f %f\n", xaux0, yn, zaux0);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yn, zaux0);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yn, zaux1);
 			fprintf(op, "0 -1 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
 			//face da frente
 			//triangulo "menos negativo" em x e "mais negativo" em y
 			fprintf(op,"%f %f %f\n", xaux0, yaux0, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yaux0, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yaux1, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
 			//triangulo "mais negativo" em x e "menos negativo" em y
 			fprintf(op,"%f %f %f\n", xaux0, yaux0, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+			
 			fprintf(op,"%f %f %f\n", xaux1, yaux1, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
+			
 			fprintf(op,"%f %f %f\n", xaux0, yaux1, z);
 			fprintf(op, "0 0 1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
 			//face de traz
 			//triangulo "menos negativo" em x e "mais negativo" em y
 			fprintf(op,"%f %f %f\n", xaux0, yaux0, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yaux1, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yaux0, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
+
 			//triangulo "mais negativo" em x e "menos negativo" em y
 			fprintf(op,"%f %f %f\n", xaux0, yaux0, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux0, yaux1, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xaux1, yaux1, zn);
 			fprintf(op, "0 0 -1\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
 		}
 	}
 	for(sl = 1; sl <= slices; sl++) {
@@ -174,32 +219,53 @@ void box(float x, float y, float z, int slices, char* ficheiro){
 			//triangulo "mais negativo" em z e y
 			fprintf(op,"%f %f %f\n", xn, yaux0, zaux0);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xn, yaux0, zaux1);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xn, yaux1, zaux0);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
 			//triangulo "menos negativo" em z e y
 			fprintf(op,"%f %f %f\n", xn, yaux0, zaux1);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xn, yaux1, zaux1);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", xn, yaux1, zaux0);
 			fprintf(op, "1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
 			//face da direita
 			//triangulo "mais negativo" em z e y
 			fprintf(op,"%f %f %f\n", x, yaux0, zaux0);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", x, yaux1, zaux0);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", x, yaux0, zaux1);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			//triangulo "menos negativo" em z e y
 			fprintf(op,"%f %f %f\n", x, yaux0, zaux1);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)slices);
+
 			fprintf(op,"%f %f %f\n", x, yaux1, zaux0);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)slices);
+
 			fprintf(op,"%f %f %f\n", x, yaux1, zaux1);
 			fprintf(op, "-1 0 0\n");
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)slices);
 		}
 	}
 	fclose(op);
@@ -228,10 +294,13 @@ void cone (float r, float h, int slices, int stacks, char *ficheiro) {
 	for(sl=0;sl<slices;sl++){
 		fprintf(op, "%f %f %f\n",r*cos(sl*ang), yaux, r*sin(sl*ang));
 		fprintf(op, "0 -1 0\n");
+		fprintf(op,"0 0\n");
 		fprintf(op, "%f %f %f\n",r*cos((sl+1)*ang), yaux, r*sin((sl+1)*ang));
 		fprintf(op, "0 -1 0\n");
+		fprintf(op,"0 0\n");
 		fprintf(op, "0 %f 0\n", yaux);
 		fprintf(op, "0 -1 0\n");
+		fprintf(op,"0 0\n");
 	}
 	for(st=1;st<=stacks;st++){
 		raux0=raux1;
@@ -240,16 +309,27 @@ void cone (float r, float h, int slices, int stacks, char *ficheiro) {
 		for(sl=0;sl<slices;sl++){
 			fprintf(op,"%f %f %f\n",raux0*cos(sl*ang),y,raux0*sin(sl*ang));
 			fprintf(op,"%f %f %f\n",cos(sl*ang),sin((st-1)*angs),sin(sl*ang));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)stacks);
+			
 			fprintf(op,"%f %f %f\n",raux1*cos(sl*ang),y+haux,raux1*sin(sl*ang));
 			fprintf(op,"%f %f %f\n",cos(sl*ang),sin(st*angs),sin(sl*ang));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n",raux0*cos((sl+1)*ang),y,raux0*sin((sl+1)*ang));
 			fprintf(op,"%f %f %f\n",cos((sl+1)*ang),sin((st-1)*angs),sin((sl+1)*ang));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)stacks);
+
 			fprintf(op,"%f %f %f\n",raux1*cos(sl*ang),y+haux,raux1*sin(sl*ang));
 			fprintf(op,"%f %f %f\n",cos(sl*ang),sin(st*angs),sin(sl*ang));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n",raux1*cos((sl+1)*ang),y+haux,raux1*sin((sl+1)*ang));
 			fprintf(op,"%f %f %f\n",cos((sl+1)*ang),sin(st*angs),sin((sl+1)*ang));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n",raux0*cos((sl+1)*ang),y,raux0*sin((sl+1)*ang));
 			fprintf(op,"%f %f %f\n",cos((sl+1)*ang),sin((st-1)*angs),sin((sl+1)*ang));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)stacks);
 		}
 	}
 	fclose(op);
@@ -429,33 +509,54 @@ void cylinder(float radius, float height, int slices, int stacks, char *ficheiro
 		//faces superiores
 		fprintf(op,"%f %f %f\n", radius*sin(alpha*sl), height, radius*cos(alpha*sl));
 		fprintf(op,"0 1 0\n");
+		fprintf(op,"0 0\n");
+
 		fprintf(op,"%f %f %f\n", radius*sin(alpha*(sl+1)), height, radius*cos(alpha*(sl+1)));
 		fprintf(op,"0 1 0\n");
+		fprintf(op,"0 0\n");
+
 		fprintf(op,"0 %f 0\n", height);
 		fprintf(op,"0 1 0\n");
+		fprintf(op,"0 0\n");
 
 		//faces inferiores
 		fprintf(op,"%f %f %f\n", radius*sin(alpha*sl), -height, radius*cos(alpha*sl));
 		fprintf(op,"0 -1 0\n");
+		fprintf(op,"0 0\n");
+		
 		fprintf(op,"0 %f 0\n", -height);
 		fprintf(op,"0 -1 0\n");
+		fprintf(op,"0 0\n");
+
 		fprintf(op,"%f %f %f\n", radius*sin(alpha*(sl+1)), -height, radius*cos(alpha*(sl+1)));
 		fprintf(op,"0 -1 0\n");
+		fprintf(op,"0 0\n");
 
 		for(st = 0; st < stacks; st++){
 			//faces laterais
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*(sl+1)), height-(st*h), radius*cos(alpha*(sl+1)));
 			fprintf(op,"%f 0 %f\n", sin(alpha*(sl+1)), cos(alpha*(sl+1)));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)stacks,(float)(st+1)/(float)stacks);
+			
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*sl), height-(st*h), radius*cos(alpha*sl));
 			fprintf(op,"%f 0 %f\n", sin(alpha*sl), cos(alpha*sl));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)st/(float)stacks);
+
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*sl), height-((st+1)*h), radius*cos(alpha*sl));
 			fprintf(op,"%f 0 %f\n", sin(alpha*sl), cos(alpha*sl));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*sl), height-((st+1)*h), radius*cos(alpha*sl));
 			fprintf(op,"%f 0 %f\n", sin(alpha*sl), cos(alpha*sl));
+			fprintf(op,"%f %f\n",(float)sl/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*(sl+1)), height-((st+1)*h), radius*cos(alpha*(sl+1)));
 			fprintf(op,"%f 0 %f\n", sin(alpha*(sl+1)), cos(alpha*(sl+1)));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)(st+1)/(float)stacks);
+
 			fprintf(op,"%f %f %f\n", radius*sin(alpha*(sl+1)), height-(st*h), radius*cos(alpha*(sl+1)));
 			fprintf(op,"%f 0 %f\n", sin(alpha*(sl+1)), cos(alpha*(sl+1)));
+			fprintf(op,"%f %f\n",(float)(sl+1)/(float)slices,(float)st/(float)stacks);
 		}
 	}
 	fclose(op);
@@ -520,149 +621,6 @@ void ring (float innerRadius, float outerRadius, int sl, char *ficheiro){
 		printf("%i\n",i);
 	}
 	fclose(op);
-}
-
-void asteroid(float innerRadius, float outerRadius, int num, char *ficheiro) {
-	int seed = 123456789;
-	srand(seed);
-	FILE *op = fopen(ficheiro, "w+");
-	float alpha,beta;
-	float random;
-	for(int i = 0; i < num; i++){
-		random = (float)rand()/(float)RAND_MAX*(outerRadius-innerRadius)+innerRadius;
-		float alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
-		if(random != 0)
-			drawAsteroid(random*cos(alpha),0,random*sin(alpha),op);
-	}
-	fclose(op);
-}
-
-void drawAsteroid(float x, float y, float z, FILE *op) {
-	int sl = (float) rand()/(float)RAND_MAX * 4 + 3;
-	int st = (float) rand()/(float)RAND_MAX * 4 + 3;
-	int stacks = st;
-	int slices = sl;
-	float r;
-	//ângulo das stacks
-	float angst=M_PI/st;
-	//ângulo das slices
-	r = (float)rand()/(float)RAND_MAX *(0.03-0.01) + 0.01;
-	float angsl=2*M_PI/sl;
-	for (st=0;st<stacks/2;st++){
-		for(sl = 0; sl<slices; sl++){
-			//face superior
-
-
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin(sl*angsl), y + sin(st*angst),z + cos(st*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin((sl+1)*angsl),y + sin(st*angst),z + cos(st*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin(sl*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos(sl*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin((sl+1)*angsl),y + sin(st*angst),z + cos(st*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin((sl+1)*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin((sl+1)*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin(sl*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos(sl*angsl));
-			//face inferior
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st)*angst)*sin(sl*angsl),y + sin((-st)*angst),z + cos((-st)*angst)*cos(sl*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin(sl*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos(sl*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin(sl*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos(sl*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st)*angst)*sin((sl+1)*angsl),y + sin((-st)*angst),z + cos((-st)*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin(sl*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin((sl+1)*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin((sl+1)*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos((sl+1)*angsl));
-		}
-	}
-}
-
-void satelites(float innerRadius,float outerRadius,int num,float max,float min,char *ficheiro) {
-	int seed = 123456789;
-	srand(seed);
-	FILE *op = fopen(ficheiro, "w+");
-	float alpha,beta;
-	int random;
-	for(int i = 0; i < num; i++){
-		random = rand() % ((int) outerRadius - (int) innerRadius)+innerRadius;
-		float alpha = (float) rand() / (float)RAND_MAX * 2*M_PI;
-		float beta = (float) rand() / (float)RAND_MAX * 2*M_PI;
-
-
-		if(random != 0)
-			drawSatelite(random*cos(alpha)*sin(beta),random*sin(alpha),random*cos(alpha)*cos(beta),max,min,op);
-	}
-	fclose(op);
-}
-
-void drawSatelite(float x, float y, float z,float max,float min, FILE *op) {
-	int sl = 10;
-	int st = 10;
-	int stacks = st;
-	int slices = sl;
-	float r;
-	//ângulo das stacks
-	float angst=M_PI/st;
-	//ângulo das slices
-	r = (float)rand()/(float)RAND_MAX *(max-min) + min;
-	float angsl=2*M_PI/sl;
-	for (st=0;st<stacks/2;st++){
-		for(sl = 0; sl<slices; sl++){
-			//face superior
-
-
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin(sl*angsl), y + r*sin(st*angst),z + r*cos(st*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin(sl*angsl), y + sin(st*angst),z + cos(st*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin((sl+1)*angsl),y + sin(st*angst),z + cos(st*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin(sl*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos(sl*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos(st*angst)*sin((sl+1)*angsl),y + r*sin(st*angst),z + r*cos(st*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos(st*angst)*sin((sl+1)*angsl),y + sin(st*angst),z + cos(st*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin((sl+1)*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin((sl+1)*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((st+1)*angst)*sin(sl*angsl),y + r*sin((st+1)*angst),z + r*cos((st+1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((st+1)*angst)*sin(sl*angsl),y + sin((st+1)*angst),z + cos((st+1)*angst)*cos(sl*angsl));
-			//face inferior
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin(sl*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st)*angst)*sin(sl*angsl),y + sin((-st)*angst),z + cos((-st)*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin(sl*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st)*angst)*sin((sl+1)*angsl),y + sin((-st)*angst),z + cos((-st)*angst)*cos((sl+1)*angsl));
-			
-			fprintf(op,"%f %f %f\n", x + r*cos((-st)*angst)*sin((sl+1)*angsl),y + r*sin((-st)*angst),z + r*cos((-st)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st)*angst)*sin((sl+1)*angsl),y + sin((-st)*angst),z + cos((-st)*angst)*cos((sl+1)*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin(sl*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos(sl*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin(sl*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos(sl*angsl));
-
-			fprintf(op,"%f %f %f\n", x + r*cos((-st-1)*angst)*sin((sl+1)*angsl),y + r*sin((-st-1)*angst),z + r*cos((-st-1)*angst)*cos((sl+1)*angsl));
-			fprintf(op,"%f %f %f\n", x + cos((-st-1)*angst)*sin((sl+1)*angsl),y + sin((-st-1)*angst),z + cos((-st-1)*angst)*cos((sl+1)*angsl));
-		}
-	}
 }
 
 void bezier(int tesselation, char* file, char* filetoWrite) {
