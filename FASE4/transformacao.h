@@ -451,8 +451,8 @@ class Material: public Transformacao {
 			shininess = shi;
 		}
 		virtual void transformar(){
-			if(diff[0] || diff[1] || diff[2]) glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
-			if(amb[0] || amb[1] || amb[2]) glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
+			if(diff[0] != 0.8 || diff[1] != 0.8 || diff[2] != 0.8 ) glMaterialfv(GL_FRONT, GL_DIFFUSE, diff);
+			if(amb[0] != 0.2 || amb[1] != 0.2 || amb[2] != 0.2 ) glMaterialfv(GL_FRONT, GL_AMBIENT, amb);
 			if(spec[0] || spec[1] || spec[2]) glMaterialfv(GL_FRONT, GL_SPECULAR, spec);
 			if(emi[0] || emi[1] || emi[2]) glMaterialfv(GL_FRONT, GL_EMISSION, emi);
 			if(shininess) glMaterialf(GL_FRONT, GL_SHININESS, shininess);

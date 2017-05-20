@@ -215,19 +215,19 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 void material(XMLElement* element2) {
 	float dr=0, dg=0, db=0, ar=0, ag=0, ab=0, sr=0, sg=0, sb=0, er=0, eg=0, eb=0;
 	GLfloat shin = 0;
-	dr = element2->FloatAttribute("diffR");
-	dg = element2->FloatAttribute("diffG");
-	db = element2->FloatAttribute("diffB");
-	ar = element2->FloatAttribute("ambR");
-	ag = element2->FloatAttribute("ambG");
-	ab = element2->FloatAttribute("ambB");
-	sr = element2->FloatAttribute("specR");
-	sg = element2->FloatAttribute("specG");
-	sb = element2->FloatAttribute("specB");
-	er = element2->FloatAttribute("emiR");
-	eg = element2->FloatAttribute("emiG");
-	eb = element2->FloatAttribute("emiB");
-	shin = (float)element2->FloatAttribute("shininess");
+	if(!(dr = element2->FloatAttribute("diffR"))) dr = 0.8;
+	if(!(dg = element2->FloatAttribute("diffG"))) dg = 0.8;
+	if(!(db = element2->FloatAttribute("diffB"))) db = 0.8;
+	if(!(ar = element2->FloatAttribute("ambR"))) ar = 0.2;
+	if(!(ag = element2->FloatAttribute("ambG"))) ar = 0.2;
+	if(!(ab = element2->FloatAttribute("ambB"))) ar = 0.2;
+	if(!(sr = element2->FloatAttribute("specR"))) sr = 0;
+	if(!(sg = element2->FloatAttribute("specG"))) sg = 0;
+	if(!(sb = element2->FloatAttribute("specB"))) sb = 0;
+	if(!(er = element2->FloatAttribute("emiR"))) er = 0;
+	if(!(eg = element2->FloatAttribute("emiG"))) eg = 0;
+	if(!(eb = element2->FloatAttribute("emiB"))) eb = 0;
+	if(!(shin = (float)element2->FloatAttribute("shininess"))) shin = 0;
 	Transformacao* tf = new Material(dr,dg,db,ar,ag,ab,sr,sg,sb,er,eg,eb, shin);
 	transformacoes.push_back(tf);
 }
