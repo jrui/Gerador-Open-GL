@@ -16,7 +16,7 @@
 		</translate>
 		<scale X="10" Y="10" Z="10"/>
 		<group>
-			<rotate time="2" Y="1"/>
+			<rotate time="50" Y="1"/>
 			<model file="objects/sphere.3d" texture="earth_daymap.jpg"/>
 		</group>
 		<group><!--Lua-->

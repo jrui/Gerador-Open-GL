@@ -836,6 +836,13 @@ void showFPS() {
 	}
 }
 
+/**
+* This function creats a texture from a file 
+
+* @param s - string that represents de name of file with an image
+
+* @return int - returns the id of the texture
+*/
 
 int loadTexture(std::string s) {
 

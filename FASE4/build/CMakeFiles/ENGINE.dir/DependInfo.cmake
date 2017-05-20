@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/bruno/Desktop/Gerador-Open-GL/FASE4/engine.cpp" "/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir/engine.cpp.o"
-  "/home/bruno/Desktop/Gerador-Open-GL/FASE4/tinyxml2.cpp" "/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir/tinyxml2.cpp.o"
+  "/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/engine.cpp" "/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir/engine.cpp.o"
+  "/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/tinyxml2.cpp" "/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir/tinyxml2.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

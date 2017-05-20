@@ -1,4 +1,4 @@
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/edit_cache.dir
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/GENERATOR.dir
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/rebuild_cache.dir
-/home/bruno/Desktop/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir
+/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/edit_cache.dir
+/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/GENERATOR.dir
+/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/rebuild_cache.dir
+/home/bruno/Desktop/trab/Gerador-Open-GL/FASE4/build/CMakeFiles/ENGINE.dir
