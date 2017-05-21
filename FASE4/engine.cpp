@@ -38,7 +38,7 @@ float alfa = 0.0f, beta = 0.5f, racio_trans = 20.0f;
 float camX, camY, camZ;
 float rotation = 0.0f;
 float vert_rot = 10.0f, hori_rot = 0.0f;
-float x_trans = 0.0f, y_trans = 500.0f, z_trans = -1500.0f;
+float x_trans = 0.0f, y_trans = 500.f, z_trans = -1500.0f;
 char view_mode = 'l';
 int x_pos = 400, y_pos = 400;
 bool click = false;
@@ -391,47 +391,48 @@ void model(XMLElement* element2) {
 	float rMin=0, rMax=0, xMax=1, xMin=1, yMax=1, yMin=1,zMax=1, zMin=1;
 	std::vector< std::vector<float> > vec;
 	GLuint textID = -1;
-	while(tftemp != NULL) {
-		nome = strdup((const char*) tftemp->Attribute("file"));
-		it = files.find(nome);
-		if(it != files.end()) vec = files.at(nome);
-		else{
-			printf("Novo\n");
-		 	vec = open3dModel(nome);
-			if(vec.size() == 0) {
-				printf("Error opening %s!\n", nome);
-				return;
-			}
-			files[nome] = vec;
+
+	nome = strdup((const char*) tftemp->Attribute("file"));
+	it = files.find(nome);
+
+	if(it != files.end()) vec = files.at(nome);
+	else{
+	 	vec = open3dModel(nome);
+		if(vec.size() == 0) {
+			printf("Error opening %s!\n", nome);
+			return;
 		}
-		printf("Opened %s successfully.\n", nome);
-		if(tftemp->Attribute("texture")){
-			texture = strdup((const char*) tftemp->Attribute("texture"));
-			itt = textures.find(texture);
-			if(itt != textures.end()) textID = textures.at(texture);
-			else{ 
-				printf("Nova textura\n");
-				textID = loadTexture(texture);
-				textures[texture] = textID;
-			}
-		}
-		numero = element2->IntAttribute("num");
-		rMin = element2->FloatAttribute("rMin");
-		if(!(rMax = element2->FloatAttribute("rMax"))) rMax = 1000;
-		if(!(xMin = element2->FloatAttribute("xMin"))) xMin = 1;
-		if(!(xMax = element2->FloatAttribute("xMax"))) xMax = 1;
-		if(!(yMin = element2->FloatAttribute("yMin"))) yMin = 1;
-		if(!(yMax = element2->FloatAttribute("yMax"))) yMax = 1;
-		if(!(zMin = element2->FloatAttribute("zMin"))) zMin = 1;
-		if(!(zMax = element2->FloatAttribute("zMax"))) zMax = 1;
-		Transformacao* tf = new Model(vec, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
-		transformacoes.push_back(tf);
-		tftemp = tftemp->NextSiblingElement("model");
-		vec.at(0) = std::vector<float>();
-		vec.at(1) = std::vector<float>();
-		vec.at(2) = std::vector<float>();
-		vec = std::vector< std::vector<float> > ();
+		files[nome] = vec;
 	}
+	printf("Opened %s successfully.\n", nome);
+
+	if(tftemp->Attribute("texture")){
+
+		texture = strdup((const char*) tftemp->Attribute("texture"));
+		itt = textures.find(texture);
+
+		if(itt != textures.end()) textID = textures.at(texture);
+		else{ 
+			textID = loadTexture(texture);
+			textures[texture] = textID;
+		}
+	}
+
+	numero = element2->IntAttribute("num");
+	rMin = element2->FloatAttribute("rMin");
+	if(!(rMax = element2->FloatAttribute("rMax"))) rMax = 1000;
+	if(!(xMin = element2->FloatAttribute("xMin"))) xMin = 1;
+	if(!(xMax = element2->FloatAttribute("xMax"))) xMax = 1;
+	if(!(yMin = element2->FloatAttribute("yMin"))) yMin = 1;
+	if(!(yMax = element2->FloatAttribute("yMax"))) yMax = 1;
+	if(!(zMin = element2->FloatAttribute("zMin"))) zMin = 1;
+	if(!(zMax = element2->FloatAttribute("zMax"))) zMax = 1;
+	Transformacao* tf = new Model(vec, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
+	transformacoes.push_back(tf);
+	vec.at(0) = std::vector<float>();
+	vec.at(1) = std::vector<float>();
+	vec.at(2) = std::vector<float>();
+	vec = std::vector< std::vector<float> > ();
 }
 
 
@@ -689,9 +690,9 @@ void changeSize(int w, int h) {
 * @return void
 */
 void spherical2Cartesian() {
-	camX = 20 * sin(hori_rot*3.14/180);
-	camZ = 20 * cos(hori_rot*3.14/180);
-	camY = 20 * sin(vert_rot*3.14/180);
+	camX = 20 * sin((float)(hori_rot*M_PI/180))*cos((float)(vert_rot*M_PI/180));
+	camZ = 20 * cos((float)(hori_rot*M_PI/180))*cos((float)(vert_rot*M_PI/180));
+	camY = 20 * sin((float)(vert_rot*M_PI/180));
 }
 
 
@@ -712,9 +713,9 @@ void movement_handler(int x, int y) {
 	 x_pos = x;
 	 y_pos = y;
 	 if(vert_rot>90)
-	 	vert_rot = 89;
+	 	vert_rot = 89.90;
 	 if(vert_rot<-90)
-	 	vert_rot = -89;
+	 	vert_rot = -89.90;
 	 spherical2Cartesian();
 	 //Re-render
 	 glutPostRedisplay();

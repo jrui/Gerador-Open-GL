@@ -58,8 +58,8 @@ class Light: public Transformacao{
 			pos[0]=p[0];
 			pos[1]=p[1];
 			pos[2]=p[2];
-			if(!strcmp(ty, "DIRECIONAL")) pos[3]=0;
-			else{ pos[3] = 1; }
+			if(!strcmp(ty, "DIRECIONAL")) pos[3]=0.0f;
+			else{ pos[3] = 1.f; }
 			diff[0] = d[0];
 			diff[1] = d[1];
 			diff[2] = d[2];
@@ -89,14 +89,13 @@ class Light: public Transformacao{
 			else{ glLightfv(light, GL_DIFFUSE, resDiff); }
 			if( spec[0] || spec[1] || spec[2]) glLightfv(light, GL_SPECULAR, spec);
 			else{ glLightfv(light, GL_SPECULAR, resDiff); }
+			glLightfv(light, GL_POSITION, pos);
 			if(!strcmp(type, "SPOTLIGHT")){
-				glLightfv(light, GL_POSITION, pos);
 				glLightfv(light, GL_SPOT_DIRECTION, dir);
 				glLightf(light, GL_SPOT_EXPONENT, exp);
 				glLightf(light, GL_SPOT_CUTOFF, cut);
 			}
 			else{
-				glLightfv(light, GL_POSITION, pos);
 			}
 		}
 };
