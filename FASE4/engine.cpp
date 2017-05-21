@@ -10,12 +10,20 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <iostream>
 #include "transformacao.h"
 #include "tinyxml2.h"
 using namespace tinyxml2;
 #include <IL/il.h>
+#include <cstring>
 
-
+struct cmp_str
+{
+    bool operator()(char const *a, char const *b)
+    {
+        return std::strcmp(a, b) < 0;
+    }
+};
 
 /**
 *		Global variables used to store program data, rotations, translations, view
@@ -46,8 +54,15 @@ GLuint vertexCount, vertices, normals, texCoord, indices, indCount;
 * rotations, colors and names of the models.
 *		This structure also has a pointer to the next transformation that it
 * has to render.
+*		We also decided to store every model in the structur files, saving the name
+* associated to the object, loading the same object only one time and reusing it 
+* when necessary. Same goes for the textures.
 */
 std::vector<Transformacao*> transformacoes;
+std::map< const char*, std::vector< std::vector<float> > , cmp_str> files;
+std::map< const char*, std::vector< std::vector<float> > , cmp_str>::iterator it;
+std::map< const char*, GLuint, cmp_str> textures;
+std::map< const char*, GLuint, cmp_str>::iterator itt;
 
 
 
@@ -168,10 +183,12 @@ int main(int argc, char **argv) {
 *	@param tok - Character representing the name of the file to open.
 * @return vector - Vector containing the coordinates os every object.
 */
-void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, std::vector<float>& t){
+std::vector< std::vector<float> > open3dModel(const char* tok){
  	FILE *f_3d;
+ 	std::vector<float> v, n, t;
+ 	std::vector< std::vector<float> > vc;
  	f_3d = fopen(tok, "r+");
- 	if (f_3d < 0) return;
+ 	if (f_3d < 0) return vc;
 
 	char *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8;
  	s1 = (char*) malloc(sizeof(char) * 64);
@@ -199,8 +216,11 @@ void open3dModel(const char* tok, std::vector<float>& v, std::vector<float>& n, 
 		t.push_back(atof(s8));	
 	}
  	fclose(f_3d);
+ 	vc.push_back(v);
+ 	vc.push_back(n);
+ 	vc.push_back(t);
  	free(s1); free(s2); free(s3); free(s4); free(s5); free(s6); free(s7); free(s8);
- 	return;
+ 	return vc;
 }
 
 
@@ -366,22 +386,34 @@ void scale(XMLElement* element2) {
 */
 void model(XMLElement* element2) {
 	XMLElement* tftemp = element2;
-	char* nome, *texture;
+	const char* nome, *texture;
 	int numero=1;
 	float rMin=0, rMax=0, xMax=1, xMin=1, yMax=1, yMin=1,zMax=1, zMin=1;
-	std::vector<float> vc , norm, tex;
+	std::vector< std::vector<float> > vec;
 	GLuint textID = -1;
 	while(tftemp != NULL) {
-		nome = strdup((char*) tftemp->Attribute("file"));
-	 	open3dModel(nome, vc, norm, tex);
-		if(vc.size() == 0) {
-			printf("Error opening %s!\n", nome);
-			return;
+		nome = strdup((const char*) tftemp->Attribute("file"));
+		it = files.find(nome);
+		if(it != files.end()) vec = files.at(nome);
+		else{
+			printf("Novo\n");
+		 	vec = open3dModel(nome);
+			if(vec.size() == 0) {
+				printf("Error opening %s!\n", nome);
+				return;
+			}
+			files[nome] = vec;
 		}
 		printf("Opened %s successfully.\n", nome);
 		if(tftemp->Attribute("texture")){
-			texture = strdup((char*) tftemp->Attribute("texture"));
-			textID = loadTexture(texture);
+			texture = strdup((const char*) tftemp->Attribute("texture"));
+			itt = textures.find(texture);
+			if(itt != textures.end()) textID = textures.at(texture);
+			else{ 
+				printf("Nova textura\n");
+				textID = loadTexture(texture);
+				textures[texture] = textID;
+			}
 		}
 		numero = element2->IntAttribute("num");
 		rMin = element2->FloatAttribute("rMin");
@@ -392,14 +424,13 @@ void model(XMLElement* element2) {
 		if(!(yMax = element2->FloatAttribute("yMax"))) yMax = 1;
 		if(!(zMin = element2->FloatAttribute("zMin"))) zMin = 1;
 		if(!(zMax = element2->FloatAttribute("zMax"))) zMax = 1;
-		Transformacao* tf = new Model(vc, norm,tex, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
+		Transformacao* tf = new Model(vec, textID, numero, rMin, rMax, xMin, xMax, yMin, yMax, zMin, zMax);
 		transformacoes.push_back(tf);
 		tftemp = tftemp->NextSiblingElement("model");
-		free(texture);
-		free(nome);
-		vc = std::vector<float>();
-		norm = std::vector<float>();
-		tex = std::vector<float>();
+		vec.at(0) = std::vector<float>();
+		vec.at(1) = std::vector<float>();
+		vec.at(2) = std::vector<float>();
+		vec = std::vector< std::vector<float> > ();
 	}
 }
 
@@ -843,7 +874,6 @@ void showFPS() {
 
 * @return int - returns the id of the texture
 */
-
 int loadTexture(std::string s) {
 
 			unsigned int t,tw,th;
