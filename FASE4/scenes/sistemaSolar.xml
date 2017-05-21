@@ -165,7 +165,7 @@
 		<scale X="28.62" Y="28.62" Z="28.62"/>
 		<model file="objects/gasosos.3d" texture="2k_saturn.jpg"/>
 		<group>
-			<rotate angle="70" Z="1"/>
+			<rotate angle="45" Z="1"/>
 			<model file="objects/ring.3d" texture="2k_saturn_ring2.jpg"/>
 		</group>
 		<group>
