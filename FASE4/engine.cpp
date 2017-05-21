@@ -380,7 +380,8 @@ void scale(XMLElement* element2) {
 * be drawn, also specifying the variations of the dimensions of the objects
 * and the área which will be drawn, indicating the innerRadius and OuterRadius,
 * , creating a class "Transformacao" with those aspects, storing them to 
-* be used in the render scene.
+* be used in the render scene. If the file or the texture already been loaded before,
+* it uses the variables loaded already.
 *
 *	@param element2 - Pointer to the tag "Model"
 */
