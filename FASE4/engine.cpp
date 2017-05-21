@@ -17,6 +17,10 @@ using namespace tinyxml2;
 #include <IL/il.h>
 #include <cstring>
 
+/**
+* Estrutura que contêm o método de ordenação dos vetores
+* com chave const char*.
+*/
 struct cmp_str
 {
     bool operator()(char const *a, char const *b)
@@ -95,8 +99,6 @@ void spherical2Cartesian();
 void showFPS();
 std::vector<float> processPointTranslate(XMLElement *element2);
 int loadTexture(std::string imagem);
-//void init(char *imagem);
-
 
 
 

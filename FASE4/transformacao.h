@@ -333,7 +333,7 @@ class Scale: public Transformacao {
 */
 class Model: public Transformacao {
 	public:
-		Model(std::vector< std::vector<float> > vec, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
+		Model(std::vector< std::vector<float> >& vec, GLuint t, int num, float rMi, float rMa, float xMi, float xMa, float yMi, float yMa, float zMi, float zMa){
 			texID = t;
 			vc = vec.at(0);
 			normal = vec.at(1);
