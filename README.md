@@ -1,7 +1,7 @@
 # Gerador-Open-GL
 Primeiro trabalho pratico de Computação Gráfica em c++ (Open GL)
 
-This is the assignment for Computer Graphics course, this is a simulator, in this case we had to represent the solar sistem. The progress describes the fases that the team faced. These were imposed by specific deadlines.
+This is the assignment for Computer Graphics course, this is a simulator, in this case we had to represent the solar system. The progress describes the project fases that the team faced. These were imposed by specific deadlines.
 
 
 
